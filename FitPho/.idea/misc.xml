@@ -5,8 +5,12 @@
       <map>
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/drawable/camera.xml" value="0.1785" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/activity_main.xml" value="0.24375" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_calender.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_guide.xml" value="0.24375" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_home.xml" value="0.24375" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_login.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_main.xml" value="0.24375" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_splash.xml" value="0.264" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/menu/menu_bottom.xml" value="0.24375" />
       </map>
     </option>
