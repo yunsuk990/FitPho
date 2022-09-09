@@ -11,40 +11,40 @@
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
-            android:id="@+id/action_splashFragment_to_mainFragment"
+            android:id="@+id/action_splashFragment_to_homeFragment"
             app:destination="@id/loginFragment" />
     </fragment>
     <fragment
-        android:id="@+id/mainFragment"
+        android:id="@+id/homeFragment"
         android:name="com.example.fitpho.HomeFragment"
-        android:label="fragment_main"
+        android:label="촬영"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_mainFragment_to_detailFragment"
+            android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_guideFragment"
+            android:id="@+id/action_homeFragment_to_guideFragment"
             app:destination="@id/guideFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_settingFragment"
+            android:id="@+id/action_homeFragment_to_settingFragment"
             app:destination="@id/settingFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_calenderFragment"
+            android:id="@+id/action_homeFragment_to_calenderFragment"
             app:destination="@id/calenderFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.fitpho.DetailFragment"
-        android:label="fragment_detail"
+        android:label="운동설명"
         tools:layout="@layout/fragment_detail" >
         <action
-            android:id="@+id/action_detailFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_detailFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/guideFragment"
         android:name="com.example.fitpho.GuideFragment"
-        android:label="fragment_guide"
+        android:label="운동가이드"
         tools:layout="@layout/fragment_guide" >
         <action
             android:id="@+id/action_guideFragment_to_guideDetailFragment"
@@ -53,7 +53,7 @@
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.fitpho.SettingFragment"
-        android:label="fragment_setting"
+        android:label="설정"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/guideDetailFragment"
@@ -63,11 +63,11 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.fitpho.LoginFragment"
-        android:label="fragment_login"
+        android:label="로그인"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_mainFragment"
-            app:destination="@id/mainFragment" />
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -75,7 +75,7 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.fitpho.RegisterFragment"
-        android:label="fragment_register"
+        android:label="회원가입"
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
@@ -84,6 +84,11 @@
     <fragment
         android:id="@+id/calenderFragment"
         android:name="com.example.fitpho.CalenderFragment"
-        android:label="fragment_calender"
+        android:label="캘린더"
         tools:layout="@layout/fragment_calender" />
+    <action
+        android:id="@+id/action_global_loginFragment"
+        app:destination="@id/loginFragment"
+        app:popUpTo="@id/loginFragment"
+        app:popUpToInclusive="true" />
 </navigation>
