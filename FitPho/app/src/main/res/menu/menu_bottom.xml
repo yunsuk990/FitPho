@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="촬영"
+    <item
+        android:id="@+id/homeFragment"
+        android:title="촬영"
         android:icon="@drawable/camera"
         />
-    <item android:title="가이드"
+    <item
+        android:id="@+id/guideFragment"
+        android:title="가이드"
         android:icon="@drawable/guide"
         />
-    <item android:title="캘린더"
+    <item
+        android:id="@+id/calenderFragment"
+        android:title="캘린더"
         android:icon="@drawable/calender"
         />
-    <item android:title="설정"
+    <item
+        android:id="@+id/settingFragment"
+        android:title="설정"
         android:icon="@drawable/setting"
         />
 </menu>
