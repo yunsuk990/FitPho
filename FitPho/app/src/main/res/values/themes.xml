@@ -3,7 +3,7 @@
     <style name="Theme.FitPho" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="android:windowFullscreen">true</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/darklogocolor</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -20,4 +20,13 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
+
+<!--    <style name="TextBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
+<!--        <item name="boxCollapsedPaddingTop">8dp</item>-->
+<!--        <item name="boxCornerRadiusBottomEnd">8dp</item>-->
+<!--        <item name="boxCornerRadiusBottomStart">8dp</item>-->
+<!--        <item name="boxCornerRadiusTopEnd">8dp</item>-->
+<!--        <item name="boxCornerRadiusTopStart">8dp</item>-->
+
+<!--    </style>-->
 </resources>
