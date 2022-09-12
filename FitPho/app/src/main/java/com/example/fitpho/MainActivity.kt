@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         var actionBar: ActionBar? = supportActionBar
         var list: Array<Int> = arrayOf(R.id.splashFragment, R.id.loginFragment, R.id.registerFragment)
 
+
         var hostFragment = supportFragmentManager.findFragmentById(R.id.nav_controller) as NavHostFragment
         navController = hostFragment.navController
 
