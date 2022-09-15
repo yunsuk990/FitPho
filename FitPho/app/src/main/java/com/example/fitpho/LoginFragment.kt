@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.example.fitpho.DataModel.RetrofitBuilder
-import com.example.fitpho.DataModel.User
+import com.example.fitpho.Network.API
+import com.example.fitpho.NetworkModel.Login
+import com.example.fitpho.NetworkModel.LoginResponse
+import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.databinding.FragmentLoginBinding
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class LoginFragment : Fragment() {
@@ -19,6 +22,8 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    var id: String = ""
+    var pw: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,37 +43,35 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener{
-            val id = binding.userId.text.toString() //사용자 ID
-            val passwd = binding.userPasswd.text.toString() //사용자 Passwd
-            checkLogin(id, passwd)
-            val user = User()
-            user.id = id
-            user.passwd = passwd
-            Login(user)
-            //findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            id = binding.userId.text.toString().trim()
+            pw = binding.userPasswd.text.toString().trim()
+            if(checkLogin(id, pw)){
+                val authService = getRetrofit().create(API::class.java)
+                authService.signIn(getUser()).enqueue(object: Callback<LoginResponse> {
+                    override fun onResponse(
+                        call: Call<LoginResponse>,
+                        response: Response<LoginResponse>,
+                    ) {
+                        Log.d("SIGNIN/SUCCESS", response.toString())
+                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                    }
+
+                    override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                        Log.d("SIGNIN/FAILURE", t.message.toString())
+                    }
+                })
+            }else{
+                Toast.makeText(requireContext(), "아이디/비밀번호 입력하세요.", Toast.LENGTH_LONG)
+            }
         }
     }
 
-    private fun checkLogin(id: String, passwd: String){
-        if(id.isBlank() || passwd.isBlank()){
-            Toast.makeText(requireContext(), "아이디/패스워드 입력해주세요", Toast.LENGTH_SHORT).show()
-        }
+    private fun getUser(): Login {
+        return Login(id, pw)
     }
 
-    private fun Login(user: User){
-        val call = RetrofitBuilder.api.getLoginResponse(user)
-        call.enqueue(object: retrofit2.Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                if(response.isSuccessful()){
-                    Log.d("RESPONSE", response.body().toString())
-                }else{
-                    Log.d("RESPONSE", "FAILURE")
-                }
-            }
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.d("CONNECTION FAILURE: ", t.localizedMessage)
-            }
-        })
+    private fun checkLogin(id: String, passwd: String): Boolean{
+        return !(id.isBlank() || passwd.isBlank())
     }
 
     override fun onDestroyView() {
