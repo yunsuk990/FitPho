@@ -34,8 +34,7 @@
             android:id="@+id/user_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이메일 입력해주세요."
-            android:inputType="textEmailAddress" />
+            android:hint="이메일 입력해주세요." />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -90,6 +89,16 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
