@@ -2,4 +2,5 @@
     <string name="app_name">FitPho</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="excerciseExp">1. 사진 촬영시 운동 기구가 정확히 나오도록 촬영 2. 사람이 사용하고 있을 시 인식 불가</string>
 </resources>
