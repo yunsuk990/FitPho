@@ -1,33 +1,30 @@
 package com.example.fitpho
 
-import android.net.Uri
+import android.Manifest
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.activity.result.ActivityResultLauncher
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.fitpho.databinding.FragmentHomeBinding
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private var preview: Preview? = null
-    private var imageCapture: ImageCapture? = null
-    private lateinit var outputDirectory: File
-    private lateinit var cameraExecutor: ExecutorService
+    private lateinit var resultLauncher : ActivityResultLauncher<Intent>
+    lateinit var filePath: String
+    val REQUEST_IMAGE_CAPTURE = 1
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,88 +33,50 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        startCamera()
-
         binding.btnCamera.setOnClickListener{
-            takePhoto()
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                    takePictureIntent.resolveActivity(activity?.packageManager!!)?.also {
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    }
+                }
         }
-        outputDirectory = getOutputDirectory()
-        cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    private fun takePhoto() {
-        val imageCapture = imageCapture ?: return
-        val photoFile = File(
-            outputDirectory,
-            newJpgFileName()
-        )
-
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-
-        imageCapture.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(requireContext()),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onError(exc: ImageCaptureException) {
-                    Log.d("CameraX-Debug", "Photo capture failed: ${exc.message}", exc)
-                }
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-                    Log.d("CameraX-Debug", msg)
-                }
-            })
+    private fun checkPermission() {
+        var permission = mutableMapOf<String, String>()
+        permission["camera"] = Manifest.permission.CAMERA
+        var denied = permission.count { ContextCompat.checkSelfPermission(requireContext(), it.value)  == PackageManager.PERMISSION_DENIED }
+        if(denied > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permission.values.toTypedArray(), REQUEST_IMAGE_CAPTURE)
+        }
     }
 
-    private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFuture.addListener({            // Used to bind the lifecycle of cameras to the lifecycle owner
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-            preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(binding.viewFinder.surfaceProvider)
-                }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == REQUEST_IMAGE_CAPTURE) {
+            var count = grantResults.count { it == PackageManager.PERMISSION_DENIED }
 
-            imageCapture = ImageCapture.Builder()
-                .build()
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-            try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
-                )
-            } catch (exc: Exception) {
-                Log.d("CameraX-Debug", "Use case binding failed", exc)
-            }
-        }, ContextCompat.getMainExecutor(requireContext()))
-    }
-
-    private fun newJpgFileName() : String {
-        val sdf = SimpleDateFormat("yyyyMMdd_HHmmss")
-        val filename = sdf.format(System.currentTimeMillis())
-        return "${filename}.jpg"
-    }
-
-    private fun getOutputDirectory(): File {
-        val mediaDir = context?.externalMediaDirs?.firstOrNull()?.let {
-            File(it, resources.getString(R.string.app_name)).apply {
-                mkdirs()
+            if(count != 0) {
+                Toast.makeText(requireContext(), "권한을 동의해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
-        return if (mediaDir != null && mediaDir.exists()) mediaDir
-        else context?.filesDir!!
-
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+
+            binding.galleryResult.setImageBitmap(imageBitmap)
+        }
     }
 }
