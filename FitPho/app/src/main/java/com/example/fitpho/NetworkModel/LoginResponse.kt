@@ -1,4 +1,8 @@
 package com.example.fitpho.NetworkModel
 
-data class LoginResponse(val isSucess: String)
+class LoginResponse(val isSucess: String){
+    public fun printMessage(): String {
+        return isSucess
+    }
+}
 
