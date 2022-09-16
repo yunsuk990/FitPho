@@ -52,12 +52,21 @@ class LoginFragment : Fragment() {
                         call: Call<LoginResponse>,
                         response: Response<LoginResponse>,
                     ) {
-                        Log.d("SIGNIN/SUCCESS", response.toString())
-                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                        if(response.isSuccessful){
+                            Log.d("SUCCESS", "success")
+                            var post: LoginResponse? = response.body();
+                            Log.d("response", post?.printMessage().toString())
+                            binding.progressBar.visibility = View.GONE
+                            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+                        }
+                        else{
+                            Log.d("SIGNIN/FAILURE", "FAIL")
+                        }
                     }
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         Log.d("SIGNIN/FAILURE", t.message.toString())
+
                     }
                 })
             }else{
