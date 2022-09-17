@@ -9,12 +9,19 @@
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/drawable/camera_white.xml" value="0.191" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/drawable/guide.xml" value="0.191" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/drawable/guide_white.xml" value="0.191" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/drawable/ic_backward.xml" value="0.191" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1895" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/drawable/menu_selector_color.xml" value="0.191" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/drawable/qwe.xml" value="0.1895" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/activity_main.xml" value="0.24375" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/calendardayofweeks.xml" value="0.24375" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/calender_day_layout.xml" value="0.2" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/calender_month_header.xml" value="0.2" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_calendar_date.xml" value="0.3766891891891892" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_calendar_day_of_weeks.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_calender.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_camera.xml" value="0.24375" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_detail.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_guide.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_guide_detail.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_home.xml" value="0.264" />
@@ -22,6 +29,7 @@
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_main.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_register.xml" value="0.264" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/fragment_splash.xml" value="0.264" />
+        <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/item.xml" value="0.264" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/menu/menu_bottom.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/xml/file_path.xml" value="0.24375" />
       </map>
