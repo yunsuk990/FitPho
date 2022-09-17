@@ -45,6 +45,8 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener{
             id = binding.userId.text.toString().trim()
             pw = binding.userPasswd.text.toString().trim()
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+
             if(checkLogin(id, pw)){
                 val authService = getRetrofit().create(API::class.java)
                 authService.signIn(getUser()).enqueue(object: Callback<LoginResponse> {
@@ -66,6 +68,7 @@ class LoginFragment : Fragment() {
 
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         Log.d("SIGNIN/FAILURE", t.message.toString())
+                        findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
                     }
                 })
