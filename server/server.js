@@ -3,14 +3,14 @@ const path = require('path');
 const bodyParser = require('body-parser')
 const routes = require('./routes/auth.js');
 
-const port = process.env.PORT;
+const PORT = process.env.PORT;
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.use("/", routes);
+app.use("/auth", routes);
 
-app.listen(port, 
-()=> console.log(`Server Started on port ${port}...`))
+app.listen(PORT, 
+()=> console.log(`Server running on ${PORT}...`))
