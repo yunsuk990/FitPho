@@ -10,11 +10,10 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:fontFamily="@font/myungbold"
         android:text="가슴"
         android:textColor="@color/black"
         android:textAlignment="center"/>
-
 </LinearLayout>
