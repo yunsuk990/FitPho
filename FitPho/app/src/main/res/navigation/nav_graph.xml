@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_guideFragment_to_guideDetailFragment"
             app:destination="@id/guideDetailFragment" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
