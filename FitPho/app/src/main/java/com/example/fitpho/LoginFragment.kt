@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
@@ -54,8 +55,6 @@ class LoginFragment : Fragment() {
                     ) {
                         if(response.isSuccessful){
                             Log.d("SUCCESS", "success")
-                            var post: LoginResponse? = response.body();
-                            Log.d("response", post?.printMessage().toString())
                             binding.progressBar.visibility = View.GONE
                             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                         }
