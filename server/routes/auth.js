@@ -9,18 +9,37 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 dotenv.config();
 
+// 이메일 중복 확인
+router.get('/email', function(req, res) {
+    const email = req.query.email;
+
+    var sql='select * from member where email=?';
+    db.query(sql, [email], async function (err, data) {
+        if(err) throw err;
+        if(data.length > 0) {
+            return res.status(400).json({
+                success: "false",
+                message: email + "은 이미 존재하는 이메일 주소입니다."
+            });
+        } else {
+            return res.status(200).json({
+                success: "true",
+                message: email + "은 사용 가능한 이메일 주소입니다."
+            });
+        }
+    })
+})
+
 // 회원가입
 router.post('/register', async function(req, res) {
-    var userData ={
-        email: req.body.email,
-        password: req.body.password
-    };
+    var email = req.body.email;
+    var password = req.body.password;
         
     var salt = await bcrypt.genSalt(10);
-    var hashPassword = await bcrypt.hash(userData.password, salt);
+    var hashedPassword = await bcrypt.hash(password, salt);
 
     var sql = 'insert into member values (?,?)';
-    db.query(sql, [userData.email, hashPassword], function (err, data) {
+    db.query(sql, [email, hashedPassword], function (err, data) {
         if (err) throw err;
         return res.status(200).json({
             success: "true",
@@ -97,7 +116,6 @@ router.post('/delete', auth_middleware, function(req, res) {
 
     var sql='delete from member where email=?';
     db.query(sql, [email], function (err, data) {
-        console.log(data);
         if(err) throw err;
         if(data.affectedRows == 0) {
             return res.status(400).json({
@@ -132,10 +150,10 @@ router.post('/edit', async function(req, res) {
         });
     } else {
         const salt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(password, salt);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         var sql='update member set password=? where email=?';
-        db.query(sql, [hashPassword, email], async function (err, data) {
+        db.query(sql, [hashedPassword, email], async function (err, data) {
             return res.status(200).json({
                 success: "true",
                 message: "비밀번호 변경에 성공했습니다."
@@ -146,23 +164,3 @@ router.post('/edit', async function(req, res) {
 
 module.exports = router;
 
-// // DB 내 이메일 중복 확인
-// router.get('/email', function(req, res) {
-//     var email = req.body.email;
-
-//     var sql='select * from member where email=?';
-//     db.query(sql, [email], async function (err, data) {
-//         if(err) throw err;
-//         if(data.length > 0) {
-//             return res.status(400).json({
-//                 success: "false",
-//                 message: email + "은 이미 존재하는 이메일 주소입니다."
-//             });
-//         } else {
-//             return res.status(200).json({
-//                 success: "true",
-//                 message: email + "은 사용 가능한 이메일 주소입니다."
-//             });
-//         }
-//     })
-// })
