@@ -109,7 +109,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun getRegister(): Register{
-        return Register(userid, userpasswd, checkuserpasswd)
+        return Register(userid, userpasswd)
     }
 
     override fun onDestroyView() {
