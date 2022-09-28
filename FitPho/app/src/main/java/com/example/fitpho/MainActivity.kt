@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity() {
         var hostFragment = supportFragmentManager.findFragmentById(R.id.nav_controller) as NavHostFragment
         navController = hostFragment.navController
 
-        NavigationUI.setupActionBarWithNavController(this, navController,
-            AppBarConfiguration.Builder(R.id.splashFragment, R.id.loginFragment, R.id.homeFragment, R.id.guideFragment
-            , R.id.calenderFragment, R.id.settingFragment).build()
-        )
+//        NavigationUI.setupActionBarWithNavController(this, navController,
+//            AppBarConfiguration.Builder(R.id.splashFragment, R.id.loginFragment, R.id.homeFragment, R.id.guideFragment
+//            , R.id.calenderFragment, R.id.settingFragment).build()
+//        )
         NavigationUI.setupWithNavController(menu_nav, navController)
 
         navController.addOnDestinationChangedListener{ _, destination, _ ->
