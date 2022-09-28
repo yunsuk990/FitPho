@@ -36,27 +36,31 @@ class RegisterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val authService = authService()
+
         binding.emailConfirm.setOnClickListener{
             var useremail = binding.registerUserid.text.toString()
-            val authService = getRetrofit().create(API::class.java)
             authService.emailConfirm(useremail).enqueue(object: Callback<EmailResponse> {
                 override fun onResponse(
                     call: Call<EmailResponse>,
                     response: Response<EmailResponse>
                 ) {
                     if(response.isSuccessful){
-                        var post: EmailResponse? = response.body();
-                        Toast.makeText(requireContext(), post?.printMessage(), Toast.LENGTH_LONG).show()
-                        Log.d("Comfirm", "success")
-                        confirm = true
+                        var post: EmailResponse? = response.body()
+                        var ifsucess: Boolean? = post?.printSuccess().toBoolean()
+                        Toast.makeText(requireContext(), post?.message, Toast.LENGTH_LONG).show()
+                        Log.d("Comfirm", response.code().toString())
+                        confirm = ifsucess!!
                     }else{
                         var post: EmailResponse? = response.body();
                         Toast.makeText(requireContext(), post?.printMessage(), Toast.LENGTH_LONG).show()
+                        Log.d("Comfirm", "FAIL")
                         confirm = false
                     }
                 }
 
                 override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
+                    Log.d("Comfirm", "FAILURE")
                     confirm = false
                 }
             })
@@ -80,7 +84,6 @@ class RegisterFragment : Fragment() {
                     }
                     else -> {
                         binding.progressBar2.visibility = View.VISIBLE
-                        val authService = getRetrofit().create(API::class.java)
                         authService.registerIn(getRegister()).enqueue(object: Callback<RegisterResponse> {
                             override fun onResponse(
                                 call: Call<RegisterResponse>,
@@ -115,5 +118,9 @@ class RegisterFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun authService(): API {
+        return getRetrofit().create(API::class.java)
     }
 }
