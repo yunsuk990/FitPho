@@ -18,7 +18,7 @@ const verifyToken = (req, res, next) => {
 
   jwt.verify(token, ACCESS_TOKEN_SECRET, (err, data) => {
     if (err) {
-      return res.status(401).json({
+      return res.status(403).json({
         message: "토큰 인증 오류입니다."
       });
     }

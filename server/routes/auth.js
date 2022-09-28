@@ -1,6 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const db = require('../config/db');
@@ -17,10 +17,10 @@ router.get('/email', function(req, res) {
     const email = req.query.email;
 
     var sql='select * from member where email=?';
-    db.query(sql, [email], async function (err, data) {
+    db.query(sql, [email], function (err, data) {
         if(err) throw err;
         if(data.length > 0) {
-            return res.status(400).json({
+            return res.status(204).json({
                 success: "false",
                 message: email + "은 이미 존재하는 이메일 주소입니다."
             });
@@ -76,7 +76,7 @@ router.post('/login', function(req, res) {
                         token: accessToken
                     });
             } else {
-                return res.status(400).json({
+                return res.status(204).json({
                     success: "false",
                     message: "비밀번호가 일치하지 않습니다.",
                     token: ""
@@ -93,7 +93,7 @@ router.post('/login', function(req, res) {
 });
 
 // 로그아웃
-router.get("/logout", (req, res) => {
+router.get("/logout", verifyToken, (req, res) => {
     return res
         .clearCookie("refreshToken")
         .status(200).json({ 
@@ -103,7 +103,7 @@ router.get("/logout", (req, res) => {
 })
 
 // 회원탈퇴
-router.post('/delete', verifyToken, function(req, res) {
+router.delete('/delete', verifyToken, function(req, res) {
     const email = req.email;
 
     var sql='delete from member where email=?';
@@ -133,7 +133,7 @@ router.post('/edit', verifyToken, async function(req, res) {
 
     var verified = await bcrypt.compare(old_password, req.password);
     if (!verified) {
-        return res.status(400).json({
+        return res.status(204).json({
             success: "false",
             message: "기존 비밀번호가 일치하지 않습니다.",
             token: ""
