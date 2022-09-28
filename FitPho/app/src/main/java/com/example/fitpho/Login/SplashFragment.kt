@@ -1,19 +1,18 @@
-package com.example.fitpho
+package com.example.fitpho.Login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.ActionBar
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentSplashBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.app.ActionBar as ActionBar1
 
 class SplashFragment : Fragment() {
 

@@ -1,4 +1,4 @@
-package com.example.fitpho
+package com.example.fitpho.Login
 
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
 import com.example.fitpho.NetworkModel.*
+import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentRegisterBinding
 import com.example.fitpho.util.hideKeyboard
 import retrofit2.Call

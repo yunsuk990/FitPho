@@ -1,14 +1,12 @@
-package com.example.fitpho
+package com.example.fitpho.Calendar
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
-import androidx.core.view.doOnPreDraw
+import com.example.fitpho.R
 import com.example.fitpho.databinding.CalenderHeaderBinding
 import com.example.fitpho.databinding.FragmentCalenderBinding
 import com.example.fitpho.databinding.ItemBinding
@@ -18,7 +16,6 @@ import com.kizitonwose.calendarview.model.DayOwner
 import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.kizitonwose.calendarview.ui.ViewContainer
-import com.kizitonwose.calendarview.utils.Size
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -111,15 +108,18 @@ class CalenderFragment : Fragment() {
                 if (day.owner == DayOwner.THIS_MONTH) {
                     when (day.date) {
                         selectedDate -> {
-                            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                            textView.setTextColor(ContextCompat.getColor(requireContext(),
+                                R.color.white))
                             textView.setBackgroundResource(R.drawable.outline)
                         }
                         today -> {
-                            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                            textView.setTextColor(ContextCompat.getColor(requireContext(),
+                                R.color.red))
                             textView.background = null
                         }
                         else -> {
-                            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                            textView.setTextColor(ContextCompat.getColor(requireContext(),
+                                R.color.white))
                             textView.background = null
                         }
                     }

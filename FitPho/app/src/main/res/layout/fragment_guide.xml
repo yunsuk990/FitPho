@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darklogocolor"
-    tools:context=".GuideFragment">
+    tools:context=".Guide.GuideFragment">
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +31,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:background="@drawable/star" />
+                android:background="@drawable/bookmark_white" />
 
             <Button
                 android:id="@+id/chest"
@@ -113,14 +114,15 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ex_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
-
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:listitem="@layout/exlist_item"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

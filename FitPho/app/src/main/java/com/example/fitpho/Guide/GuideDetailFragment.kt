@@ -1,4 +1,4 @@
-package com.example.fitpho
+package com.example.fitpho.Guide
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

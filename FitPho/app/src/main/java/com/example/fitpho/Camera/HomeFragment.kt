@@ -1,4 +1,4 @@
-package com.example.fitpho
+package com.example.fitpho.Camera
 
 import android.Manifest
 import android.app.Activity.RESULT_OK

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.fitpho.SplashFragment"
+        android:name="com.example.fitpho.Login.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.fitpho.HomeFragment"
+        android:name="com.example.fitpho.Camera.HomeFragment"
         android:label="촬영"
         tools:layout="@layout/fragment_home" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
-        android:name="com.example.fitpho.DetailFragment"
+        android:name="com.example.fitpho.Camera.DetailFragment"
         android:label="운동설명"
         tools:layout="@layout/fragment_detail" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/guideFragment"
-        android:name="com.example.fitpho.GuideFragment"
+        android:name="com.example.fitpho.Guide.GuideFragment"
         android:label="운동가이드"
         tools:layout="@layout/fragment_guide" >
         <action
@@ -52,17 +52,17 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.fitpho.SettingFragment"
+        android:name="com.example.fitpho.Setting.SettingFragment"
         android:label="설정"
         tools:layout="@layout/fragment_setting" />
     <fragment
         android:id="@+id/guideDetailFragment"
-        android:name="com.example.fitpho.GuideDetailFragment"
+        android:name="com.example.fitpho.Guide.GuideDetailFragment"
         android:label="fragment_guide_detail"
         tools:layout="@layout/fragment_guide_detail" />
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.fitpho.LoginFragment"
+        android:name="com.example.fitpho.Login.LoginFragment"
         android:label="로그인"
         tools:layout="@layout/fragment_login" >
         <action
@@ -74,7 +74,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.fitpho.RegisterFragment"
+        android:name="com.example.fitpho.Login.RegisterFragment"
         android:label="회원가입"
         tools:layout="@layout/fragment_register" >
         <action
@@ -83,7 +83,7 @@
     </fragment>
     <fragment
         android:id="@+id/calenderFragment"
-        android:name="com.example.fitpho.CalenderFragment"
+        android:name="com.example.fitpho.Calendar.CalenderFragment"
         android:label="캘린더"
         tools:layout="@layout/fragment_calender" />
     <action
