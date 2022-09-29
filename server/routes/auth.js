@@ -20,7 +20,7 @@ router.get('/email', function(req, res) {
     db.query(sql, [email], function (err, data) {
         if(err) throw err;
         if(data.length > 0) {
-            return res.status(204).json({
+            return res.status(400).json({
                 success: "false",
                 message: email + "은 이미 존재하는 이메일 주소입니다."
             });
@@ -66,7 +66,7 @@ router.post('/login', function(req, res) {
 
             if (verified) {
                 const accessToken = generateAccessToken(email, hashedPassword);
-                const refreshToken = generateRefreshToken(email);
+                const refreshToken = generateRefreshToken(email, hashedPassword);
 
                 return res
                     .cookie('refreshToken', refreshToken, {httpOnly: true, maxAge: 1000000})
@@ -76,7 +76,7 @@ router.post('/login', function(req, res) {
                         token: accessToken
                     });
             } else {
-                return res.status(204).json({
+                return res.status(400).json({
                     success: "false",
                     message: "비밀번호가 일치하지 않습니다.",
                     token: ""
@@ -133,7 +133,7 @@ router.post('/edit', verifyToken, async function(req, res) {
 
     var verified = await bcrypt.compare(old_password, req.password);
     if (!verified) {
-        return res.status(204).json({
+        return res.status(400).json({
             success: "false",
             message: "기존 비밀번호가 일치하지 않습니다.",
             token: ""
@@ -166,7 +166,7 @@ router.post('/token', (req, res) => {
         });
     }
 
-    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, email) => {
+    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, data) => {
         if (err) {
             return res.status(403).json({
                 success: "false",
@@ -174,7 +174,7 @@ router.post('/token', (req, res) => {
                 token: ""
             });
         }
-        const accessToken = generateAccessToken(email);
+        const accessToken = generateAccessToken(data.email, data.password);
         return res.status(200).json({
                 success: "true",
                 message: "토큰이 정상적으로 발행되었습니다.",

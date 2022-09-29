@@ -15,8 +15,8 @@ const generateAccessToken = (email, password) => {
 }
   
 // Refresh 토큰 발행
-const generateRefreshToken = (email) => {
-    const refreshToken = jwt.sign({email}, REFRESH_TOKEN_SECRET, {
+const generateRefreshToken = (email, password) => {
+    const refreshToken = jwt.sign({email, password}, REFRESH_TOKEN_SECRET, {
       expiresIn: "1d"
     });
     return refreshToken;
