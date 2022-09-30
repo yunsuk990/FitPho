@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const auth = require('./routes/auth');
 const favorites = require('./routes/favorites');
+const calendar = require('./routes/calendar');
 
 const PORT = process.env.PORT;
 const app = express();
@@ -15,6 +16,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use("/auth", auth);
 app.use("/favorites", favorites);
+app.use("/calendar", calendar);
 
 app.use(function(err, req, res, next) {
     console.error(err.stack);

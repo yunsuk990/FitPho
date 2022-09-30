@@ -17,7 +17,7 @@ router.get('/email', function(req, res) {
     const email = req.query.email;
 
     var sql='select * from member where email=?';
-    db.query(sql, [email], function (err, data) {
+    db.query(sql, [email], function (err, data, fields) {
         if(err) throw err;
         if(data.length > 0) {
             return res.status(400).json({
@@ -42,13 +42,13 @@ router.post('/register', async function(req, res) {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     var sql = 'insert into member values (?,?)';
-    db.query(sql, [email, hashedPassword], function (err, data) {
+    db.query(sql, [email, hashedPassword], function (err, data, fields) {
         if (err) throw err;
         return res.status(200).json({
             success: "true",
             message: "회원가입에 성공하였습니다."
         });
-    });     
+    }) 
 })   
 
 // 로그인
@@ -57,7 +57,7 @@ router.post('/login', function(req, res) {
     const password = req.body.password;
 
     var sql='select * from member where email=?';
-    db.query(sql, [email], async function (err, data) {
+    db.query(sql, [email], async function (err, data, fields) {
         if(err) throw err;
         if(data.length !== 0) {
             var email = data[0].email;
@@ -90,10 +90,10 @@ router.post('/login', function(req, res) {
             });
         }
     })
-});
+})
 
 // 로그아웃
-router.get("/logout", verifyToken, (req, res) => {
+router.get("/logout", verifyToken, function(req, res) {
     return res
         .clearCookie("refreshToken")
         .status(200).json({ 
@@ -107,7 +107,7 @@ router.delete('/delete', verifyToken, function(req, res) {
     const email = req.email;
 
     var sql='delete from member where email=?';
-    db.query(sql, [email], function (err, data) {
+    db.query(sql, [email], function (err, data, fields) {
         if(err) throw err;
         if(data.affectedRows == 0) {
             return res.status(400).json({
@@ -122,7 +122,7 @@ router.delete('/delete', verifyToken, function(req, res) {
                 message: "회원탈퇴에 성공하였습니다."
             })
         }
-    });
+    })
 })
 
 // 회원정보 수정 (비밀번호 변경) 
@@ -145,7 +145,8 @@ router.post('/edit', verifyToken, async function(req, res) {
         const accessToken = generateAccessToken(email, hashedPassword);
 
         var sql='update member set password=? where email=?';
-        db.query(sql, [hashedPassword, email], async function (err, data) {
+        db.query(sql, [hashedPassword, email], async function (err, data, fields) {
+            if (err) throw err;
             return res.status(200).json({
                 success: "true",
                 message: "비밀번호 변경에 성공했습니다.",
