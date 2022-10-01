@@ -20,6 +20,8 @@ router.get('/', verifyToken, function(req, res) {
 
 // 단일 일정 조회
 router.get('/:scheduleID', verifyToken, function(req, res) {
+    let {scheduleID} = req.params;
+    
     var sql='select * from calendar where scheduleID=?';
     db.query(sql, [scheduleID], function (err, data, fields) {
         if(err) throw err;

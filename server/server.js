@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const auth = require('./routes/auth');
+const guide = require('./routes/guide');
 const favorites = require('./routes/favorites');
 const calendar = require('./routes/calendar');
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use("/auth", auth);
+app.use("/guide", guide);
 app.use("/favorites", favorites);
 app.use("/calendar", calendar);
 
