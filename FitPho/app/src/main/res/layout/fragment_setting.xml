@@ -4,53 +4,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:divider="#FFFFFF"
+    android:dividerPadding="22dp"
+    android:showDividers="middle"
     tools:context=".Setting.SettingFragment">
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:divider="#FFFFFF"
-        android:dividerPadding="22dp"
-        android:showDividers="middle">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="라이센스"
-            android:textSize="25dp"
-            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:fontFamily="@font/myungbold"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="정보"
-            android:textSize="25dp"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="고객센터"
-            android:textSize="25dp"
-            android:textColor="@color/black"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
-
-        <TextView
+            android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="로그아웃"
-            android:textSize="25dp"
-            android:textColor="@color/black"
+            android:textSize="30dp"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:fontFamily="@font/myungbold"/>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/correction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원정보 수정"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:fontFamily="@font/myungbold"/>
 
-
+        <TextView
+            android:id="@+id/withdraw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원탈퇴"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:fontFamily="@font/myungbold"/>
 </LinearLayout>
