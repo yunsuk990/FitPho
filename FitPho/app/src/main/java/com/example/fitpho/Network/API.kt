@@ -1,5 +1,6 @@
 package com.example.fitpho.Network
 
+import android.provider.Contacts.SettingsColumns.KEY
 import com.example.fitpho.NetworkModel.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -17,4 +18,25 @@ interface API {
     fun emailConfirm(
         @Query("email") email:String
     ): Call<EmailResponse>
+
+
+    //로그아웃 - 구현해야됨
+    @GET("/auth/logout")
+    fun logOut(
+       @Header("Authorization") token: String
+    ): Call<LogOutResponse>
+
+    @POST("/auth/token")
+    fun getToken(): Call<GetTokenResponse>
+
+    @DELETE("/auth/delete")
+    fun withdraw(
+        @Header("Authorization") token: String
+    ): Call<WithdrawResponse>
+
+    @POST("/auth/edit")
+    fun correction(
+        @Header("Authorization") token: String
+    ): Call<CorrectionResponse>
 }
+
