@@ -1,5 +1,6 @@
 package com.example.fitpho.Login
 
+import android.os.Build.VERSION_CODES.P
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -46,20 +47,24 @@ class RegisterFragment : Fragment() {
                     call: Call<EmailResponse>,
                     response: Response<EmailResponse>
                 ) {
-                    if(response.isSuccessful){
-                        var post: EmailResponse? = response.body()
-                        var ifsucess: Boolean? = post?.printSuccess().toBoolean()
-                        Toast.makeText(requireContext(), post?.message, Toast.LENGTH_LONG).show()
-                        Log.d("Comfirm", response.code().toString())
-                        confirm = ifsucess!!
-                    }else{
-                        var post: EmailResponse? = response.body();
-                        Toast.makeText(requireContext(), post?.printMessage(), Toast.LENGTH_LONG).show()
-                        Log.d("Comfirm", "FAIL")
-                        confirm = false
+                    var post: EmailResponse? = response.body()
+                    var ifsucess: Boolean? = post?.printSuccess().toBoolean()
+                    when(response.code()){
+                        in 200..299 -> {
+                            Toast.makeText(requireContext(), post?.printMessage(), Toast.LENGTH_LONG).show()
+                            confirm = ifsucess!!
+                        }
+                        400 -> {
+                            Toast.makeText(requireContext(), post?.printMessage(), Toast.LENGTH_LONG).show()
+                            confirm = false
+                        }
+                        else -> {
+                            Toast.makeText(requireContext(), "이메일을 다시 입력해주세요.", Toast.LENGTH_LONG).show()
+                            confirm = false
+                        }
                     }
                 }
-
+                //통신 실패 시
                 override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
                     Log.d("Comfirm", "FAILURE")
                     confirm = false
@@ -90,24 +95,30 @@ class RegisterFragment : Fragment() {
                                 call: Call<RegisterResponse>,
                                 response: Response<RegisterResponse>,
                             ) {
-                                if(response.isSuccessful){
-                                    binding.progressBar2.visibility = View.GONE
-                                    Log.d("REGISTERIN/SUCCESS", "로그인 성공")
-                                    hideKeyboard()
-                                    confirm = false
-                                    findNavController().navigate(R.id.action_registerFragment_to_homeFragment)
-                                }else{
-                                    Log.d("REGISTERIN/FAILURE", "FAIL")
+                                when(response.code()){
+                                    //회원가입 성공
+                                    200 -> {
+                                        binding.progressBar2.visibility = View.GONE
+                                        Log.d("REGISTERIN/SUCCESS", "회원가입 성공.")
+                                        hideKeyboard()
+                                        confirm = false
+                                        findNavController().navigate(R.id.homeFragment)
+                                    }
+                                    else -> {
+                                        Toast.makeText(requireContext(), "회원가입 실패.", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             }
-
                             override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
                                 Log.d("REGISTERIN/FAILURE", t.message.toString())
+                                Toast.makeText(requireContext(), "회원가입 실패.", Toast.LENGTH_SHORT).show()
                                 binding.progressBar2.visibility = View.GONE
                             }
                         })
                     }
                 }
+            }else{
+                Toast.makeText(requireContext(), "이메일 중복 확인해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
     }
