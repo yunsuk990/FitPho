@@ -14,7 +14,7 @@ dotenv.config();
 
 // 이메일 중복 확인
 router.get('/email', function(req, res) {
-    const email = req.query.email;
+    var email = req.query.email;
 
     var sql='select * from member where email=?';
     db.query(sql, [email], function (err, data, fields) {
@@ -83,7 +83,7 @@ router.post('/login', function(req, res) {
                 });
             }
         } else {
-            return res.status(400).json({
+            return res.status(401).json({
                 success: "false",
                 message: "존재하지 않는 이메일입니다.",
                 token: ""
@@ -162,7 +162,7 @@ router.post('/token', (req, res) => {
     if (!refreshToken) {
         return res.status(401).json({
             success: "false",
-            message: "토큰 인증 오류입니다.",
+            message: "토큰이 존재하지 않습니다.",
             token: ""
         });
     }

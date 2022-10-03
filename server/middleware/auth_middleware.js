@@ -12,13 +12,15 @@ const verifyToken = (req, res, next) => {
 
   if (!token) {
     return res.status(401).json({
-        message: "토큰 인증 오류입니다."
+        success: "false",
+        message: "토큰이 존재하지 않습니다."
     });
   }
 
   jwt.verify(token, ACCESS_TOKEN_SECRET, (err, data) => {
     if (err) {
       return res.status(403).json({
+        success: "false",
         message: "토큰 인증 오류입니다."
       });
     }
