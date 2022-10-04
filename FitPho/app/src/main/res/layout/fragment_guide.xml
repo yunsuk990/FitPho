@@ -9,15 +9,12 @@
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:fillViewport="true"
-        tools:layout_editor_absoluteX="206dp"
-        tools:layout_editor_absoluteY="307dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:id="@+id/linear"
