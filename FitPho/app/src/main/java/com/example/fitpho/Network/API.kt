@@ -36,6 +36,7 @@ interface API {
 
     @POST("/auth/edit")
     fun correction(
+        @Body correction: Correction,
         @Header("Authorization") token: String
     ): Call<CorrectionResponse>
 }
