@@ -4,7 +4,7 @@ const db = require('../config/db');
 
 const lookUp = (startID, endID) => {
     return new Promise((resolve, reject) => {
-        var sql='select * from library where equipmentID between ? and ?';
+        var sql='select * from library where id between ? and ?';
         db.query(sql, [startID, endID], function (err, data, fields) {
             if(err) reject(err);
             resolve(data);
