@@ -1,6 +1,5 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const db = require('../config/db');
@@ -10,11 +9,11 @@ const { generateAccessToken, generateRefreshToken } = require('../utils/jwt');
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
-dotenv.config();
+require('dotenv').config();
 
 // 이메일 중복 확인
-router.get('/email', function(req, res) {
-    var email = req.query.email;
+router.get('/email/:email', function(req, res) {
+    const email = req.params.email;
 
     var sql='select * from member where email=?';
     db.query(sql, [email], function (err, data, fields) {
@@ -129,7 +128,7 @@ router.delete('/delete', verifyToken, function(req, res) {
 router.post('/edit', verifyToken, async function(req, res) {
     const email = req.email;
     const old_password = req.body.old_password;
-    const password = req.body.password;
+    const new_password = req.body.new_password;
 
     var verified = await bcrypt.compare(old_password, req.password);
     if (!verified) {
@@ -140,7 +139,7 @@ router.post('/edit', verifyToken, async function(req, res) {
         });
     } else {
         var salt = await bcrypt.genSalt(10);
-        var hashedPassword = await bcrypt.hash(password, salt);
+        var hashedPassword = await bcrypt.hash(new_password, salt);
 
         const accessToken = generateAccessToken(email, hashedPassword);
 

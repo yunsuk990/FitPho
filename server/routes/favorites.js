@@ -21,7 +21,7 @@ router.get('/', verifyToken, function(req, res) {
 // 즐겨찾기 추가
 router.post('/:equipmentID', verifyToken, function(req, res) {
     const email = req.email;
-    let {equipmentID} = req.params;
+    const equipmentID = req.params.equipmentID;
 
     var sql='select * from favorites where email=? and equipmentID=?'
     db.query(sql, [email, equipmentID], function (err, data, fields) {
@@ -46,7 +46,7 @@ router.post('/:equipmentID', verifyToken, function(req, res) {
 
 // 즐겨찾기 삭제
 router.delete('/:equipmentID', verifyToken, function(req, res) {
-    let {equipmentID} = req.params;
+    const equipmentID = req.params.equipmentID;
 
     var sql='delete from favorites where equipmentID=?';
     db.query(sql, [equipmentID], function (err, data, fields) {
