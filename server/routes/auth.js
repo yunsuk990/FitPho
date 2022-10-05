@@ -3,8 +3,9 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const db = require('../config/db');
-const { verifyToken } = require('../middleware/auth_middleware');
+const { verifyToken, generatePassword } = require('../middleware/auth_middleware');
 const { generateAccessToken, generateRefreshToken } = require('../utils/jwt');
+const { authEmail, temporary } = require('../utils/mailer');
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
@@ -12,8 +13,10 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 require('dotenv').config();
 
 // 이메일 중복 확인
-router.get('/email/:email', function(req, res) {
+router.get('/email/:email', async function(req, res) {
     const email = req.params.email;
+
+    const authNumber = await authEmail(email);
 
     var sql='select * from member where email=?';
     db.query(sql, [email], function (err, data, fields) {
@@ -21,12 +24,14 @@ router.get('/email/:email', function(req, res) {
         if(data.length > 0) {
             return res.status(400).json({
                 success: "false",
-                message: email + "은 이미 존재하는 이메일 주소입니다."
+                message: email + "은 이미 존재하는 이메일 주소입니다.",
+                authNumber: ""
             });
         } else {
             return res.status(200).json({
                 success: "true",
-                message: email + "은 사용 가능한 이메일 주소입니다."
+                message: email + "은 사용 가능한 이메일 주소입니다.",
+                authNumber: authNumber
             });
         }
     })
@@ -179,7 +184,26 @@ router.post('/token', (req, res) => {
                 success: "true",
                 message: "토큰이 정상적으로 발행되었습니다.",
                 token: accessToken
-            });
+        });
+    })
+})
+
+// 비밀번호 찾기
+router.post('/findPW', async (req, res) => {
+    const email = req.body.email;
+
+    const temporaryPW = await temporary(email);
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(temporaryPW, salt);
+
+    var sql='update member set password=? where email=?';
+    db.query(sql, [hashedPassword, email], async function (err, data, fields) {
+        if (err) throw err;
+        return res.status(200).json({
+            success: "true",
+            message: "임시 비밀번호 발급에 성공했습니다."
+        });
     })
 })
 
