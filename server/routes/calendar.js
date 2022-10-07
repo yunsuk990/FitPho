@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
-const { verifyToken } = require('../middleware/auth_middleware');
 
 // 전체 일정 조회
-router.get('/', verifyToken, function(req, res) {
+router.get('/', function(req, res) {
     const email = req.email;
 
     var sql='select * from calendar where email=?';
@@ -19,7 +18,7 @@ router.get('/', verifyToken, function(req, res) {
 })
 
 // 단일 일정 조회
-router.get('/:scheduleID', verifyToken, function(req, res) {
+router.get('/:scheduleID', function(req, res) {
     let {scheduleID} = req.params;
     
     var sql='select * from calendar where scheduleID=?';
@@ -34,7 +33,7 @@ router.get('/:scheduleID', verifyToken, function(req, res) {
 })
 
 // 일정 추가
-router.post('/:scheduleID', verifyToken, function(req, res) {
+router.post('/:scheduleID', function(req, res) {
     const email = req.email;
     let {scheduleID} = req.params;
 
@@ -57,7 +56,7 @@ router.post('/:scheduleID', verifyToken, function(req, res) {
 })   
 
 // 일정 수정
-router.put('/:scheduleID', verifyToken, function(req, res) {
+router.put('/:scheduleID', function(req, res) {
     let {scheduleID} = req.params;
 
     var data = {
@@ -79,7 +78,7 @@ router.put('/:scheduleID', verifyToken, function(req, res) {
 })   
 
 // 일정 삭제
-router.delete('/:scheduleID', verifyToken, function(req, res) {
+router.delete('/:scheduleID', function(req, res) {
     let {scheduleID} = req.params;
 
     var sql='delete from calendar where scheduleID=?';
