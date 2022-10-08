@@ -11,8 +11,7 @@ const {
 	generateRefreshToken
 } = require('../utils/jwt');
 const {
-	authEmail,
-	temporary
+	authEmail
 } = require('../utils/mailer');
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -20,7 +19,7 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 
 require('dotenv').config();
 
-// 이메일 중복 확인
+// 이메일 인증 및 중복 확인
 router.get('/email/:email', async function(req, res) {
 	const email = req.params.email;
 
@@ -158,17 +157,66 @@ router.post('/edit', verifyToken, async function(req, res) {
 		var hashedPassword = await bcrypt.hash(new_password, salt);
 
 		const accessToken = generateAccessToken(email, hashedPassword);
+		const refreshToken = generateRefreshToken(email, hashedPassword);
 
 		var sql = 'update member set password=? where email=?';
 		db.query(sql, [hashedPassword, email], async function(err, data, fields) {
 			if (err) throw err;
-			return res.status(200).json({
-				success: "true",
-				message: "비밀번호 변경에 성공했습니다.",
-				token: accessToken
-			});
+			return res
+				.cookie('refreshToken', refreshToken, {
+					httpOnly: true,
+					maxAge: 1000000
+				})
+				.status(200).json({
+					success: "true",
+					message: "비밀번호 변경에 성공했습니다.",
+					token: accessToken
+				});
 		})
 	}
+})
+
+// 비밀번호 재설정 전 인증번호 발급
+router.get('/certify/:email', function(req, res) {
+	const email = req.params.email;
+
+	var sql = 'select * from member where email=?';
+	db.query(sql, [email], async function(err, data, fields) {
+		if (err) throw err;
+		if (data.length > 0) {
+			const authNumber = await authEmail(email);
+
+			return res.status(200).json({
+				success: "true",
+				message: "인증번호가 발급되었습니다.",
+				authNumber: authNumber
+			});
+		} else {
+			return res.status(400).json({
+				success: "false",
+				message: "존재하지 않는 이메일입니다.",
+				authNumber: ""
+			});
+		}
+	})
+})
+
+// 비밀번호 재설정
+router.post('/resetPW', async (req, res) => {
+	const email = req.body.email;
+	const new_password = req.body.new_password;
+
+	const salt = await bcrypt.genSalt(10);
+	const hashedPassword = await bcrypt.hash(new_password, salt);
+
+	var sql = 'update member set password=? where email=?';
+	db.query(sql, [hashedPassword, email], async function(err, data, fields) {
+		if (err) throw err;
+		return res.status(200).json({
+			success: "true",
+			message: "비밀번호 재설정에 성공했습니다."
+		});
+	})
 })
 
 // Refresh Token을 이용한 Access Token 재발급
@@ -195,25 +243,6 @@ router.post('/token', (req, res) => {
 			success: "true",
 			message: "토큰이 정상적으로 발행되었습니다.",
 			token: accessToken
-		});
-	})
-})
-
-// 비밀번호 찾기
-router.post('/findPW', async (req, res) => {
-	const email = req.body.email;
-
-	const temporaryPW = await temporary(email);
-
-	const salt = await bcrypt.genSalt(10);
-	const hashedPassword = await bcrypt.hash(temporaryPW, salt);
-
-	var sql = 'update member set password=? where email=?';
-	db.query(sql, [hashedPassword, email], async function(err, data, fields) {
-		if (err) throw err;
-		return res.status(200).json({
-			success: "true",
-			message: "임시 비밀번호 발급에 성공했습니다."
 		});
 	})
 })

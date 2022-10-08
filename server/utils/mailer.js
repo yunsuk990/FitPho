@@ -7,20 +7,6 @@ const generateRandom = function(min, max) {
 	return randomNum;
 }
 
-// 임시 비밀번호 생성
-const generatePassword = () => {
-	const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz!@#$%^&*";
-	const stringLength = 8;
-
-	var randomString = "";
-	for (let i = 0; i < stringLength; i++) {
-		let randomNum = Math.floor(Math.random() * chars.length);
-		randomString += chars.substring(randomNum, randomNum + 1);
-	}
-
-	return randomString;
-}
-
 const transport = nodemailer.createTransport({
 	service: 'gmail',
 	auth: {
@@ -54,30 +40,4 @@ const authEmail = function(req, res) {
 	return number;
 }
 
-// 이메일 인증 후 임시 비밀번호 발급
-const temporary = function(req, res) {
-	const temporaryPW = generatePassword();
-
-	const transmitEmail = req;
-
-	const mailOptions = {
-		from: "FitPho",
-		to: transmitEmail,
-		subject: "[FitPho] 임시 비밀번호 발송 이메일입니다.",
-		html: `${transmitEmail} 님<br />` +
-			`임시 비밀번호 : ${temporaryPW}<br />` +
-			`<a href="http://localhost:3000/">로그인하러 가기</a><br />` +
-			`정보보호를 위해 로그인 후 비밀번호를 꼭 변경해주세요!`
-	};
-
-	// 인증번호 정상 전송 여부 확인
-	transport.sendMail(mailOptions, (err, responses) => {
-		if (err) throw err;
-		transport.close();
-	})
-
-	return temporaryPW;
-}
-
 module.exports.authEmail = authEmail;
-module.exports.temporary = temporary;
