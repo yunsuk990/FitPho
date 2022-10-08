@@ -140,7 +140,7 @@ router.delete('/delete', verifyToken, function(req, res) {
 })
 
 // 회원정보 수정 (비밀번호 변경) 
-router.post('/edit', verifyToken, async function(req, res) {
+router.patch('/edit', verifyToken, async function(req, res) {
 	const email = req.email;
 	const old_password = req.body.old_password;
 	const new_password = req.body.new_password;
@@ -202,7 +202,7 @@ router.get('/certify/:email', function(req, res) {
 })
 
 // 비밀번호 재설정
-router.post('/resetPW', async (req, res) => {
+router.patch('/resetPW', async (req, res) => {
 	const email = req.body.email;
 	const new_password = req.body.new_password;
 

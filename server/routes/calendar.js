@@ -56,7 +56,7 @@ router.post('/:scheduleID', function(req, res) {
 })   
 
 // 일정 수정
-router.put('/:scheduleID', function(req, res) {
+router.patch('/:scheduleID', function(req, res) {
     let {scheduleID} = req.params;
 
     var data = {
