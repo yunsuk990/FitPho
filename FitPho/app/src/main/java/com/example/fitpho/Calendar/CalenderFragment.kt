@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.fitpho.R
 import com.example.fitpho.databinding.CalenderHeaderBinding
@@ -33,6 +34,8 @@ class CalenderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCalenderBinding.inflate(inflater, container, false)
+        var mytoolbar  = binding.toolbar
+        (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
         return binding.root
     }
 

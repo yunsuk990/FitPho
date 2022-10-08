@@ -1,7 +1,16 @@
 package com.example.fitpho.NetworkModel
 
 
-data class WithdrawResponse(
-    var success: String,
-    var message: String
-)
+class WithdrawResponse(
+    private val success: String,
+    private val message: String
+){
+    public fun getSuccess():String {
+        return success
+    }
+
+    fun getMessage(): String {
+        return message
+    }
+
+}

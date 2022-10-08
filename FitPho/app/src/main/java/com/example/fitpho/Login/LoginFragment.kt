@@ -1,6 +1,5 @@
 package com.example.fitpho.Login
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -45,6 +44,10 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
+        binding.findPasswd.setOnClickListener {
+            findNavController().navigate(R.id.findPasswordFragment)
+        }
+
         //로그인 버튼 클릭
         binding.btnLogin.setOnClickListener{
             //Test
@@ -61,28 +64,16 @@ class LoginFragment : Fragment() {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private fun getUser(): Login {
         return Login(id, pw)
     }
 
+    //아이디 비번 입력 창 확인
     private fun checkLogin(id: String, passwd: String): Boolean{
         return !(id.isBlank() || passwd.isBlank())
     }
 
+    //로그인 통신
     private fun Login() {
         authService.signIn(getUser()).enqueue(object: Callback<LoginResponse> {
             override fun onResponse(
@@ -118,6 +109,7 @@ class LoginFragment : Fragment() {
         })
     }
 
+    //Retrofit api
     private fun authService(): API {
         return getRetrofit().create(API::class.java)
     }

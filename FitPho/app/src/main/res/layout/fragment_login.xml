@@ -1,107 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/darklogocolor"
     tools:context=".Login.LoginFragment">
 
 
-    <TextView
-        android:id="@+id/textView"
+    <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="120dp"
-        android:fontFamily="@font/myungbold"
-        android:text="로그인하기"
-        android:textColor="@color/black"
-        android:textSize="26dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_centerInParent="true"
+        android:visibility="invisible" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
-
+        android:id="@+id/textInputLayout1"
+        android:layout_above="@+id/textInputLayout2"
+        android:layout_width="match_parent"
+        app:boxBackgroundColor="@color/white"
+        app:endIconMode="clear_text"
+        app:startIconDrawable="@drawable/email"
+        android:hint="이메일"
+        app:boxStrokeColor="@color/darklogocolor"
+        app:boxStrokeWidth="0dp"
+        app:boxCornerRadiusBottomEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusTopStart="25dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignStart="@+id/textInputLayout2"
+        android:layout_alignEnd="@+id/textInputLayout2"
+        android:layout_height="53dp">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/user_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="이메일 입력해주세요."
+            android:textColor="@color/black"
             android:inputType="textEmailAddress"
-            />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="0dp"
+        android:id="@+id/textInputLayout2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@id/email"
-        app:layout_constraintStart_toStartOf="@+id/email"
-        app:layout_constraintTop_toBottomOf="@+id/email">
-
+        app:boxBackgroundColor="@color/white"
+        android:layout_marginBottom="20dp"
+        app:passwordToggleEnabled="true"
+        android:hint="비밀번호"
+        app:startIconDrawable="@drawable/password"
+        app:boxStrokeColor="@color/darklogocolor"
+        app:boxStrokeWidth="0dp"
+        app:boxCornerRadiusBottomEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusTopStart="25dp"
+        android:layout_alignEnd="@+id/find_passwd"
+        android:layout_alignStart="@+id/checkBox"
+        android:layout_above="@+id/checkBox">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/user_passwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="비밀번호 입력해주세요."
-            android:inputType="textPassword" />
+            android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:layout_marginEnd="32dp"
-        android:text="회원가입"
-        android:textSize="16dp"
-        android:backgroundTint="@color/logocolor"
-        android:fontFamily="@font/myungbold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/btn_login"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="84dp"
-        android:text="로그인"
-        android:textSize="16dp"
-        android:backgroundTint="#212121"
-        android:textColor="@color/white"
-        android:fontFamily="@font/myungbold"
-
-        app:layout_constraintEnd_toStartOf="@+id/btn_register"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
+    <TextView
+        android:id="@+id/find_passwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignBaseline="@+id/checkBox"
+        android:layout_alignEnd="@+id/btnLogin"
+        android:text="비밀번호 찾기"
+        android:textColor="@color/white" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnLogin"
+        android:layout_alignStart="@+id/btnLogin"
+        android:layout_marginBottom="10dp"
+        android:buttonTint="#FFFFFF"
+        android:checked="true"
+        android:text="자동로그인 "
+        android:textColor="@color/white" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_round"
+        android:fontFamily="@font/myungbold"
+        android:text="로그인"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginBottom="30dp"
+        android:layout_above="@+id/textview1"
+        android:textColor="@color/white"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/textview1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginBottom="50dp"
+        android:text="아직 계정이 없으신가요?"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/btnRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textview1"
+        android:layout_alignTop="@+id/textview1"
+        android:layout_alignBottom="@+id/textview1"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/textview1"
+        android:text="회원가입"
+        android:textColor="@color/red" />
+
+
+
+
+</RelativeLayout>

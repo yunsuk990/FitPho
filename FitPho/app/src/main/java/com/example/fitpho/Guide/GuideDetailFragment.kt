@@ -26,6 +26,4 @@ class GuideDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 //        binding.title.text = arguments?.getString("Title")
     }
-
-
 }

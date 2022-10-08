@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.fitpho.databinding.FragmentHomeBinding
@@ -31,11 +32,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        var mytoolbar  = binding.toolbar
+        (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
 
         binding.btnCamera.setOnClickListener{
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)

@@ -34,7 +34,7 @@ class SplashFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO){
             delay(2000)
             withContext(Dispatchers.Main){
-                findNavController().navigate(R.id.action_global_loginFragment)
+                findNavController().navigate(R.id.action_splashFragment_to_welcomeFragment)
             }
         }
     }
