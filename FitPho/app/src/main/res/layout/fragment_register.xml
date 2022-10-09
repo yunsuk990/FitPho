@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/darklogocolor"
+    tools:context=".Register.RegisterFragment">
+
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar2"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="약관동의 및 회원가입"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_above="@+id/linear"
+        android:layout_marginBottom="8dp"
+        android:textSize="20sp"
+        android:layout_alignStart="@+id/linear"
+        />
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/checkbox1"
+        android:layout_alignStart="@+id/checkbox1"
+        android:layout_alignEnd="@+id/textInputLayout3"
+        android:layout_marginBottom="20dp"
+        android:background="@color/white"
+        android:orientation="vertical" />
+    <CheckBox
+        android:id="@+id/checkbox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/checkbox2"
+        android:layout_alignStart="@+id/checkbox2"
+        android:buttonTint="#FFFFFF"
+        android:text="[필수] 서비스 이용 약관"
+        android:textColor="@color/white" />
+
+    <CheckBox
+        android:id="@+id/checkbox2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textInputLayout1"
+        android:layout_alignStart="@+id/textInputLayout1"
+        android:layout_marginBottom="15dp"
+        android:buttonTint="#FFFFFF"
+        android:text="[필수] 개인정보 수집 및 이용 동의"
+        android:textColor="@color/white" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textInputLayout2"
+        android:layout_alignStart="@+id/textInputLayout2"
+        android:hint="이메일"
+        app:endIconDrawable="@drawable/check"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeErrorColor="@color/darklogocolor"
+        app:boxCornerRadiusBottomEnd="25dp"
+        android:layout_toLeftOf="@+id/auth_btn"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusTopStart="25dp"
+        app:boxStrokeColor="@color/darklogocolor"
+        app:boxStrokeWidth="0dp"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/error"
+        app:startIconDrawable="@drawable/email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_userid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textInputLayout3"
+        android:layout_alignStart="@+id/textInputLayout3"
+        android:layout_alignEnd="@+id/textInputLayout3"
+        android:hint="비밀번호"
+        app:startIconDrawable="@drawable/password"
+        app:counterEnabled="true"
+        app:counterTextColor="@color/white"
+        app:counterMaxLength="14"
+        app:passwordToggleEnabled="true"
+        app:boxBackgroundColor="@color/white"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeErrorColor="@color/darklogocolor"
+        app:boxStrokeColor="@color/darklogocolor"
+        app:boxCornerRadiusBottomEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusTopStart="25dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:maxLength="15"
+            android:textColor="@color/black" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout3"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_register"
+        app:startIconDrawable="@drawable/password"
+        android:layout_alignStart="@+id/btn_register"
+        android:layout_alignEnd="@+id/btn_register"
+        android:hint="비밀번호 확인"
+        app:boxStrokeWidth="0dp"
+        app:counterEnabled="true"
+        android:layout_marginBottom="10dp"
+        app:boxStrokeErrorColor="@color/darklogocolor"
+        app:counterTextColor="@color/white"
+        app:counterMaxLength="14"
+        app:passwordToggleEnabled="true"
+        app:boxStrokeColor="@color/darklogocolor"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusTopStart="25dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/register_checkpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:maxLength="15"
+            android:inputType="textPassword"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="100dp"
+        android:background="@drawable/button_round"
+        android:backgroundTint="@color/lightlogocolor"
+        android:fontFamily="@font/myungbold"
+        android:text="가입하기"
+        android:textColor="@color/white"
+        android:textSize="16dp" />
+
+    <Button
+        android:id="@+id/auth_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/textInputLayout1"
+        android:layout_alignTop="@id/textInputLayout1"
+        android:layout_alignEnd="@+id/textInputLayout2"
+        android:background="@drawable/button_round"
+        android:text="인증하기" />
+
+
+</RelativeLayout>

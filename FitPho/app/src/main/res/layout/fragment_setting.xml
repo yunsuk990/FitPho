@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:divider="#FFFFFF"
+    android:dividerPadding="22dp"
+    android:showDividers="middle"
+    tools:context=".Setting.SettingFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            app:title=" "
+            android:id="@+id/toolbar"
+            app:titleTextColor="@color/white"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/barcolor">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="설정"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:layout_height="wrap_content"/>
+        </androidx.appcompat.widget.Toolbar>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="라이센스"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:fontFamily="@font/myungbold"/>
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="로그아웃"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:fontFamily="@font/myungbold"/>
+        <TextView
+            android:id="@+id/correction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원정보 수정"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:fontFamily="@font/myungbold"/>
+
+        <TextView
+            android:id="@+id/withdraw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="회원탈퇴"
+            android:textSize="30dp"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:fontFamily="@font/myungbold"/>
+</LinearLayout>
