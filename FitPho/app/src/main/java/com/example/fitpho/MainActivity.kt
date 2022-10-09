@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         var menu_nav: BottomNavigationView = findViewById(R.id.menu_nav)
         var actionBar: ActionBar? = supportActionBar
         var list: ArrayList<Int> = arrayListOf(R.id.splashFragment, R.id.loginFragment, R.id.registerFragment, R.id.welcomeFragment, R.id.findPasswordFragment , R.id.newPasswordFragment
-            ,R.id.emailAuthorization, R.id.startFragment)
+            ,R.id.emailAuthorization, R.id.startFragment, R.id.findPasswordAuthFragment, R.id.guideDetailFragment)
 
         var hostFragment = supportFragmentManager.findFragmentById(R.id.nav_controller) as NavHostFragment
         navController = hostFragment.navController

@@ -5,9 +5,11 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.media.ThumbnailUtils
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.fitpho.databinding.FragmentHomeBinding
+import com.example.fitpho.ml.Model
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 class HomeFragment : Fragment() {
 
@@ -25,6 +32,8 @@ class HomeFragment : Fragment() {
     private lateinit var resultLauncher : ActivityResultLauncher<Intent>
     lateinit var filePath: String
     val REQUEST_IMAGE_CAPTURE = 1
+
+    var imageSize = 224
 
 
     override fun onCreateView(
@@ -39,8 +48,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
 
 
         binding.btnCamera.setOnClickListener{
@@ -78,11 +85,58 @@ class HomeFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-
-            binding.galleryResult.setImageBitmap(imageBitmap)
+            var image: Bitmap = data?.extras?.get("data") as Bitmap
+            var dimension: Int = Math.min(image.width, image.height)
+            image = ThumbnailUtils.extractThumbnail(image, dimension, dimension)
+            binding.galleryResult.setImageBitmap(image)
+            image = Bitmap.createScaledBitmap(image , imageSize, imageSize, false)
+            classifyImage(image)
         }
+    }
+
+    private fun classifyImage(image: Bitmap?) {
+
+        val model = Model.newInstance(requireContext())
+// Creates inputs for reference.
+        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
+
+        var byteBuffer = ByteBuffer.allocateDirect(4*imageSize*imageSize*3)
+        byteBuffer.order(ByteOrder.nativeOrder())
+
+        var intValues: Array<Int> = Array(imageSize*imageSize)
+        image?.getPixels(intValues, 0, image.width, 0,0,image.width, image.height)
+        var pixel = 0
+        for(i in 0 until imageSize){
+            for(j in 0 until imageSize){
+                val i: Int? = intValues[pixel++] //RGB
+                byteBuffer.putFloat(((( i>>16)&0xFF)*(1.f/255.f)))
+                byteBuffer.putFloat((( i>>8)&0xFF)*(1.f/255.f))
+                byteBuffer.putFloat(( i>>0xFF)*(1.f/255.f))
+            }
+        }
+        inputFeature0.loadBuffer(byteBuffer)
+
+// Runs model inference and gets result.
+        val outputs = model.process(inputFeature0)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+        var confidences: IntArray? = outputFeature0.intArray
+        var maxconfidences = 0
+        var maxPos = 0
+        for(i in 0 until confidences?.size!!){
+            if(confidences[i] > maxconfidences){
+                maxconfidences = confidences[i]
+                maxPos = i
+            }
+        }
+
+        var classes: Array<Int> = arrayOf(0,1,2,3,4,9,10,11,12,18,19,20,23,24,25,26,27,28,29,30,31,39,43,44)
+        Log.d("Result", classes[maxPos].toString())
+
+
+// Releases model resources if no longer used.
+        model.close()
+
     }
 }

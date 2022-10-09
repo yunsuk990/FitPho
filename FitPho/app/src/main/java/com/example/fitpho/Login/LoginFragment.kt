@@ -51,7 +51,7 @@ class LoginFragment : Fragment() {
         //로그인 버튼 클릭
         binding.btnLogin.setOnClickListener{
             //Test
-            //findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
             id = binding.userId.text.toString()
             pw = binding.userPasswd.text.toString()

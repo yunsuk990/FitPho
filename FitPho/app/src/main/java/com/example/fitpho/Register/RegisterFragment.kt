@@ -163,49 +163,52 @@ class RegisterFragment : Fragment() {
     //중복 이메일 확인
     private fun emailConfirm():Boolean {
         var useremail = binding.registerUserid.text.toString()
-        authService().emailConfirm(useremail).enqueue(object : Callback<EmailResponse> {
-            override fun onResponse(
-                call: Call<EmailResponse>,
-                response: Response<EmailResponse>
-            ) {
-                var post: EmailResponse? = response.body()
-                authNumber = post?.printAuthNumber()
-                when (response.code()) {
-                    in 200..299 -> {
-                        Log.d("EmailConfirm", "EmailConfirm/SUCCESS")
-                        Log.d("auth", authNumber.toString())
-                        //데이터 전달
-                        var bundle: Bundle = Bundle()
-                        bundle.putString("authNumber", authNumber)
-                        var emailauth: EmailAuthorization = EmailAuthorization()
-                        emailauth.arguments = bundle
-                        emailauth.show(parentFragmentManager, "dialog")
-                        code = true
-                        Log.d("code1", code.toString())
+        if (useremail.isEmpty()) {
+            textLayout.error = "이메일 입력해주세요"
+        } else {
+            authService().emailConfirm(useremail).enqueue(object : Callback<EmailResponse> {
+                override fun onResponse(
+                    call: Call<EmailResponse>,
+                    response: Response<EmailResponse>
+                ) {
+                    var post: EmailResponse? = response.body()
+                    authNumber = post?.printAuthNumber()
+                    when (response.code()) {
+                        in 200..299 -> {
+                            Log.d("EmailConfirm", "EmailConfirm/SUCCESS")
+                            Log.d("auth", authNumber.toString())
+                            //데이터 전달
+                            var bundle: Bundle = Bundle()
+                            bundle.putString("authNumber", authNumber)
+                            var emailauth: EmailAuthorization = EmailAuthorization()
+                            emailauth.arguments = bundle
+                            emailauth.show(parentFragmentManager, "dialog")
+                            code = true
+                            Log.d("code1", code.toString())
 
-                    }
-                    400 -> {
-                        code = false
-                        textLayout.error = "이미 가입된 이메일입니다."
-                        Log.d("EmailConfirm", "EmailConfirm/FAIL1")
-                    }
-                    else -> {
-                        code = false
-                        Log.d("EmailConfirm", "EmailConfirm/FAIL2")
-                        textLayout.error = "통신 오류입니다."
+                        }
+                        400 -> {
+                            code = false
+                            textLayout.error = "이미 가입된 이메일입니다."
+                            Log.d("EmailConfirm", "EmailConfirm/FAIL1")
+                        }
+                        else -> {
+                            code = false
+                            Log.d("EmailConfirm", "EmailConfirm/FAIL2")
+                            textLayout.error = "통신 오류입니다."
+                        }
                     }
                 }
-            }
-            //통신 실패 시
-            override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
-                Log.d("Comfirm", "FAILURE")
-                textLayout.error = "통신 오류입니다."
-                code = false
-            }
-        })
+
+                //통신 실패 시
+                override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
+                    Log.d("Comfirm", "FAILURE")
+                    textLayout.error = "통신 오류입니다."
+                    code = false
+                }
+            })
+        }
         Log.d("code", code.toString())
         return code
     }
-
-
 }
