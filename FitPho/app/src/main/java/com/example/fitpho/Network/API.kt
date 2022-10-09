@@ -39,8 +39,8 @@ interface API {
         @Header("Authorization") token: String
     ): Call<WithdrawResponse>
 
-    //회원정보수정
-    @POST("/auth/edit")
+    //비밀번호 변경
+    @PATCH("/auth/edit")
     fun correction(
         @Body correction: Correction,
         @Header("Authorization") token: String
@@ -56,14 +56,21 @@ interface API {
         @Path("part") part: String
     ): Call<GuideDataResponse>
 
+    //각 운동 기구 별 세부 내용 조회
+    @GET("library/detail/{id}")
+    fun guideDetailData(
+        @Path("id") id: Int
+    ): Call<GuideDetailResponse>
+
     //토큰 재발급
     @POST("auth/token")
     fun getReToken(): Call<GetTokenResponse>
 
 
-    @POST("auth/resetPW")
+    //비밀번호 재설정
+    @PATCH("auth/resetPW")
     fun findPasswd(
-        @Body email: String
+        @Body resetPW: FindPasswd
     ): Call<FindPasswdResponse>
 
     //비밀번호 전 인증번호 발급
