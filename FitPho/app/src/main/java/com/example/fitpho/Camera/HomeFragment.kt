@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.NetworkModel.data
+import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentHomeBinding
 import com.example.fitpho.ml.Model
 import org.tensorflow.lite.DataType
@@ -153,7 +154,7 @@ class HomeFragment : Fragment() {
         id = classes[maxPos].toString()
 
         //Test
-        findNavController().navigate(R.id.)
+        findNavController().navigate(R.id.guideDetailFragment, Bun)
 
         //예측치가 일정수치를 넘을 시 제약사항
 //        if(confidences[maxPos].toInt() > 50){
