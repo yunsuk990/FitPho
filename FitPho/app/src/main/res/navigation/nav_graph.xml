@@ -152,4 +152,9 @@
             android:name="email"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/aiMovementFragment"
+        android:name="com.example.fitpho.aiMovementFragment"
+        android:label="fragment_ai_movement"
+        tools:layout="@layout/fragment_ai_movement" />
 </navigation>
