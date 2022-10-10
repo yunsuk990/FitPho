@@ -21,12 +21,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.example.fitpho.Network.API
+import com.example.fitpho.NetworkModel.GuideDetailResponse
 import com.example.fitpho.NetworkModel.data
+import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentHomeBinding
 import com.example.fitpho.ml.Model
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import retrofit2.Call
+import retrofit2.Response
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -154,7 +160,10 @@ class HomeFragment : Fragment() {
         id = classes[maxPos].toString()
 
         //Test
-        findNavController().navigate(R.id.guideDetailFragment, Bun)
+        findNavController().navigate(R.id.guideDetailFragment,
+            Bundle().apply {
+
+            })
 
         //예측치가 일정수치를 넘을 시 제약사항
 //        if(confidences[maxPos].toInt() > 50){
@@ -173,5 +182,36 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    fun getGuideDetail(id: Int){
+        authService().guideDetailData(id!!).enqueue(object :retrofit2.Callback<GuideDetailResponse>{
+            override fun onResponse(
+                call: Call<GuideDetailResponse>,
+                response: Response<GuideDetailResponse>,
+            ) {
+                when(response.code()){
+                    200 -> {
+                        var res = response.body()
+                        Glide.with(requireContext()).load(img).into(binding.image)
+                        Glide.with(requireContext()).load(res?.getData()!![0].getStimulate1()).into(binding.stimulate1)
+                        Glide.with(requireContext()).load(res?.getData()!![0].getStimulate2()).into(binding.stimulate2)
+                        binding.text.text = res?.getData()!![0].getText()
+                        Glide.with(requireContext()).load(res?.getData()!![0].getAnimation()).into(binding.animation)
+                    }
+                    else -> {
+                        Log.d("GuideDetail", "FAIL1")
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GuideDetailResponse>, t: Throwable) {
+                Log.d("GuideDetail", t.message.toString())
+            }
+        })
+    }
+
+    private fun authService(): API {
+        return getRetrofit().create(API::class.java)
     }
 }

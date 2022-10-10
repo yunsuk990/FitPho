@@ -66,6 +66,7 @@ class GuideDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //각 운동기구별 세부내용 조회
+
         authService().guideDetailData(id!!).enqueue(object :retrofit2.Callback<GuideDetailResponse>{
             override fun onResponse(
                 call: Call<GuideDetailResponse>,
@@ -74,8 +75,6 @@ class GuideDetailFragment : Fragment() {
                 when(response.code()){
                     200 -> {
                         var res = response.body()
-                        res?.getData()!![0].getStimulate1()
-                        Log.d("GuideDetail", response.body()!!.getMessage())
                         Glide.with(requireContext()).load(img).into(binding.image)
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate1()).into(binding.stimulate1)
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate2()).into(binding.stimulate2)

@@ -35,7 +35,7 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
         val img1 = currentItem.getImg1()
         holder.binding.textView.text = title
         Glide.with(context).load(currentItem.getImg1()).into(holder.binding.imageView)
-        holder.binding.view.setOnClickListener(object : View.OnClickListener{
+        holder.binding.click.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 Navigation.findNavController(v!!).navigate(R.id.guideDetailFragment,
                     Bundle().apply {
