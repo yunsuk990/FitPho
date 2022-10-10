@@ -60,6 +60,12 @@
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/layout/item.xml" value="0.2" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/menu/menu_bottom.xml" value="0.24375" />
         <entry key="..\:/Users/android/GachonProject/GachonProject/FitPho/app/src/main/res/xml/file_path.xml" value="0.24375" />
+        <entry key="app/src/main/res/drawable/border_layout.xml" value="0.222" />
+        <entry key="app/src/main/res/layout/calender_day.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/correction_dialog.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/fragment_calender.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/fragment_email_authorization.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.22056159420289856" />
       </map>
     </option>
   </component>

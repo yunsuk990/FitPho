@@ -24,7 +24,7 @@
             android:text="운동촬영"
             android:layout_gravity="center"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="23sp"
             android:layout_height="wrap_content"/>
     </androidx.appcompat.widget.Toolbar>
 
@@ -38,11 +38,13 @@
             android:id="@+id/btn_camera"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/img_logo"
+            android:src="@drawable/logo"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/button_white_round"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
         <ImageView
@@ -73,7 +75,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="52dp"
-            android:fontFamily="@font/myungbold"
             android:text="■ 사진 촬영 좋은 예시"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -87,7 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:fontFamily="@font/myungbold"
             android:text="■ 사진 촬영 안 좋은 예시"
             android:textColor="@color/white"
             android:textSize="18sp"
@@ -154,15 +154,6 @@
             android:text="@string/excerciseExp2"
             android:textColor="@color/white"
             android:textSize="17sp" />
-
-        <Button
-            android:id="@+id/gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="갤러리"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btn_camera"
-            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

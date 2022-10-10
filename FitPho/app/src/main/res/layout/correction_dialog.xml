@@ -5,13 +5,12 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="FITPHO"
+        android:text="비밀번호 재설정"
         android:padding="5dp"
-        android:fontFamily="@font/myungbold"
-        android:textSize="45dp"
+        android:textSize="30dp"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:textAlignment="center"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="@color/darklogocolor" />

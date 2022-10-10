@@ -8,6 +8,7 @@
     android:divider="#FFFFFF"
     android:dividerPadding="22dp"
     android:showDividers="middle"
+    android:background="@color/darklogocolor"
     tools:context=".Setting.SettingFragment">
 
         <androidx.appcompat.widget.Toolbar
@@ -23,45 +24,51 @@
                     android:text="설정"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textSize="23sp"
                     android:layout_height="wrap_content"/>
         </androidx.appcompat.widget.Toolbar>
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="라이센스"
-            android:textSize="30dp"
+            android:layout_height="60dp"
+            android:text="개인정보 처리 방침 및 이용약관"
+            android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textAlignment="center"
+            android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="오픈소스 라이선스"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/correction"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="비밀번호 재설정"
+            android:textSize="25dp"
+            android:textColor="@color/white"
+            android:gravity="center_vertical"
             android:fontFamily="@font/myungbold"/>
 
         <TextView
             android:id="@+id/logout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:text="로그아웃"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textColor="@color/white"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
-        <TextView
-            android:id="@+id/correction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="회원정보 수정"
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
+            android:gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/withdraw"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="회원탈퇴"
-            android:textSize="30dp"
+            android:layout_height="60dp"
+            android:text="계정탈퇴"
+            android:textSize="25dp"
             android:textColor="@color/white"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
+            android:gravity="center_vertical" />
 </LinearLayout>
