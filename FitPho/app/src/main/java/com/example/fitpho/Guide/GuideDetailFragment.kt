@@ -23,7 +23,6 @@ class GuideDetailFragment : Fragment() {
 
     private var _binding: FragmentGuideDetailBinding? = null
     private val binding get() = _binding!!
-    var result: String = ""
     var id: Int? = 0
     var title: String? =""
     var img: String? = ""
@@ -42,7 +41,7 @@ class GuideDetailFragment : Fragment() {
         var mytoolbar  = binding.toolbar
         (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
         //뒤로가기 버튼
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //(activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.title.text = title
 
@@ -52,15 +51,6 @@ class GuideDetailFragment : Fragment() {
         return binding.root
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            android.R.id.home -> {
-                findNavController().navigate(R.id.guideFragment)
-                return true
-            }
-        }
-        return true
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
