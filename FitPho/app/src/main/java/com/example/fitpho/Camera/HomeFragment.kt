@@ -143,7 +143,9 @@ class HomeFragment : Fragment() {
             }
         }
 
-        val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
+        val classes: Array<Int> = arrayOf(1,2,3,4)
+        //val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
+
         var s: String? = ""
         Log.d("classSize", classes.size.toString())
 
@@ -154,22 +156,22 @@ class HomeFragment : Fragment() {
 
         //결과값 출력
         Log.d("Result", s!!)
-        Log.d("매칭운동", classes[maxPos].toString())
+       // Log.d("매칭운동", classes[maxPos].toString())
 
         //매칭된 운동 아이디
-        id = classes[maxPos]
-        Log.d("매칭운동", id.toString())
+        //id = classes[maxPos]
+        //Log.d("매칭운동", id.toString())
 
 
 
 
         //Test
-        findNavController().navigate(R.id.detailFragment,
-            Bundle().apply {
-                putInt("id", id!!)
-            })
+//        findNavController().navigate(R.id.detailFragment,
+//            Bundle().apply {
+//                putInt("id", id!!)
+//            })
 
-        //예측치가 일정수치를 넘을 시 제약사항
+//        예측치가 일정수치를 넘을 시 제약사항
 //        if(confidences[maxPos].toInt() > 50){
 //
 //        }else{
