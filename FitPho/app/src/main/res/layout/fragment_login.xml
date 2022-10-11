@@ -59,7 +59,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:boxBackgroundColor="@color/white"
-        android:layout_marginBottom="20dp"
         app:passwordToggleEnabled="true"
         android:hint="비밀번호"
         app:startIconDrawable="@drawable/password"

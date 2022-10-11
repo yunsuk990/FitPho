@@ -10,7 +10,7 @@
     <item
         android:id="@+id/aiMovementFragment"
         android:title="동작인식"
-        android:icon="@drawable/password"/>
+        android:icon="@drawable/photo_exercise"/>
     <item
         android:id="@+id/guideFragment"
         android:title="라이브러리"
