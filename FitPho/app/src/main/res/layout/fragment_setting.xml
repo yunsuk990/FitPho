@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,6 +15,9 @@
             app:title=" "
             android:id="@+id/toolbar"
             app:titleTextColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -29,37 +32,46 @@
         </androidx.appcompat.widget.Toolbar>
 
         <TextView
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:id="@+id/text1"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="개인정보 처리 방침 및 이용약관"
             android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp" />
 
         <TextView
+            app:layout_constraintTop_toBottomOf="@+id/text1"
+            android:id="@+id/opensource"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
             android:text="오픈소스 라이선스"
             android:gravity="center_vertical"
             android:textColor="@color/white"
-            android:textSize="25dp" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/correction"
+            app:layout_constraintTop_toBottomOf="@+id/opensource"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="비밀번호 재설정"
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:textColor="@color/white"
-            android:gravity="center_vertical"
-            android:fontFamily="@font/myungbold"/>
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical" />
 
         <TextView
             android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="로그아웃"
-            android:textSize="25dp"
+            android:textSize="20dp"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/correction"
             android:textColor="@color/white"
             android:gravity="center_vertical"/>
 
@@ -68,7 +80,21 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="계정탈퇴"
-            android:textSize="25dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/logout"
             android:textColor="@color/white"
             android:gravity="center_vertical" />
-</LinearLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/menu_nav"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/barcolor"
+            app:itemTextColor="@color/white"
+            app:itemIconTint="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:menu="@menu/menu_bottom" />
+</androidx.constraintlayout.widget.ConstraintLayout>
