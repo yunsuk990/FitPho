@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
         <TextView
             android:layout_width="wrap_content"
-            android:text="운동촬영"
+            android:text="기구촬영"
             android:layout_gravity="center"
             android:textColor="@color/white"
             android:textSize="23sp"
@@ -54,16 +54,20 @@
             app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@id/textView4" />
 
-        <ImageView
+        <Button
             android:id="@+id/btn_camera"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="142dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="133dp"
             android:layout_marginTop="50dp"
-
+            android:layout_marginEnd="133dp"
+            android:backgroundTint="@color/white"
+            android:drawableLeft="@drawable/photo_exercise"
+            android:text="기구 촬영"
             android:background="@drawable/button_white_round"
-            android:src="@drawable/logo"
+            android:paddingRight="30dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.333"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
