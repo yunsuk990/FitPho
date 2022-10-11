@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/homeFragment"
         android:title="촬영"
         android:icon="@drawable/camera_white"
         />
+    <item
+        android:id="@+id/aiMovementFragment"
+        android:title="동작인식"
+        android:icon="@drawable/password"/>
     <item
         android:id="@+id/guideFragment"
         android:title="라이브러리"

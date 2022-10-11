@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    var id: String? = ""
+    var id: Int? = 0
     var imageSize: Int = 224
 
 
@@ -157,12 +157,16 @@ class HomeFragment : Fragment() {
         Log.d("매칭운동", classes[maxPos].toString())
 
         //매칭된 운동 아이디
-        id = classes[maxPos].toString()
+        id = classes[maxPos]
+        Log.d("매칭운동", id.toString())
+
+
+
 
         //Test
-        findNavController().navigate(R.id.guideDetailFragment,
+        findNavController().navigate(R.id.detailFragment,
             Bundle().apply {
-
+                putInt("id", id!!)
             })
 
         //예측치가 일정수치를 넘을 시 제약사항
@@ -182,33 +186,6 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-
-    fun getGuideDetail(id: Int){
-        authService().guideDetailData(id!!).enqueue(object :retrofit2.Callback<GuideDetailResponse>{
-            override fun onResponse(
-                call: Call<GuideDetailResponse>,
-                response: Response<GuideDetailResponse>,
-            ) {
-                when(response.code()){
-                    200 -> {
-                        var res = response.body()
-                        Glide.with(requireContext()).load(img).into(binding.image)
-                        Glide.with(requireContext()).load(res?.getData()!![0].getStimulate1()).into(binding.stimulate1)
-                        Glide.with(requireContext()).load(res?.getData()!![0].getStimulate2()).into(binding.stimulate2)
-                        binding.text.text = res?.getData()!![0].getText()
-                        Glide.with(requireContext()).load(res?.getData()!![0].getAnimation()).into(binding.animation)
-                    }
-                    else -> {
-                        Log.d("GuideDetail", "FAIL1")
-                    }
-                }
-            }
-            override fun onFailure(call: Call<GuideDetailResponse>, t: Throwable) {
-                Log.d("GuideDetail", t.message.toString())
-            }
-        })
     }
 
     private fun authService(): API {
