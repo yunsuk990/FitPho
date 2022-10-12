@@ -54,6 +54,11 @@ class GuideFragment : Fragment() {
         binding.exList.adapter = guideAdapter
 
 
+
+        binding.bookmark.setOnFocusChangeListener { v, hasFocus ->
+            
+        }
+
         binding.chest.setOnFocusChangeListener { v, hasFocus ->
             getGuide("chest")
         }
@@ -95,9 +100,18 @@ class GuideFragment : Fragment() {
             }
             override fun onFailure(call: Call<GuideDataResponse>, t: Throwable) {
                 Log.d("Guide", "GuideFailure")
+<<<<<<< Updated upstream
 
+=======
+                Log.d("error", t.message.toString())
+>>>>>>> Stashed changes
             }
         })
+    }
+    
+    private fun getBookmark(){
+
+
     }
 
 

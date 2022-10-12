@@ -47,34 +47,34 @@ interface API {
     ): Call<CorrectionResponse>
 
     //가이드 전체 조회
-    @GET("auth/library")
+    @GET("/auth/library")
     fun guideAllData(): Call<GuideDataResponse>
 
     //가이드 부위 조회
-    @GET("library/{part}")
+    @GET("/library/{part}")
     fun guideData(
         @Path("part") part: String
     ): Call<GuideDataResponse>
 
     //각 운동 기구 별 세부 내용 조회
-    @GET("library/detail/{id}")
+    @GET("/library/detail/{id}")
     fun guideDetailData(
         @Path("id") id: Int
     ): Call<GuideDetailResponse>
 
     //토큰 재발급
-    @POST("auth/token")
+    @POST("/auth/token")
     fun getReToken(): Call<GetTokenResponse>
 
 
     //비밀번호 재설정
-    @PATCH("auth/resetPW")
+    @PATCH("/auth/resetPW")
     fun findPasswd(
         @Body resetPW: FindPasswd
     ): Call<FindPasswdResponse>
 
     //비밀번호 전 인증번호 발급
-    @GET("auth/certify/{email}")
+    @GET("/auth/certify/{email}")
     fun certifyPasswd(
         @Path("email") email: String
     ): Call<GetCertifyResponse>
