@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:title="촬영"
+        android:title="기구촬영"
         android:icon="@drawable/camera_white"
         />
     <item
