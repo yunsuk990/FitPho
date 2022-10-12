@@ -67,6 +67,7 @@
         <entry key="app/src/main/res/drawable/button_click_textcolor.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/button_round.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/button_white_round.xml" value="0.222" />
+        <entry key="app/src/main/res/drawable/calendarshape.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/calender.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/calender_white.xml" value="0.222" />
         <entry key="app/src/main/res/drawable/camera.xml" value="0.222" />
@@ -90,15 +91,15 @@
         <entry key="app/src/main/res/layout/calender_header.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/correction_dialog.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/exlist_item.xml" value="0.22306518554687504" />
-        <entry key="app/src/main/res/layout/fragment_ai_movement.xml" value="0.22056159420289856" />
+        <entry key="app/src/main/res/layout/fragment_ai_movement.xml" value="0.3828996282527881" />
         <entry key="app/src/main/res/layout/fragment_calender.xml" value="0.38458404541015634" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/fragment_email_authorization.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/fragment_find_password.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/fragment_find_password_auth.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/fragment_guide.xml" value="0.4190906469372736" />
-        <entry key="app/src/main/res/layout/fragment_guide_detail.xml" value="0.22056159420289856" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.3565872192382813" />
+        <entry key="app/src/main/res/layout/fragment_guide_detail.xml" value="0.3235810361428949" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.40927152317880794" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.40591468258180485" />
         <entry key="app/src/main/res/layout/fragment_new_password.xml" value="0.22056159420289856" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.22056159420289856" />
