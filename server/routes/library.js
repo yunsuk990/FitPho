@@ -12,19 +12,6 @@ const lookUp = (startID, endID) => {
 	})
 }
 
-// 전체 라이브러리 조회
-router.get('/', function(req, res) {
-	var sql = 'select * from library';
-	db.query(sql, function(err, data, fields) {
-		if (err) throw err;
-		return res.status(200).json({
-			success: "true",
-			message: "전체 라이브러리 조회에 성공했습니다.",
-			data: data
-		});
-	})
-})
-
 // 가슴 부위 라이브러리 조회
 router.get('/chest', async function(req, res) {
 	var data = await lookUp(1, 8);

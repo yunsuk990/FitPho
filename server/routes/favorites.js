@@ -6,7 +6,7 @@ const db = require('../config/db');
 router.get('/', function(req, res) {
 	const email = req.email;
 
-	var sql = 'select GROUP_CONCAT(equipmentID) as favoritesList from favorites where email=?';
+	var sql = 'select GROUP_CONCAT(id) as favoritesList from favorites where email=?';
 	db.query(sql, [email], function(err, data, fields) {
 		if (err) throw err;
 		return res.status(200).json({
@@ -22,7 +22,7 @@ router.post('/:equipmentID', function(req, res) {
 	const email = req.email;
 	const equipmentID = req.params.equipmentID;
 
-	var sql = 'select * from favorites where email=? and equipmentID=?'
+	var sql = 'select * from favorites where email=? and id=?'
 	db.query(sql, [email, equipmentID], function(err, data, fields) {
 		if (err) throw err;
 		if (data.length > 0) {
@@ -47,7 +47,7 @@ router.post('/:equipmentID', function(req, res) {
 router.delete('/:equipmentID', function(req, res) {
 	const equipmentID = req.params.equipmentID;
 
-	var sql = 'delete from favorites where equipmentID=?';
+	var sql = 'delete from favorites where id=?';
 	db.query(sql, [equipmentID], function(err, data, fields) {
 		if (err) throw err;
 		if (data.affectedRows == 0) {
