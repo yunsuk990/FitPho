@@ -29,7 +29,7 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +45,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:weightSum="4">
@@ -53,7 +53,7 @@
                 <ImageView
                     android:id="@+id/image"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginRight="2.5dp"
                     android:layout_weight="2" />
 
@@ -76,6 +76,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -94,6 +95,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
+                    android:textSize="18sp"
                     android:layout_marginRight="20dp"
                     android:text="Label" />
 
@@ -102,6 +104,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -137,7 +140,7 @@
 
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 

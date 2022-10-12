@@ -95,6 +95,7 @@ class GuideFragment : Fragment() {
             }
             override fun onFailure(call: Call<GuideDataResponse>, t: Throwable) {
                 Log.d("Guide", "GuideFailure")
+
             }
         })
     }
