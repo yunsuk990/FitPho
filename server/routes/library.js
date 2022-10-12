@@ -98,10 +98,12 @@ router.get('/detail/:equipmentID', function(req, res) {
 	var sql = 'select * from libraryDetail where id=?';
 	db.query(sql, [equipmentID], function(err, data, fields) {
 		if (err) throw err;
+		console.log(data[0].text.split("\\n")[0]);
 		return res.status(200).json({
 			success: "true",
 			message: "운동기구 세부내용 조회에 성공했습니다.",
-			data: data
+			data: data,
+			text: data[0].text.split("\\n")
 		});
 	})
 })

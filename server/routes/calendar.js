@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
 
 // 단일 일정 조회
 router.get('/:scheduleID', function(req, res) {
-    let {scheduleID} = req.params;
+    const scheduleID = req.params.scheduleID;
     
     var sql='select * from calendar where scheduleID=?';
     db.query(sql, [scheduleID], function (err, data, fields) {
@@ -35,7 +35,7 @@ router.get('/:scheduleID', function(req, res) {
 // 일정 추가
 router.post('/:scheduleID', function(req, res) {
     const email = req.email;
-    let {scheduleID} = req.params;
+    const scheduleID = req.params.scheduleID;
 
     var data = {
         start: req.body.start,
@@ -57,9 +57,9 @@ router.post('/:scheduleID', function(req, res) {
 
 // 일정 수정
 router.patch('/:scheduleID', function(req, res) {
-    let {scheduleID} = req.params;
+    const scheduleID = req.params.scheduleID;
 
-    var data = {
+    const data = {
         start: req.body.start,
         end: req.body.end,
         part: req.body.part,
@@ -79,7 +79,7 @@ router.patch('/:scheduleID', function(req, res) {
 
 // 일정 삭제
 router.delete('/:scheduleID', function(req, res) {
-    let {scheduleID} = req.params;
+    const scheduleID = req.params.scheduleID;
 
     var sql='delete from calendar where scheduleID=?';
     db.query(sql, [scheduleID], function (err, data, fields) {

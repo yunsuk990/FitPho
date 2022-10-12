@@ -71,8 +71,8 @@ router.post('/login', function(req, res) {
 	db.query(sql, [email], async function(err, data, fields) {
 		if (err) throw err;
 		if (data.length !== 0) {
-			var email = data[0].email;
-			var hashedPassword = data[0].password;
+			const email = data[0].email;
+			const hashedPassword = data[0].password;
 			var verified = await bcrypt.compare(password, hashedPassword);
 
 			if (verified) {
@@ -153,7 +153,7 @@ router.patch('/edit', verifyToken, async function(req, res) {
 			token: ""
 		});
 	} else {
-		var salt = await bcrypt.genSalt(10);
+		const salt = await bcrypt.genSalt(10);
 		var hashedPassword = await bcrypt.hash(new_password, salt);
 
 		const accessToken = generateAccessToken(email, hashedPassword);
@@ -184,7 +184,7 @@ router.get('/certify/:email', function(req, res) {
 	db.query(sql, [email], async function(err, data, fields) {
 		if (err) throw err;
 		if (data.length > 0) {
-			const authNumber = await authEmail(email);
+			var authNumber = await authEmail(email);
 
 			return res.status(200).json({
 				success: "true",
