@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.85"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+
+        <TextView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="취소"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/calendar_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/calendar_title" />
+
+        <TextView
+            android:id="@+id/calendar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="운동 계획하기"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/darklogocolor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_save"
+            android:textColor="@color/darklogocolor"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:text="저장"
+            app:layout_constraintTop_toTopOf="@id/calendar_title"
+            app:layout_constraintBottom_toBottomOf="@id/calendar_title"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <EditText
+            android:id="@+id/schedule_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="제목"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="96dp"
+            android:background="@null"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:singleLine="true"/>
+
+        <Button
+            android:id="@+id/color_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="컬러선택"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/schedule_title"
+            />
+
+        <TextView
+            android:id="@+id/exercise_choose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="운동부위 선택"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/color_btn"
+            android:layout_marginTop="8dp"/>
+        <CheckBox
+            android:id="@+id/checkbox_chest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/exercise_choose"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox_back"
+            android:text="가슴"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="등"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/checkbox_chest"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox_leg"
+            app:layout_constraintTop_toBottomOf="@id/exercise_choose" />
+
+        <CheckBox
+            android:id="@+id/checkbox_leg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="하체"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@+id/checkbox_back"
+            app:layout_constraintTop_toBottomOf="@id/exercise_choose"
+            app:layout_constraintEnd_toStartOf="@+id/checkbox_shoulder"/>
+
+        <CheckBox
+            android:id="@+id/checkbox_shoulder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="어깨"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/checkbox_leg"
+            app:layout_constraintTop_toBottomOf="@id/exercise_choose" />
+
+        <CheckBox
+            android:id="@+id/checkbox_arm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="팔"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@id/checkbox_chest"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_chest" />
+
+        <CheckBox
+            android:id="@+id/checkbox_abs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="복근"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/checkbox_back"
+            app:layout_constraintStart_toEndOf="@+id/checkbox_chest"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_back" />
+
+        <CheckBox
+            android:id="@+id/checkbox_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기타"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="@+id/checkbox_leg"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_leg" />
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:background="#EEEEEE"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/checkbox_arm" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="하루 종일"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line1" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/sw_all_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/textView1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView1" />
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:background="#EEEEEE"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView1" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:text="시작"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:text="시작"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line2" />
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:background="#EEEEEE"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView3" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:text="종료"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/line3" />
+
+        <View
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:background="#EEEEEE"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textView4" />
+
+        <EditText
+            android:id="@+id/et_memo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@null"
+            android:hint="메모"
+            android:text="@={viewModel.memo}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@+id/line4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
