@@ -81,7 +81,11 @@
         android:id="@+id/calenderFragment"
         android:name="com.example.fitpho.Calendar.CalenderFragment"
         android:label="캘린더"
-        tools:layout="@layout/fragment_calender" />
+        tools:layout="@layout/fragment_calender" >
+        <action
+            android:id="@+id/action_calenderFragment_to_scheduleAdd"
+            app:destination="@id/scheduleAdd" />
+    </fragment>
     <action
         android:id="@+id/action_global_loginFragment"
         app:destination="@id/loginFragment"
@@ -157,4 +161,9 @@
         android:name="com.example.fitpho.aiMovementFragment"
         android:label="fragment_ai_movement"
         tools:layout="@layout/fragment_ai_movement" />
+    <fragment
+        android:id="@+id/scheduleAdd"
+        android:name="com.example.fitpho.ScheduleAdd"
+        android:label="fragment_schedule_add"
+        tools:layout="@layout/fragment_schedule_add" />
 </navigation>

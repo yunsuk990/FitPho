@@ -100,11 +100,8 @@ class GuideFragment : Fragment() {
             }
             override fun onFailure(call: Call<GuideDataResponse>, t: Throwable) {
                 Log.d("Guide", "GuideFailure")
-<<<<<<< Updated upstream
-
-=======
                 Log.d("error", t.message.toString())
->>>>>>> Stashed changes
+
             }
         })
     }
