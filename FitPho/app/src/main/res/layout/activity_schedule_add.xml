@@ -72,7 +72,7 @@
             android:id="@+id/color_btn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTint="@color/logocolor"
             android:text="일정 구분"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"

@@ -4,9 +4,6 @@
     android:shape="rectangle">
 
     <corners
-        android:bottomLeftRadius="12.5dp"
-        android:bottomRightRadius="12.5dp"
-        android:topLeftRadius="12.5dp"
-        android:topRightRadius="12.5dp" />
+        android:radius="12.5dp" />
 
 </shape>
