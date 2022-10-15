@@ -107,7 +107,7 @@ class HomeFragment : Fragment() {
 
     private fun classifyImage(image: Bitmap?) {
 
-        val model = Model.newInstance(requireContext())
+        val model = Model.newInstance(requireActivity().applicationContext)
 // Creates inputs for reference.
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
 

@@ -65,10 +65,16 @@ class GuideDetailFragment : Fragment() {
                 when(response.code()){
                     200 -> {
                         var res = response.body()
+                        var text = response.body()?.getText()?.size
                         Glide.with(requireContext()).load(img).into(binding.image)
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate1()).into(binding.stimulate1)
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate2()).into(binding.stimulate2)
-                        binding.text.text = res?.getData()!![0].getText()
+                        var s: String =""
+                        for(i in 0..((text?.toInt())?.minus(1)!!)){
+                            s+=  res.getText()[i]
+                            Log.d("text", res.getText()[i])
+                        }
+                        binding.text.text = s
                         Glide.with(requireContext()).load(res?.getData()!![0].getAnimation()).into(binding.animation)
                     }
                     else -> {
