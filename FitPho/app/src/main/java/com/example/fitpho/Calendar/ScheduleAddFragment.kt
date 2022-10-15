@@ -18,9 +18,9 @@ class ScheduleAdd : Fragment() {
 
 
     private var mFormatter: SimpleDateFormat = SimpleDateFormat("MMMM dd yyyy hh:mm aa");
-    private var listener = SlideDateTimeListener(){
-
-    }
+//    private var listener = SlideDateTimeListener(){
+//
+//    }
 
 
 
