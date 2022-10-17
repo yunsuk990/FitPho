@@ -5,24 +5,29 @@
     <item
         android:id="@+id/homeFragment"
         android:title="기구촬영"
+        android:enabled="true"
         android:icon="@drawable/camera_white"
         />
     <item
-        android:id="@+id/aiMovementFragment"
         android:title="동작인식"
-        android:icon="@drawable/photo_exercise"/>
+        android:enabled="true"
+        android:icon="@drawable/photo_exercise"
+        android:id="@+id/aiMovementFragment" />
     <item
         android:id="@+id/guideFragment"
+        android:enabled="true"
         android:title="라이브러리"
         android:icon="@drawable/guide_white"
         />
     <item
         android:id="@+id/calenderFragment"
         android:title="캘린더"
+        android:enabled="true"
         android:icon="@drawable/calender_white"
         />
     <item
         android:id="@+id/settingFragment"
+        android:enabled="true"
         android:title="설정"
         android:icon="@drawable/setting_white"
         />

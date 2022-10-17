@@ -157,13 +157,13 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/aiMovementFragment"
-        android:name="com.example.fitpho.aiMovementFragment"
-        android:label="fragment_ai_movement"
-        tools:layout="@layout/fragment_ai_movement" />
-    <fragment
         android:id="@+id/scheduleAdd"
         android:name="com.example.fitpho.ScheduleAdd"
         android:label="fragment_schedule_add"
         tools:layout="@layout/fragment_schedule_add" />
+    <fragment
+        android:id="@+id/aiMovementFragment"
+        android:name="com.example.fitpho.AiMovementFragment"
+        android:label="fragment_ai_movement"
+        tools:layout="@layout/fragment_ai_movement" />
 </navigation>

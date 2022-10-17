@@ -6,9 +6,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import com.example.fitpho.Register.RegisterFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         var menu_nav: BottomNavigationView = findViewById(R.id.menu_nav)
         var actionBar: ActionBar? = supportActionBar
-        var list: ArrayList<Int> = arrayListOf(R.id.homeFragment, R.id.guideFragment, R.id.settingFragment ,  R.id.calenderFragment)
+        var list: ArrayList<Int> = arrayListOf(R.id.homeFragment, R.id.guideFragment, R.id.settingFragment ,  R.id.calenderFragment, R.id.aiMovementFragment)
 
         var hostFragment = supportFragmentManager.findFragmentById(R.id.nav_controller) as NavHostFragment
         navController = hostFragment.navController
