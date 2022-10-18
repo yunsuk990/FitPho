@@ -9,6 +9,7 @@ import android.widget.DatePicker
 import androidx.fragment.app.FragmentActivity
 import com.example.fitpho.databinding.FragmentScheduleAddBinding
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener
+import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker
 import java.text.SimpleDateFormat
 
 class ScheduleAdd : Fragment() {
@@ -18,9 +19,7 @@ class ScheduleAdd : Fragment() {
 
 
     private var mFormatter: SimpleDateFormat = SimpleDateFormat("MMMM dd yyyy hh:mm aa");
-//    private var listener = SlideDateTimeListener(){
-//
-//    }
+    //private var listener = SlideDateTimeListener()
 
 
 
@@ -37,7 +36,13 @@ class ScheduleAdd : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //binding.textView3.setOnClickListener()
+//        binding.textView3.setOnClickListener(object : View.OnClickListener {
+//            override fun onClick(p0: View?) {
+//                SlideDateTimePicker.Builder(fragmentManager)
+//                    .setListener(listener)
+//            }
+//
+//        })
 
     }
 

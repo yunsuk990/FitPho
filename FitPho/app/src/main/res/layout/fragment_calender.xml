@@ -62,12 +62,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_calendar"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/verify"
         app:layout_constraintBottom_toTopOf="@id/menu_nav"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="10dp"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/menu_nav"

@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
             image = ThumbnailUtils.extractThumbnail(image, dimension, dimension)
             binding.galleryResult.setImageBitmap(image)
             image = Bitmap.createScaledBitmap(image , imageSize, imageSize, false)
-            classifyImage(image)
+            //classifyImage(image)
         }else {
             // 갤러리에서 사진 가져오기
             var dat: Uri = data?.getData()!!
@@ -100,7 +100,7 @@ class HomeFragment : Fragment() {
             }
             binding.galleryResult.setImageBitmap(image)
             image = Bitmap.createScaledBitmap(image!!, imageSize, imageSize, false)
-            classifyImage(image)
+            //classifyImage(image)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -177,9 +177,6 @@ class HomeFragment : Fragment() {
 //        }else{
 //
 //        }
-
-
-
 
 // Releases model resources if no longer used.
         model.close()

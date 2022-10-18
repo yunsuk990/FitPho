@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:state_focused="true"
-        android:color="@color/white" />
+        android:drawable="@drawable/bookmark_white"
+        />
     <item android:state_focused="false"
-        android:color="@color/black"/>
+        android:drawable="@drawable/bookmark_black_small"
+        />
 </selector>

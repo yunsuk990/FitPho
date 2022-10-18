@@ -45,6 +45,11 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
                     })
             }
         })
+
+        //즐겨찾기 등로되어있을 경우 하얀색 바탕 색
+        holder.binding.imageButton.setOnClickListener {
+
+        }
         //holder.binding.imageView.setImageURI(currentItem.getImg1().toString())
     }
 

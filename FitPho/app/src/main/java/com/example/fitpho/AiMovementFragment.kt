@@ -18,9 +18,15 @@ class AiMovementFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAiMovementBinding.inflate(inflater, container, false);
-//        val mytoolbar  = binding.toolbar
-//        (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
+        val mytoolbar  = binding.toolbar
+        (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        
     }
 
     override fun onDestroyView() {
