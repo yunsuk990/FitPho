@@ -69,8 +69,8 @@
         app:boxCornerRadiusTopEnd="25dp"
         app:boxCornerRadiusTopStart="25dp"
         android:layout_alignEnd="@+id/find_passwd"
-        android:layout_alignStart="@+id/checkBox"
-        android:layout_above="@+id/checkBox">
+        android:layout_alignStart="@+id/autoLogin"
+        android:layout_above="@+id/autoLogin">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/user_passwd"
             android:layout_width="match_parent"
@@ -83,13 +83,13 @@
         android:id="@+id/find_passwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/checkBox"
+        android:layout_alignBaseline="@+id/autoLogin"
         android:layout_alignEnd="@+id/btnLogin"
         android:text="비밀번호 찾기"
         android:textColor="@color/white" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/autoLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnLogin"

@@ -1,21 +1,24 @@
 package com.example.fitpho
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
+import com.example.fitpho.Calendar.TimeViewPagerAdapter
+import com.example.fitpho.databinding.DialogDatetimePickerBinding
 import com.example.fitpho.databinding.FragmentScheduleAddBinding
-import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener
-import com.github.jjobes.slidedatetimepicker.SlideDateTimePicker
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import java.text.SimpleDateFormat
 
-class ScheduleAdd : Fragment() {
+class ScheduleAdd : Fragment(), TabLayout.OnTabSelectedListener {
 
     private var _binding: FragmentScheduleAddBinding? = null
     private val binding get() = _binding!!
+    private lateinit var view: DialogDatetimePickerBinding
 
 
     private var mFormatter: SimpleDateFormat = SimpleDateFormat("MMMM dd yyyy hh:mm aa");
@@ -36,14 +39,30 @@ class ScheduleAdd : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.textView3.setOnClickListener(object : View.OnClickListener {
-//            override fun onClick(p0: View?) {
-//                SlideDateTimePicker.Builder(fragmentManager)
-//                    .setListener(listener)
-//            }
-//
-//        })
+        binding.textView3.setOnClickListener{
+            dialogTime(0)
+        }
+        binding.btnCancel.setOnClickListener{
+            findNavController().navigate(R.id.calenderFragment)
+        }
+    }
 
+    private fun dialogTime(type: Int) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        view = DialogDatetimePickerBinding.inflate(layoutInflater)
+        dialogBuilder.setView(view.root)
+        val alertDialog = dialogBuilder.create()
+        alertDialog.show()
+
+        view.tabLayout.addOnTabSelectedListener(this)
+        val adapter = TimeViewPagerAdapter(activity?.supportFragmentManager!!, requireActivity().lifecycle )
+        view.frame.adapter = adapter
+        TabLayoutMediator(view.tabLayout, view.frame){tab,position->
+            when(position){
+                0->tab.text="날짜"
+                1->tab.text="시간"
+            }
+        }.attach()
     }
 
     override fun onDestroyView() {
@@ -51,7 +70,15 @@ class ScheduleAdd : Fragment() {
         _binding = null
     }
 
+    override fun onTabSelected(tab: TabLayout.Tab?) {
+        view.frame.currentItem = tab!!.position
+    }
 
+    override fun onTabUnselected(tab: TabLayout.Tab?) {
+    }
+
+    override fun onTabReselected(tab: TabLayout.Tab?) {
+    }
 
 
 }

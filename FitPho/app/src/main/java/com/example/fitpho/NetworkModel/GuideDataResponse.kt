@@ -65,6 +65,7 @@ class GuideDetailResponse(
 
 class detailData(
     private val id: Int,
+    private val title: String,
     private val stimulate1: String,
     private val stimulate2: String,
     private val text: String,
@@ -72,6 +73,9 @@ class detailData(
 ){
     fun getId(): Int {
         return id
+    }
+    fun getTitle(): String {
+        return title
     }
     fun getStimulate1(): String {
         return stimulate1

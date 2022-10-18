@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -42,12 +43,7 @@ class GuideDetailFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
         //뒤로가기 버튼
         //(activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         binding.title.text = title
-
-
-        Log.d("id", id.toString())
-        Log.d("title", title.toString())
         return binding.root
     }
 
@@ -69,13 +65,16 @@ class GuideDetailFragment : Fragment() {
                         Glide.with(requireContext()).load(img).into(binding.image)
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate1()).into(binding.stimulate1)
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate2()).into(binding.stimulate2)
+                        Glide.with(requireContext()).load(res?.getData()!![0].getAnimation()).into(binding.animation)
+
+                        //운동설명
                         var s: String =""
                         for(i in 0..((text?.toInt())?.minus(1)!!)){
                             s+=  res.getText()[i]
                             Log.d("text", res.getText()[i])
                         }
                         binding.text.text = s
-                        Glide.with(requireContext()).load(res?.getData()!![0].getAnimation()).into(binding.animation)
+
                     }
                     else -> {
                         Log.d("GuideDetail", "FAIL1")
@@ -86,6 +85,11 @@ class GuideDetailFragment : Fragment() {
                 Log.d("GuideDetail", t.message.toString())
             }
         })
+    }
+
+    private fun createTextView(){
+        var textview: TextView = TextView(activity?.applicationContext)
+
     }
 
     private fun authService(): API {

@@ -39,61 +39,61 @@ class SettingFragment : Fragment(){
 
         val authService = authService()
 
-        binding.logout.setOnClickListener{
-            authService.logOut(getToken()).enqueue(object: Callback<LogOutResponse>{
-                override fun onResponse(
-                    call: Call<LogOutResponse>,
-                    response: Response<LogOutResponse>,
-                ) {
-                    when(response.code()){
-                        200 -> {
-                            Toast.makeText(requireContext(), "로그아웃 성공.", Toast.LENGTH_LONG).show()
-                            findNavController().navigate(R.id.action_global_loginFragment)
-                        }
-                        403 -> {
-                            getReToken()
-                        }
+//        binding.logout.setOnClickListener{
+//            authService.logOut(getToken()).enqueue(object: Callback<LogOutResponse>{
+//                override fun onResponse(
+//                    call: Call<LogOutResponse>,
+//                    response: Response<LogOutResponse>,
+//                ) {
+//                    when(response.code()){
+//                        200 -> {
+//                            Toast.makeText(requireContext(), "로그아웃 성공.", Toast.LENGTH_LONG).show()
+//                            findNavController().navigate(R.id.action_global_loginFragment)
+//                        }
+//                        403 -> {
+//                            getReToken()
+//                        }
+//
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<LogOutResponse>, t: Throwable, ) {
+//                    Log.d("LogOutFail", "LogOutFail")
+//                }
+//            })
+//        }
+//
+//        binding.withdraw.setOnClickListener{
+//            authService.withdraw(getToken()).enqueue(object: Callback<WithdrawResponse>{
+//                override fun onResponse(
+//                    call: Call<WithdrawResponse>,
+//                    response: Response<WithdrawResponse>,
+//                ) {
+//                   when(response.code()){
+//                       200 -> {
+//                           Log.d("Withdraw", "탈퇴성공")
+//                           Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
+//                           findNavController().navigate(R.id.action_global_loginFragment)
+//                       }
+//                       400 -> {
+//                           Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
+//                       }
+//                       403 -> {
+//                           getReToken()
+//                       }
+//                       else -> Log.d("Withdraw", "탈퇴실패")
+//                   }
+//                }
+//
+//                override fun onFailure(call: Call<WithdrawResponse>, t: Throwable) {
+//                    Log.d("Withdraw", "오류")
+//                }
+//            })
+//        }
 
-                    }
-                }
-
-                override fun onFailure(call: Call<LogOutResponse>, t: Throwable, ) {
-                    Log.d("LogOutFail", "LogOutFail")
-                }
-            })
-        }
-
-        binding.withdraw.setOnClickListener{
-            authService.withdraw(getToken()).enqueue(object: Callback<WithdrawResponse>{
-                override fun onResponse(
-                    call: Call<WithdrawResponse>,
-                    response: Response<WithdrawResponse>,
-                ) {
-                   when(response.code()){
-                       200 -> {
-                           Log.d("Withdraw", "탈퇴성공")
-                           Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
-                           findNavController().navigate(R.id.action_global_loginFragment)
-                       }
-                       400 -> {
-                           Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
-                       }
-                       403 -> {
-                           getReToken()
-                       }
-                       else -> Log.d("Withdraw", "탈퇴실패")
-                   }
-                }
-
-                override fun onFailure(call: Call<WithdrawResponse>, t: Throwable) {
-                    Log.d("Withdraw", "오류")
-                }
-            })
-        }
-
-        binding.correction.setOnClickListener{
-            openDialog()
-        }
+//        binding.correction.setOnClickListener{
+//            openDialog()
+//        }
     }
 
     override fun onDestroyView() {
@@ -132,6 +132,8 @@ class SettingFragment : Fragment(){
                         val pref = requireActivity().getSharedPreferences("TOKEN",0)
                         var editor = pref.edit()
                         editor.clear()
+                        editor.commit()
+
                         editor.putString("token", response.body()?.getToken())
                         editor.apply()
                     }

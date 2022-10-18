@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
+import com.example.fitpho.NetworkModel.GetTokenResponse
 import com.example.fitpho.NetworkModel.Login
 import com.example.fitpho.NetworkModel.LoginResponse
 import com.example.fitpho.NetworkModel.getRetrofit
@@ -39,6 +40,10 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //자동로그인
+        autoLogin()
+
+
         //회원가입 버튼 클릭
         binding.btnRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
@@ -51,12 +56,12 @@ class LoginFragment : Fragment() {
         //로그인 버튼 클릭
         binding.btnLogin.setOnClickListener{
             //Test
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+            //findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
 
             id = binding.userId.text.toString()
             pw = binding.userPasswd.text.toString()
             if(checkLogin(id, pw)){
-                Login()
+                LoginService(id,pw)
             }else{
                 Toast.makeText(requireContext(), "아이디/비밀번호 입력하세요.", Toast.LENGTH_LONG)
             }
@@ -74,7 +79,7 @@ class LoginFragment : Fragment() {
     }
 
     //로그인 통신
-    private fun Login() {
+    private fun LoginService(id: String?, pw: String?) {
         authService.signIn(getUser()).enqueue(object: Callback<LoginResponse> {
             override fun onResponse(
                 call: Call<LoginResponse>,
@@ -86,6 +91,15 @@ class LoginFragment : Fragment() {
                         Log.d("SUCCESS", "success")
                         binding.progressBar.visibility = View.GONE
                         var token = response.body()?.token
+
+                        //자동로그인
+                        if(binding.autoLogin.isChecked){
+                            val pref = requireActivity().getSharedPreferences("autoLogin", 0)
+                            var editor = pref.edit()
+                            editor.putString("id", id)
+                            editor.putString("pw", pw)
+                            editor.apply()
+                        }
                         val pref = requireActivity().getSharedPreferences("TOKEN",0)
                         var editor = pref.edit()
                         editor.putString("token", token)
@@ -109,9 +123,57 @@ class LoginFragment : Fragment() {
         })
     }
 
+    private fun autoLogin() {
+        var pref = requireActivity().getSharedPreferences("autoLogin",0 )
+        var id = pref.getString("id", null)
+        var pw = pref.getString("pw", null)
+        if(id != null && pw != null){
+            getToken()
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
+        }
+    }
+
     //Retrofit api
     private fun authService(): API {
         return getRetrofit().create(API::class.java)
+    }
+
+    //토큰 재발급
+    private fun getToken(){
+        authService().getReToken().enqueue(object: Callback<GetTokenResponse>{
+            override fun onResponse(
+                call: Call<GetTokenResponse>,
+                response: Response<GetTokenResponse>,
+            ) {
+                when(response.code()){
+                    200 -> {
+                        Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
+                        val pref = requireActivity().getSharedPreferences("TOKEN",0)
+                        var editor = pref.edit()
+                        editor.clear()
+                        editor.commit()
+
+                        editor.putString("token", response.body()?.getToken())
+                        editor.apply()
+                    }
+
+                    401 -> {
+                        Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
+                    }
+
+                    403 -> {
+                        Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
+                    }
+
+                    else -> {
+                        Log.d("getReToken", "getReToken fail")
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GetTokenResponse>, t: Throwable) {
+                Log.d("getReToken", "getReToken failure")
+            }
+        })
     }
 
     override fun onDestroyView() {
