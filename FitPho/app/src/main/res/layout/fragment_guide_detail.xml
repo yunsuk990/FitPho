@@ -25,6 +25,7 @@
             android:layout_gravity="center"
             android:textColor="@color/black"
             android:textSize="23sp"
+            android:textStyle="bold"
             android:layout_height="wrap_content"/>
     </androidx.appcompat.widget.Toolbar>
 
@@ -81,23 +82,29 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:layout_marginTop="15dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:text="운동 방법"
+                    android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="20sp" />
 
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
+
+                <LinearLayout
+                    android:id="@+id/explain"
                     android:layout_marginTop="10dp"
-                    android:textSize="18sp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:text="Label" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -115,12 +122,14 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:layout_marginTop="15dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:textStyle="bold"
                         android:text="운동동작"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/animation"

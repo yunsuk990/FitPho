@@ -1,5 +1,6 @@
 package com.example.fitpho.Guide
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
@@ -16,9 +18,11 @@ import com.example.fitpho.NetworkModel.GuideDetailResponse
 import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentGuideDetailBinding
+import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Response
 import javax.security.auth.callback.Callback
+import kotlin.math.exp
 
 class GuideDetailFragment : Fragment() {
 
@@ -27,12 +31,14 @@ class GuideDetailFragment : Fragment() {
     var id: Int? = 0
     var title: String? =""
     var img: String? = ""
+    lateinit var explainlayout: LinearLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGuideDetailBinding.inflate(inflater, container, false)
+        explainlayout = binding.explain
 
         id = arguments?.getInt("id")
         title = arguments?.getString("title")
@@ -64,16 +70,15 @@ class GuideDetailFragment : Fragment() {
                         var text = response.body()?.getText()?.size
                         Glide.with(requireContext()).load(img).into(binding.image)
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate1()).into(binding.stimulate1)
-                        Glide.with(requireContext()).load(res?.getData()!![0].getStimulate2()).into(binding.stimulate2)
-                        Glide.with(requireContext()).load(res?.getData()!![0].getAnimation()).into(binding.animation)
+                        Glide.with(requireContext()).load(res.getData()!![0].getStimulate2()).into(binding.stimulate2)
+                        Glide.with(requireContext()).load(res.getData()!![0].getAnimation()).into(binding.animation)
 
                         //운동설명
                         var s: String =""
                         for(i in 0..((text?.toInt())?.minus(1)!!)){
-                            s+=  res.getText()[i]
+                            createTextView(res.getText()[i], i+1)
                             Log.d("text", res.getText()[i])
                         }
-                        binding.text.text = s
 
                     }
                     else -> {
@@ -87,9 +92,15 @@ class GuideDetailFragment : Fragment() {
         })
     }
 
-    private fun createTextView(){
+    private fun createTextView(text: String?, i:Int){
         var textview: TextView = TextView(activity?.applicationContext)
-
+        textview.text = "$i. $text"
+        textview.textSize = 20F
+        textview.setTextColor(Color.BLACK)
+        var param: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        param.topMargin = 30
+        textview.layoutParams = param
+        explainlayout.addView(textview)
     }
 
     private fun authService(): API {
