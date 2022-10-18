@@ -154,7 +154,7 @@ router.patch('/edit', verifyToken, async function(req, res) {
 		});
 	} else {
 		const salt = await bcrypt.genSalt(10);
-		var hashedPassword = await bcrypt.hash(new_password, salt);
+		const hashedPassword = await bcrypt.hash(new_password, salt);
 
 		const accessToken = generateAccessToken(email, hashedPassword);
 		const refreshToken = generateRefreshToken(email, hashedPassword);
