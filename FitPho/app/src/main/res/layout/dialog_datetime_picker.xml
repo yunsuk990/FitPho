@@ -16,11 +16,7 @@
 
 
         <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="날짜"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="시간"/>
     </com.google.android.material.tabs.TabLayout>
