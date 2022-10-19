@@ -24,25 +24,16 @@ class MainActivity : AppCompatActivity() {
 
 
         var menu_nav: BottomNavigationView = findViewById(R.id.menu_nav)
-        var actionBar: ActionBar? = supportActionBar
         var list: ArrayList<Int> = arrayListOf(R.id.homeFragment, R.id.guideFragment, R.id.settingFragment ,  R.id.calenderFragment, R.id.aiMovementFragment)
-
         var hostFragment = supportFragmentManager.findFragmentById(R.id.nav_controller) as NavHostFragment
         navController = hostFragment.navController
-//        NavigationUI.setupActionBarWithNavController(this, navController,
-//            AppBarConfiguration.Builder(R.id.splashFragment, R.id.loginFragment, R.id.homeFragment, R.id.guideFragment
-//            , R.id.calenderFragment, R.id.settingFragment).build()
-//        )
         NavigationUI.setupWithNavController(menu_nav, navController)
 
         navController.addOnDestinationChangedListener{ _, destination, _ ->
-            //actionBar?.show()
             if(list.contains(destination.id)){
                 menu_nav.visibility = View.VISIBLE
-                //actionBar?.hide()
             }else{
                 menu_nav.visibility = View.GONE
-                //actionBar?.show()
             }
         }
     }
