@@ -166,4 +166,9 @@
         android:name="com.example.fitpho.AiMovementFragment"
         android:label="fragment_ai_movement"
         tools:layout="@layout/fragment_ai_movement" />
+    <fragment
+        android:id="@+id/ai_movement_result"
+        android:name="com.example.fitpho.Ai_movement_result"
+        android:label="fragment_ai_movement_result"
+        tools:layout="@layout/fragment_ai_movement_result" />
 </navigation>
