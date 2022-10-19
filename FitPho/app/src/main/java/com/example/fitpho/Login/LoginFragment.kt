@@ -1,5 +1,7 @@
 package com.example.fitpho.Login
 
+import android.app.Activity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import com.example.fitpho.NetworkModel.LoginResponse
 import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentLoginBinding
+import com.example.fitpho.util.SharedPreferenceUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,6 +27,9 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    companion object{
+        lateinit var prefs: SharedPreferenceUtil
+    }
     var id: String = ""
     var pw: String = ""
     val authService = authService()
@@ -39,17 +45,14 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        Log.d("firstToken", getToken().toString())
-        //자동로그인
-        autoLogin()
-
+        prefs = SharedPreferenceUtil(requireContext())
 
         //회원가입 버튼 클릭
         binding.btnRegister.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
+        //비밀번호 찾기
         binding.findPasswd.setOnClickListener {
             findNavController().navigate(R.id.findPasswordFragment)
         }
@@ -69,18 +72,9 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun getUser(): Login {
-        return Login(id, pw)
-    }
-
-    //아이디 비번 입력 창 확인
-    private fun checkLogin(id: String, passwd: String): Boolean{
-        return !(id.isBlank() || passwd.isBlank())
-    }
-
-    //로그인 통신
-    private fun LoginService(id: String?, pw: String?) {
-        authService.signIn(getUser()).enqueue(object: Callback<LoginResponse> {
+    //로그인 서비스
+    private fun LoginService(id: String, pw: String) {
+        authService.signIn(Login(id, pw)).enqueue(object: Callback<LoginResponse> {
             override fun onResponse(
                 call: Call<LoginResponse>,
                 response: Response<LoginResponse>,
@@ -92,15 +86,9 @@ class LoginFragment : Fragment() {
                         binding.progressBar.visibility = View.GONE
                         var token = response.body()?.token
                         if(binding.autoLogin.isChecked){
-                            var pref = requireActivity().getSharedPreferences("autoLogin",0 )
-                            pref.edit().putString("id", id)
-                            pref.edit().putString("pw", pw)
-                            pref.edit().apply()
+                            prefs.setAutoLogin(id,pw)
                         }
-                        val pref = requireActivity().getSharedPreferences("TOKEN",0)
-                        var editor = pref.edit()
-                        editor.putString("token", token)
-                        editor.apply()
+                        prefs.setToken(token)
                         Log.d("token", token.toString())
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                     }
@@ -113,24 +101,12 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
-
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                 Log.d("SIGNIN/FAILURE", t.message.toString())
-
             }
         })
     }
 
-    private fun autoLogin() {
-        var pref = requireActivity().getSharedPreferences("autoLogin",0 )
-        var id = pref.getString("id", null)
-        var pw = pref.getString("pw", null)
-        if(id != null && pw != null){
-            getReToken()
-            Log.d("autoLogin", "success")
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        }
-    }
 
     //Retrofit api
     private fun authService(): API {
@@ -154,15 +130,12 @@ class LoginFragment : Fragment() {
                         editor.putString("token", response.body()?.getToken())
                         editor.apply()
                     }
-
                     401 -> {
                         Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
                     }
-
                     403 -> {
                         Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
                     }
-
                     else -> {
                         Log.d("getReToken", "getReToken fail")
                     }
@@ -174,16 +147,16 @@ class LoginFragment : Fragment() {
         })
     }
 
-    //토큰 가져오기
-    private fun getToken(): String{
-        val pref = activity?.getSharedPreferences("TOKEN",0)
-        var token = "token="+ pref?.getString("token","")!!
-        Log.d("token",token.toString() )
-        return token
+
+    //로그인 유효성 확인
+    private fun checkLogin(id: String, passwd: String): Boolean{
+        return !(id.isBlank() || passwd.isBlank())
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 }
+
