@@ -45,19 +45,19 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
                     })
             }
         })
-
-        //즐겨찾기 등로되어있을 경우 하얀색 바탕 색
-        holder.binding.imageButton.setOnClickListener {
-
-        }
-        //holder.binding.imageView.setImageURI(currentItem.getImg1().toString())
     }
 
     override fun getItemCount() = guideList.size
 
-    fun setAllData(guidedata: List<data>){
+    //가이드 부위별 운동 나열
+    fun setGuideData(guidedata: List<data>){
         guideList = guidedata
         notifyDataSetChanged()
+    }
+
+    //즐겨찾기 운동 나열
+    fun favoriteData(favorite: List<data>){
+        guideList = favorite
     }
 
     inner class ItemViewHolder(val binding: ExlistItemBinding): RecyclerView.ViewHolder(binding.root) {}

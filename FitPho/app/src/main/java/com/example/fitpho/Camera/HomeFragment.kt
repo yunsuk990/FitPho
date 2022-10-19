@@ -88,7 +88,7 @@ class HomeFragment : Fragment() {
             image = ThumbnailUtils.extractThumbnail(image, dimension, dimension)
             binding.galleryResult.setImageBitmap(image)
             image = Bitmap.createScaledBitmap(image , imageSize, imageSize, false)
-            //classifyImage(image)
+            classifyImage(image)
         }else {
             // 갤러리에서 사진 가져오기
             var dat: Uri = data?.getData()!!
@@ -100,7 +100,7 @@ class HomeFragment : Fragment() {
             }
             binding.galleryResult.setImageBitmap(image)
             image = Bitmap.createScaledBitmap(image!!, imageSize, imageSize, false)
-            //classifyImage(image)
+            classifyImage(image)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -111,6 +111,7 @@ class HomeFragment : Fragment() {
 // Creates inputs for reference.
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
 
+
         var byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(4*imageSize*imageSize*3)
         byteBuffer.order(ByteOrder.nativeOrder())
 
@@ -120,9 +121,9 @@ class HomeFragment : Fragment() {
         for(i in 0 until imageSize){
             for(j in 0 until imageSize){
                 val i: Int = intValues[pixel++] //RGB
-                byteBuffer.putFloat( (((i.shr(16)))and((0xFF)))*(1.0f/ 255.0f))
-                byteBuffer.putFloat((( i.shr(8))and(0xFF))*(1.0f/ 255.0f))
                 byteBuffer.putFloat((i and (0xFF))*(1.0f/255.0f))
+                byteBuffer.putFloat((( i.shr(8))and(0xFF))*(1.0f/ 255.0f))
+                byteBuffer.putFloat( (((i.shr(16)))and((0xFF)))*(1.0f/ 255.0f))
             }
         }
         inputFeature0.loadBuffer(byteBuffer)
@@ -156,7 +157,7 @@ class HomeFragment : Fragment() {
 
         //결과값 출력
         Log.d("Result", s!!)
-       // Log.d("매칭운동", classes[maxPos].toString())
+        //Log.d("매칭운동", classes[maxPos].toString())
 
         //매칭된 운동 아이디
         //id = classes[maxPos]

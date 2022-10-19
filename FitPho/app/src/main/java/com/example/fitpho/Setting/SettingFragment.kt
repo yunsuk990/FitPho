@@ -1,6 +1,8 @@
 package com.example.fitpho.Setting
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -39,61 +41,85 @@ class SettingFragment : Fragment(){
 
         val authService = authService()
 
-//        binding.logout.setOnClickListener{
-//            authService.logOut(getToken()).enqueue(object: Callback<LogOutResponse>{
-//                override fun onResponse(
-//                    call: Call<LogOutResponse>,
-//                    response: Response<LogOutResponse>,
-//                ) {
-//                    when(response.code()){
-//                        200 -> {
-//                            Toast.makeText(requireContext(), "로그아웃 성공.", Toast.LENGTH_LONG).show()
-//                            findNavController().navigate(R.id.action_global_loginFragment)
-//                        }
-//                        403 -> {
-//                            getReToken()
-//                        }
-//
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<LogOutResponse>, t: Throwable, ) {
-//                    Log.d("LogOutFail", "LogOutFail")
-//                }
-//            })
-//        }
-//
-//        binding.withdraw.setOnClickListener{
-//            authService.withdraw(getToken()).enqueue(object: Callback<WithdrawResponse>{
-//                override fun onResponse(
-//                    call: Call<WithdrawResponse>,
-//                    response: Response<WithdrawResponse>,
-//                ) {
-//                   when(response.code()){
-//                       200 -> {
-//                           Log.d("Withdraw", "탈퇴성공")
-//                           Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
-//                           findNavController().navigate(R.id.action_global_loginFragment)
-//                       }
-//                       400 -> {
-//                           Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
-//                       }
-//                       403 -> {
-//                           getReToken()
-//                       }
-//                       else -> Log.d("Withdraw", "탈퇴실패")
-//                   }
-//                }
-//
-//                override fun onFailure(call: Call<WithdrawResponse>, t: Throwable) {
-//                    Log.d("Withdraw", "오류")
-//                }
-//            })
-//        }
+        binding.btnLogout.setOnClickListener{
+            authService.logOut(getToken()).enqueue(object: Callback<LogOutResponse>{
+                override fun onResponse(
+                    call: Call<LogOutResponse>,
+                    response: Response<LogOutResponse>,
+                ) {
+                    when(response.code()){
+                        200 -> {
+                            Toast.makeText(requireContext(), "로그아웃 성공.", Toast.LENGTH_LONG).show()
+                            deleteautoLogin()
+                            deleteToken()
+                            findNavController().navigate(R.id.action_global_loginFragment)
+                        }
+                        403 -> {
+                            Log.d("token", getToken())
+                            Log.d("LogOut", "FAIL")
+                            //getReToken()
+                        }
 
-//        binding.correction.setOnClickListener{
-//            openDialog()
-//        }
+                    }
+                }
+
+                override fun onFailure(call: Call<LogOutResponse>, t: Throwable, ) {
+                    Log.d("LogOutFail", "LogOutFail")
+                }
+            })
+        }
+
+        binding.btnDelete.setOnClickListener{
+            authService.withdraw(getToken()).enqueue(object: Callback<WithdrawResponse>{
+                override fun onResponse(
+                    call: Call<WithdrawResponse>,
+                    response: Response<WithdrawResponse>,
+                ) {
+                   when(response.code()){
+                       200 -> {
+                           Log.d("Withdraw", "탈퇴성공")
+                           Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
+                           deleteToken()
+                           deleteautoLogin()
+                           findNavController().navigate(R.id.action_global_loginFragment)
+                       }
+                       400 -> {
+                           Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
+                           Log.d("Withdraw", "탈퇴실패1")
+                       }
+                       403 -> {
+                           //getReToken()
+                           Log.d("Withdraw", "탈퇴실패2")
+                       }
+                       else -> Log.d("Withdraw", "탈퇴실패3")
+                   }
+                }
+
+                override fun onFailure(call: Call<WithdrawResponse>, t: Throwable) {
+                    Log.d("Withdraw", "오류")
+                }
+            })
+        }
+
+        binding.btnPasswordChange.setOnClickListener{
+            openDialog()
+        }
+
+        //이용약관
+        binding.btnSeeService.setOnClickListener(object: View.OnClickListener {
+            override fun onClick(p0: View?) {
+                var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://leaf-jumpsuit-ad1.notion.site/FitPho-82d1dfcca73748c781af62d5c2f592a0"))
+                startActivity(intent)
+            }
+        })
+
+        //개인정보처리방침
+        binding.btnSeePersonal.setOnClickListener(object: View.OnClickListener{
+            override fun onClick(p0: View?) {
+                var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://leaf-jumpsuit-ad1.notion.site/FitPho-924abc7e50e144789728dfcfc79c5aae"))
+                startActivity(intent)
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -111,6 +137,7 @@ class SettingFragment : Fragment(){
     private fun getToken(): String{
         val pref = activity?.getSharedPreferences("TOKEN",0)
         var token = "token="+ pref?.getString("token","")!!
+        Log.d("token",token.toString() )
         return token
     }
 
@@ -119,6 +146,21 @@ class SettingFragment : Fragment(){
         CorrectionDialog().show(parentFragmentManager, "dialog")
     }
 
+    //자동로그인정보 삭제
+    private fun deleteautoLogin() {
+        val pref = requireActivity().getSharedPreferences("autoLogin", 0)
+        var editor = pref.edit()
+        editor.clear()
+        editor.commit()
+    }
+
+    private fun deleteToken(){
+        val pref = activity?.getSharedPreferences("TOKEN",0)
+        var editor = pref?.edit()
+        editor?.clear()
+        editor?.commit()
+
+    }
     //토큰 재발급
     private fun getReToken(){
         authService().getReToken().enqueue(object: Callback<GetTokenResponse>{

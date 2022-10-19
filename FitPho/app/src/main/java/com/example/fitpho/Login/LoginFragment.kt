@@ -40,6 +40,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("firstToken", getToken().toString())
         //자동로그인
         autoLogin()
 
@@ -68,7 +69,6 @@ class LoginFragment : Fragment() {
         }
     }
 
-
     private fun getUser(): Login {
         return Login(id, pw)
     }
@@ -88,22 +88,20 @@ class LoginFragment : Fragment() {
 
                 when(response.code()){
                     in (200..299) -> {
-                        Log.d("SUCCESS", "success")
+                        Log.d("LoginService", "success")
                         binding.progressBar.visibility = View.GONE
                         var token = response.body()?.token
-
-                        //자동로그인
                         if(binding.autoLogin.isChecked){
-                            val pref = requireActivity().getSharedPreferences("autoLogin", 0)
-                            var editor = pref.edit()
-                            editor.putString("id", id)
-                            editor.putString("pw", pw)
-                            editor.apply()
+                            var pref = requireActivity().getSharedPreferences("autoLogin",0 )
+                            pref.edit().putString("id", id)
+                            pref.edit().putString("pw", pw)
+                            pref.edit().apply()
                         }
                         val pref = requireActivity().getSharedPreferences("TOKEN",0)
                         var editor = pref.edit()
                         editor.putString("token", token)
                         editor.apply()
+                        Log.d("token", token.toString())
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                     }
                     400 -> {
@@ -128,7 +126,8 @@ class LoginFragment : Fragment() {
         var id = pref.getString("id", null)
         var pw = pref.getString("pw", null)
         if(id != null && pw != null){
-            getToken()
+            getReToken()
+            Log.d("autoLogin", "success")
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         }
     }
@@ -139,7 +138,7 @@ class LoginFragment : Fragment() {
     }
 
     //토큰 재발급
-    private fun getToken(){
+    private fun getReToken(){
         authService().getReToken().enqueue(object: Callback<GetTokenResponse>{
             override fun onResponse(
                 call: Call<GetTokenResponse>,
@@ -151,8 +150,7 @@ class LoginFragment : Fragment() {
                         val pref = requireActivity().getSharedPreferences("TOKEN",0)
                         var editor = pref.edit()
                         editor.clear()
-                        editor.commit()
-
+                        Log.d("token", pref.getString("token", "null").toString())
                         editor.putString("token", response.body()?.getToken())
                         editor.apply()
                     }
@@ -174,6 +172,14 @@ class LoginFragment : Fragment() {
                 Log.d("getReToken", "getReToken failure")
             }
         })
+    }
+
+    //토큰 가져오기
+    private fun getToken(): String{
+        val pref = activity?.getSharedPreferences("TOKEN",0)
+        var token = "token="+ pref?.getString("token","")!!
+        Log.d("token",token.toString() )
+        return token
     }
 
     override fun onDestroyView() {
