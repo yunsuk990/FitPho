@@ -108,12 +108,12 @@ router.post('/login', function(req, res) {
 
 // 로그아웃
 router.get("/logout", verifyToken, function(req, res) {
-	return res
-		.clearCookie("refreshToken")
-		.status(200).json({
-			success: "true",
-			message: "로그아웃에 성공했습니다."
-		});
+	res.clearCookie("refreshToken");
+	res.removeHeader("Authorization");
+	return res.status(200).json({
+		success: "true",
+		message: "로그아웃에 성공했습니다."
+	});
 })
 
 // 회원탈퇴
@@ -129,12 +129,12 @@ router.delete('/delete', verifyToken, function(req, res) {
 				message: "회원탈퇴에 실패했습니다."
 			})
 		} else {
-			return res
-				.clearCookie("refreshToken")
-				.status(200).json({
-					success: "true",
-					message: "회원탈퇴에 성공하였습니다."
-				})
+			res.clearCookie("refreshToken");
+			res.removeHeader("Authorization");
+			return res.status(200).json({
+				success: "true",
+				message: "회원탈퇴에 성공하였습니다."
+			});
 		}
 	})
 })
