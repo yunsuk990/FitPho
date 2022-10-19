@@ -54,6 +54,12 @@ class GuideFragment : Fragment() {
         binding.exList.adapter = guideAdapter
 
 
+
+        //가이드 부위별 운동
+        binding.bookmark.setOnFocusChangeListener { v, hasFocus ->
+            //getFavorite()
+        }
+
         binding.chest.setOnFocusChangeListener { v, hasFocus ->
             getGuide("chest")
         }
@@ -87,7 +93,7 @@ class GuideFragment : Fragment() {
 //                            for(a in data){
 //                                Log.d("Guide", a.getId().toString())
 //                            }
-                        guideAdapter.setAllData(data)
+                        guideAdapter.setGuideData(data)
 
                     }
                     else -> Log.d("Guide", "GuideFail")
@@ -95,8 +101,19 @@ class GuideFragment : Fragment() {
             }
             override fun onFailure(call: Call<GuideDataResponse>, t: Throwable) {
                 Log.d("Guide", "GuideFailure")
+                Log.d("error", t.message.toString())
+
             }
         })
+    }
+
+
+    //즐겨찾기 운동 가져오기
+    private fun getFavorite(){
+        //authService()
+        //즐겨찾기 등록되어있을 경우 하얀색 바탕 색 하얀색으로 바꾸기
+
+
     }
 
 

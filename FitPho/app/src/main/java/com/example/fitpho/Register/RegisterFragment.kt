@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -23,7 +24,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.regex.Pattern
 
-class RegisterFragment : Fragment() {
+class RegisterFragment : Fragment(){
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
@@ -38,22 +39,26 @@ class RegisterFragment : Fragment() {
     var code: Boolean = false
     //이메일 형식 검사 정규식
     val emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+    val authService = authService()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        textLayout =  binding.textInputLayout1
         return binding.root
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val authService = authService()
-        textLayout =  binding.textInputLayout1
 
+        checkCheckBox()
 
+        //유효성 검사
         binding.registerUserid.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -62,10 +67,12 @@ class RegisterFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+        //이메일 중복 확인
         binding.authBtn.setOnClickListener {
             authSuccess = emailConfirm()
         }
 
+        //회원가입
         binding.btnRegister.setOnClickListener {
                 userid = binding.registerUserid.text.toString()
                 userpasswd = binding.registerPassword.text.toString()
@@ -129,6 +136,7 @@ class RegisterFragment : Fragment() {
         }
     }
 
+
     private fun getRegister(): Register{
         return Register(userid, userpasswd)
     }
@@ -138,6 +146,7 @@ class RegisterFragment : Fragment() {
         _binding = null
     }
 
+    //API 호출
     private fun authService(): API {
         return getRetrofit().create(API::class.java)
     }
@@ -210,5 +219,36 @@ class RegisterFragment : Fragment() {
         }
         Log.d("code", code.toString())
         return code
+    }
+
+
+
+    //체크박스 전체확인
+    fun checkCheckBox(){
+        binding.checkbox0.setOnClickListener {
+            if(binding.checkbox0.isChecked){
+                binding.checkbox1.isChecked = true
+                binding.checkbox2.isChecked = true
+            }else{
+                binding.checkbox1.isChecked = false
+                binding.checkbox2.isChecked = false
+            }
+        }
+
+        binding.checkbox1.setOnClickListener {
+            if(binding.checkbox1.isChecked){
+                binding.checkbox0.isChecked = binding.checkbox2.isChecked
+            }else{
+                binding.checkbox0.isChecked = false
+            }
+        }
+
+        binding.checkbox2.setOnClickListener {
+            if(binding.checkbox2.isChecked){
+                binding.checkbox0.isChecked = binding.checkbox1.isChecked
+            }else{
+                binding.checkbox0.isChecked = false
+            }
+        }
     }
 }

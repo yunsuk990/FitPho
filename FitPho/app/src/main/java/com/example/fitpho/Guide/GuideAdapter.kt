@@ -35,7 +35,7 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
         val img1 = currentItem.getImg1()
         holder.binding.textView.text = title
         Glide.with(context).load(currentItem.getImg1()).into(holder.binding.imageView)
-        holder.binding.view.setOnClickListener(object : View.OnClickListener{
+        holder.binding.click.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 Navigation.findNavController(v!!).navigate(R.id.guideDetailFragment,
                     Bundle().apply {
@@ -45,14 +45,19 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
                     })
             }
         })
-        //holder.binding.imageView.setImageURI(currentItem.getImg1().toString())
     }
 
     override fun getItemCount() = guideList.size
 
-    fun setAllData(guidedata: List<data>){
+    //가이드 부위별 운동 나열
+    fun setGuideData(guidedata: List<data>){
         guideList = guidedata
         notifyDataSetChanged()
+    }
+
+    //즐겨찾기 운동 나열
+    fun favoriteData(favorite: List<data>){
+        guideList = favorite
     }
 
     inner class ItemViewHolder(val binding: ExlistItemBinding): RecyclerView.ViewHolder(binding.root) {}

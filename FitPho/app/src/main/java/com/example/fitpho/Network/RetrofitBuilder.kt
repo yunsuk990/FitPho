@@ -5,8 +5,8 @@ import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-//3.38.165.112:3000
-const val BASE_URL = "http://13.209.83.123:3000"
+//3.36.68.45
+const val BASE_URL: String = "http://3.36.68.45:3000"
 
 
 fun getRetrofit(): Retrofit {

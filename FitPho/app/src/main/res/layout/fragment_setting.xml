@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:divider="#FFFFFF"
-    android:dividerPadding="22dp"
-    android:showDividers="middle"
+    android:background="@color/darklogocolor"
     tools:context=".Setting.SettingFragment">
 
         <androidx.appcompat.widget.Toolbar
@@ -23,45 +21,170 @@
                     android:text="설정"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textSize="23sp"
                     android:layout_height="wrap_content"/>
         </androidx.appcompat.widget.Toolbar>
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="라이센스"
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
-        <TextView
-            android:id="@+id/logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="로그아웃"
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
-        <TextView
-            android:id="@+id/correction"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="회원정보 수정"
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
+                <TextView
+                    android:id="@+id/tv_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="알림"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="40dp" />
 
-        <TextView
-            android:id="@+id/withdraw"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="회원탈퇴"
-            android:textSize="30dp"
-            android:textColor="@color/white"
-            android:textAlignment="center"
-            android:fontFamily="@font/myungbold"/>
+                <TextView
+                    android:id="@+id/tv_noti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:text="채팅 알림"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_notification"
+                    android:layout_marginTop="20dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="캘린더, 일정 등 알림"
+                    android:textColor="@color/logocolor"
+                    android:textSize="15sp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_noti"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/tv_noti_info"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/sw_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@id/tv_noti"
+                    app:layout_constraintBottom_toBottomOf="@id/tv_noti"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#EEEEEE"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_notification"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_noti_info" />
+                <TextView
+                    android:id="@+id/policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="약관 및 정책"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/line1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="서비스 이용 약관"
+                    app:layout_constraintTop_toBottomOf="@id/policy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/btn_see_service"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="개인정보 처리 방침"
+                    app:layout_constraintTop_toBottomOf="@id/btn_see_service"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/btn_see_personal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="오픈소스 라이선스"
+                    app:layout_constraintTop_toBottomOf="@id/btn_see_personal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/btn_see_license"/>
+
+                <View
+                    android:id="@+id/line2"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="15dp"
+                    android:background="#EEEEEE"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/tv_notification"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_see_license" />
+
+                <TextView
+                    android:id="@+id/account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="계정 관리"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/line2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="바밀번호 재설정"
+                    app:layout_constraintTop_toBottomOf="@id/account"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/btn_password_change"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="로그아웃"
+                    app:layout_constraintTop_toBottomOf="@id/btn_password_change"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/btn_logout"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/red"
+                    android:text="계정탈퇴"
+                    app:layout_constraintTop_toBottomOf="@id/btn_logout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="15dp"
+                    android:id="@+id/btn_delete"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 </LinearLayout>

@@ -4,7 +4,7 @@ package com.example.fitpho.NetworkModel
 class GuideDataResponse(
     private val success: String,
     private val message: String,
-    private val data: ArrayList<data>
+    private val data: ArrayList<data>,
 ) {
     public fun getSuccess(): String{
         return success
@@ -44,7 +44,8 @@ class data(
 class GuideDetailResponse(
     private val success: String,
     private val message: String,
-    private val data: Array<detailData>
+    private val data: Array<detailData>,
+    private val text: Array<String>
 ) {
 
     fun getSuccess(): String {
@@ -56,11 +57,15 @@ class GuideDetailResponse(
     fun getData(): Array<detailData> {
         return data
     }
+    fun getText(): Array<String> {
+        return text
+    }
 
 }
 
 class detailData(
     private val id: Int,
+    private val title: String,
     private val stimulate1: String,
     private val stimulate2: String,
     private val text: String,
@@ -68,6 +73,9 @@ class detailData(
 ){
     fun getId(): Int {
         return id
+    }
+    fun getTitle(): String {
+        return title
     }
     fun getStimulate1(): String {
         return stimulate1

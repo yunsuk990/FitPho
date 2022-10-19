@@ -15,18 +15,38 @@
         android:visibility="invisible"
         android:layout_centerInParent="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="회원가입"
+        android:textColor="@color/white"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp" />
+
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="약관동의 및 회원가입"
-        android:textStyle="bold"
-        android:textColor="@color/white"
         android:layout_above="@+id/linear"
-        android:layout_marginBottom="8dp"
-        android:textSize="20sp"
         android:layout_alignStart="@+id/linear"
-        />
+        android:layout_marginBottom="8dp"
+        android:text="약관동의 및 회원가입"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <CheckBox
+        android:id="@+id/checkbox0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linear"
+        android:layout_alignEnd="@+id/linear"
+        android:layout_marginBottom="-4dp"
+        android:buttonTint="#FFFFFF"
+        android:text="전체 동의"
+        android:textColor="@color/white" />
 
     <LinearLayout
         android:id="@+id/linear"
@@ -38,6 +58,7 @@
         android:layout_marginBottom="20dp"
         android:background="@color/white"
         android:orientation="vertical" />
+
     <CheckBox
         android:id="@+id/checkbox1"
         android:layout_width="wrap_content"
@@ -47,6 +68,18 @@
         android:buttonTint="#FFFFFF"
         android:text="[필수] 서비스 이용 약관"
         android:textColor="@color/white" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/checkbox2"
+        android:layout_alignEnd="@+id/linear"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="15dp"
+        android:text="보기"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
     <CheckBox
         android:id="@+id/checkbox2"
@@ -59,6 +92,17 @@
         android:text="[필수] 개인정보 수집 및 이용 동의"
         android:textColor="@color/white" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/checkbox2"
+        android:layout_alignEnd="@+id/linear"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
+        android:text="보기"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout1"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
@@ -66,17 +110,17 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/textInputLayout2"
         android:layout_alignStart="@+id/textInputLayout2"
-        android:hint="이메일"
-        app:endIconDrawable="@drawable/check"
-        app:boxBackgroundColor="@color/white"
-        app:boxStrokeErrorColor="@color/darklogocolor"
-        app:boxCornerRadiusBottomEnd="25dp"
         android:layout_toLeftOf="@+id/auth_btn"
+        android:hint="이메일"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="25dp"
         app:boxCornerRadiusBottomStart="25dp"
         app:boxCornerRadiusTopEnd="25dp"
         app:boxCornerRadiusTopStart="25dp"
         app:boxStrokeColor="@color/darklogocolor"
+        app:boxStrokeErrorColor="@color/darklogocolor"
         app:boxStrokeWidth="0dp"
+        app:endIconDrawable="@drawable/check"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:errorIconDrawable="@drawable/error"
@@ -166,7 +210,6 @@
         android:layout_marginBottom="100dp"
         android:background="@drawable/button_round"
         android:backgroundTint="@color/lightlogocolor"
-        android:fontFamily="@font/myungbold"
         android:text="가입하기"
         android:textColor="@color/white"
         android:textSize="16dp" />
@@ -174,12 +217,12 @@
     <Button
         android:id="@+id/auth_btn"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/textInputLayout1"
+        android:layout_height="56dp"
+        android:textStyle="bold"
         android:layout_alignTop="@id/textInputLayout1"
         android:layout_alignEnd="@+id/textInputLayout2"
+        android:layout_centerInParent="true"
         android:background="@drawable/button_round"
-        android:text="인증하기" />
-
+        android:text="중복확인" />
 
 </RelativeLayout>
