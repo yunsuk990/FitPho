@@ -19,6 +19,8 @@ import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentRegisterBinding
 import com.example.fitpho.util.hideKeyboard
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,20 +35,26 @@ class RegisterFragment : Fragment(){
     var checkuserpasswd: String = ""
     var checkbox1: Boolean = false
     var checkbox2: Boolean = false
-    lateinit var textLayout:TextInputLayout
+    lateinit var textLayout1:TextInputLayout
+    lateinit var textLayout2:TextInputLayout
     var authNumber: String? =""
     var authSuccess: Boolean = false
     var code: Boolean = false
+    val authService = authService()
     //이메일 형식 검사 정규식
     val emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-    val authService = authService()
+    //비밀번호 형식 검사 정규식
+    val passwdValidation = "([0-9].*[!,@,#,^,&,*,(,)])|([!,@,#,^,&,*,(,)].*[0-9])"
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        textLayout =  binding.textInputLayout1
+        textLayout1 =  binding.textInputLayout1
+        textLayout2 =  binding.textInputLayout1
         return binding.root
     }
 
@@ -55,16 +63,26 @@ class RegisterFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        //체크박스 동의 확인
         checkCheckBox()
 
-        //유효성 검사
+        //이메일 유효성 검사
         binding.registerUserid.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 checkEmail()
             }
             override fun afterTextChanged(s: Editable?) {}
+        })
+
+        //비밀번호 유효성 검사
+        binding.registerPassword.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkPasswd()
+            }
+            override fun afterTextChanged(s: Editable?) {
+            }
         })
 
         //이메일 중복 확인
@@ -113,7 +131,10 @@ class RegisterFragment : Fragment(){
                                             binding.progressBar2.visibility = View.GONE
                                             Log.d("REGISTERIN/SUCCESS", "회원가입 성공.")
                                             hideKeyboard()
-                                            findNavController().navigate(R.id.startFragment)
+                                            findNavController().navigate(R.id.startFragment,Bundle().apply {
+                                                putString("id", userid)
+                                                putString("pw", userpasswd)
+                                            })
                                         }
                                         else -> {
                                             Toast.makeText(requireContext(), "회원가입 실패.", Toast.LENGTH_SHORT).show()
@@ -168,12 +189,25 @@ class RegisterFragment : Fragment(){
         }
     }
 
+    //비밀번호 개수 제한
+    private fun checkPasswd(): Boolean {
+        var layout = binding.textInputLayout2
+        var passwd = binding.registerPassword.text.toString()
+        if (passwd.length >= 8){
+            layout.error = null
+            return true
+        }else{
+            layout.error = "비밀번호 8자리 이상"
+            return false
+        }
+    }
+
 
     //중복 이메일 확인
     private fun emailConfirm():Boolean {
         var useremail = binding.registerUserid.text.toString()
         if (useremail.isEmpty()) {
-            textLayout.error = "이메일 입력해주세요"
+            textLayout1.error = "이메일 입력해주세요"
         } else {
             authService().emailConfirm(useremail).enqueue(object : Callback<EmailResponse> {
                 override fun onResponse(
@@ -186,25 +220,18 @@ class RegisterFragment : Fragment(){
                         in 200..299 -> {
                             Log.d("EmailConfirm", "EmailConfirm/SUCCESS")
                             Log.d("auth", authNumber.toString())
-                            //데이터 전달
-                            var bundle: Bundle = Bundle()
-                            bundle.putString("authNumber", authNumber)
-                            var emailauth: EmailAuthorization = EmailAuthorization()
-                            emailauth.arguments = bundle
-                            emailauth.show(parentFragmentManager, "dialog")
-                            code = true
-                            Log.d("code1", code.toString())
-
+                            //다이얼로그창
+                            EmailAuthdialog()
                         }
                         400 -> {
                             code = false
-                            textLayout.error = "이미 가입된 이메일입니다."
+                            textLayout1.error = "이미 가입된 이메일입니다."
                             Log.d("EmailConfirm", "EmailConfirm/FAIL1")
                         }
                         else -> {
                             code = false
                             Log.d("EmailConfirm", "EmailConfirm/FAIL2")
-                            textLayout.error = "통신 오류입니다."
+                            textLayout1.error = "통신 오류입니다."
                         }
                     }
                 }
@@ -212,7 +239,7 @@ class RegisterFragment : Fragment(){
                 //통신 실패 시
                 override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
                     Log.d("Comfirm", "FAILURE")
-                    textLayout.error = "통신 오류입니다."
+                    textLayout1.error = "통신 오류입니다."
                     code = false
                 }
             })
@@ -221,6 +248,19 @@ class RegisterFragment : Fragment(){
         return code
     }
 
+
+    private fun EmailAuthdialog() {
+                var bundle: Bundle = Bundle()
+                bundle.putString("authNumber", authNumber)
+                var emailauth: EmailAuthorization = EmailAuthorization()
+                emailauth.arguments = bundle
+                emailauth.show(parentFragmentManager, "dialog").apply {
+                    var success = arguments?.getBoolean("authSuccess")
+                    Log.d("successBundle", success.toString())
+                }
+                code = true
+                Log.d("code1", code.toString())
+    }
 
 
     //체크박스 전체확인

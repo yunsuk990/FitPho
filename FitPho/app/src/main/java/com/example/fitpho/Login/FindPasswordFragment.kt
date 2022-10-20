@@ -15,6 +15,7 @@ import com.example.fitpho.Network.API
 import com.example.fitpho.NetworkModel.GetCertifyResponse
 import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.R
+import com.example.fitpho.databinding.FragmentEmailAuthorizationBinding
 import com.example.fitpho.databinding.FragmentFindPasswordBinding
 import com.google.android.material.textfield.TextInputLayout
 import retrofit2.Call
@@ -81,8 +82,8 @@ class FindPasswordFragment : Fragment() {
 
                         }
                         400 -> {
+                            textLayout.error = "가입되어 있지 않은 이메일입니다."
                             Log.d("CertifyEmail", "FAIL1")
-                            Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }

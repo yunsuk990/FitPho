@@ -27,6 +27,7 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+
     companion object{
         lateinit var prefs: SharedPreferenceUtil
     }

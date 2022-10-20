@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentStartBinding
+import com.example.fitpho.util.SharedPreferenceUtil
 
 class StartFragment : Fragment() {
 
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
+    companion object{
+        lateinit var prefs: SharedPreferenceUtil
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
