@@ -9,7 +9,6 @@ router.get('/', function(req, res) {
 	var sql = 'select library.* from favorites left join library on favorites.id = library.id where email=?';
 	db.query(sql, [email], function(err, data, fields) {
 		if (err) throw err;
-		console.log(data);
 		return res.status(200).json({
 			success: "true",
 			message: "즐겨찾기 목록 조회에 성공했습니다.",
