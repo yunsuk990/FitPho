@@ -6,13 +6,14 @@ const db = require('../config/db');
 router.get('/', function(req, res) {
 	const email = req.email;
 
-	var sql = 'select GROUP_CONCAT(id) as favoritesList from favorites where email=?';
+	var sql = 'select library.* from favorites left join library on favorites.id = library.id where email=?';
 	db.query(sql, [email], function(err, data, fields) {
 		if (err) throw err;
+		console.log(data);
 		return res.status(200).json({
 			success: "true",
 			message: "즐겨찾기 목록 조회에 성공했습니다.",
-			favorites: data[0].favoritesList
+			favorites: data
 		});
 	})
 })
