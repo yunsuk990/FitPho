@@ -59,7 +59,7 @@ class CorrectionDialog: DialogFragment() {
                                 Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
                             }
                             403 -> {
-                                getReToken()
+                                //getReToken()
                             }
                             else -> {
                                 Log.d("비밀번호 변경", "비밀번호 변경 실패")

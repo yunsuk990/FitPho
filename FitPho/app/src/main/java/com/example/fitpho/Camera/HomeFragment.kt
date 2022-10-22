@@ -29,6 +29,7 @@ import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentHomeBinding
 import com.example.fitpho.ml.Model
+import com.example.fitpho.util.SharedPreferenceUtil
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import retrofit2.Call
@@ -43,7 +44,6 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,7 +56,6 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         binding.btnCamera.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {

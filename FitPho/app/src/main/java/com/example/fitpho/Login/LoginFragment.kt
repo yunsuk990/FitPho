@@ -90,6 +90,7 @@ class LoginFragment : Fragment() {
                             prefs.setAutoLogin(id,pw)
                         }
                         prefs.setToken(token)
+                        prefs.setUserEmail(id)
                         Log.d("token", token.toString())
                         findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
                     }
@@ -116,20 +117,21 @@ class LoginFragment : Fragment() {
 
     //토큰 재발급
     private fun getReToken(){
-        authService().getReToken().enqueue(object: Callback<GetTokenResponse>{
+        authService().getReToken().enqueue(object: Callback<GetTokenResponse> {
             override fun onResponse(
                 call: Call<GetTokenResponse>,
                 response: Response<GetTokenResponse>,
             ) {
                 when(response.code()){
                     200 -> {
+                        var token = "token=" + response.body()?.getToken()
                         Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
-                        val pref = requireActivity().getSharedPreferences("TOKEN",0)
-                        var editor = pref.edit()
-                        editor.clear()
-                        Log.d("token", pref.getString("token", "null").toString())
-                        editor.putString("token", response.body()?.getToken())
-                        editor.apply()
+                        if(prefs.getToken() !=  token){
+                            Log.d("getReToken","토큰업데이트")
+                            prefs.deleteToken()
+                            prefs.setToken(token)
+                        }
+
                     }
                     401 -> {
                         Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
