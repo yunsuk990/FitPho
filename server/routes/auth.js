@@ -120,7 +120,7 @@ router.get("/logout", verifyToken, function(req, res) {
 router.delete('/delete', verifyToken, function(req, res) {
 	const email = req.email;
 
-	var sql = 'delete from member where email=?';
+	var sql = 'delete a,b from favorites as a inner join member as b on b.email = a.email where b.email=?';
 	db.query(sql, [email], function(err, data, fields) {
 		if (err) throw err;
 		if (data.affectedRows === 0) {
