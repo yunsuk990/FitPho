@@ -17,7 +17,12 @@ const bookmark = (email, startID, endID) => {
 		var sql = 'select group_concat(favorites.id order by id asc) as list from favorites where email=? and id between ? and ?';
 		db.query(sql, [email, startID, endID], function(err, data, fields) {
 			if (err) reject(err);
-			resolve(data[0].list);
+			
+			if (data[0].list == null) {
+				resolve("")
+			} else {
+				resolve(data[0].list.split(',').map(Number));
+			}
 		})
 	})
 }
@@ -32,7 +37,7 @@ router.get('/chest', async function(req, res) {
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
 		data: data,
-		favorites: favorites.split(',').map(Number)
+		favorites: favorites
 	});
 })
 
@@ -46,7 +51,7 @@ router.get('/back', async function(req, res) {
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
 		data: data,
-		favorites: favorites.split(',').map(Number)
+		favorites: favorites
 	});
 })
 
@@ -60,7 +65,7 @@ router.get('/arm', async function(req, res) {
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
 		data: data,
-		favorites: favorites.split(',').map(Number)
+		favorites: favorites
 	});
 })
 
@@ -74,7 +79,7 @@ router.get('/lower', async function(req, res) {
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
 		data: data,
-		favorites: favorites.split(',').map(Number)
+		favorites: favorites
 	});
 })
 
@@ -88,7 +93,7 @@ router.get('/shoulder', async function(req, res) {
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
 		data: data,
-		favorites: favorites.split(',').map(Number)
+		favorites: favorites
 	});
 })
 
@@ -102,7 +107,7 @@ router.get('/etc', async function(req, res) {
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
 		data: data,
-		favorites: favorites.split(',').map(Number)
+		favorites: favorites
 	});
 })
 
