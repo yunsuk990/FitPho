@@ -107,8 +107,11 @@ class SettingFragment : Fragment(){
             })
         }
 
+        //비밀번호 변경
         binding.btnPasswordChange.setOnClickListener{
-            openDialog()
+            findNavController().navigate(R.id.newPasswordFragment, Bundle().apply {
+                putString("email", prefs.getUserEmail())
+            })
         }
 
         //이용약관
@@ -141,44 +144,5 @@ class SettingFragment : Fragment(){
     //비밀번호 변경
     private fun openDialog(){
         CorrectionDialog().show(parentFragmentManager, "dialog")
-    }
-    //토큰 재발급
-    private fun getReToken(){
-        authService().getReToken().enqueue(object: Callback<GetTokenResponse>{
-            override fun onResponse(
-                call: Call<GetTokenResponse>,
-                response: Response<GetTokenResponse>,
-            ) {
-                when(response.code()){
-                    200 -> {
-                        Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
-                        val pref = requireActivity().getSharedPreferences("TOKEN",0)
-                        var editor = pref.edit()
-                        editor.clear()
-                        editor.commit()
-
-                        editor.putString("token", response.body()?.getToken())
-                        editor.apply()
-                    }
-
-                    401 -> {
-                        Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
-                    }
-
-                    403 -> {
-                        Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
-                    }
-
-                    else -> {
-                        Log.d("getReToken", "getReToken fail")
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<GetTokenResponse>, t: Throwable) {
-                Log.d("getReToken", "getReToken failure")
-            }
-
-        })
     }
 }

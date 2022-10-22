@@ -153,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@color/white"
-                    android:text="바밀번호 재설정"
+                    android:text="비밀번호 재설정"
                     app:layout_constraintTop_toBottomOf="@id/account"
                     app:layout_constraintStart_toStartOf="parent"
                     android:layout_marginTop="20dp"

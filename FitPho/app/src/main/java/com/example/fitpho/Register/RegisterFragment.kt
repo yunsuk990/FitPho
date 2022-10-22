@@ -131,10 +131,8 @@ class RegisterFragment : Fragment(){
                                             binding.progressBar2.visibility = View.GONE
                                             Log.d("REGISTERIN/SUCCESS", "회원가입 성공.")
                                             hideKeyboard()
-                                            findNavController().navigate(R.id.startFragment,Bundle().apply {
-                                                putString("id", userid)
-                                                putString("pw", userpasswd)
-                                            })
+                                            findNavController().navigate(R.id.loginFragment)
+
                                         }
                                         else -> {
                                             Toast.makeText(requireContext(), "회원가입 실패.", Toast.LENGTH_SHORT).show()
@@ -222,6 +220,7 @@ class RegisterFragment : Fragment(){
                             Log.d("auth", authNumber.toString())
                             //다이얼로그창
                             EmailAuthdialog()
+                            code=true
                         }
                         400 -> {
                             code = false
