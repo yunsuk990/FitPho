@@ -19,7 +19,7 @@ const bookmark = (email, startID, endID) => {
 			if (err) reject(err);
 			
 			if (data[0].list == null) {
-				resolve("")
+				resolve([])
 			} else {
 				resolve(data[0].list.split(',').map(Number));
 			}
