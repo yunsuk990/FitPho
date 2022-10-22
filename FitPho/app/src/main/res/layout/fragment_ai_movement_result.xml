@@ -49,7 +49,7 @@
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/black"
+            android:background="@drawable/good"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ai_movement_title" />
