@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use("/auth", auth);
-app.use("/library", library);
+app.use("/library", verifyToken, library);
 app.use("/favorites", verifyToken, favorites);
 app.use("/calendar", verifyToken, calendar);
 

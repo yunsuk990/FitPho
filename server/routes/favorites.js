@@ -6,7 +6,7 @@ const db = require('../config/db');
 router.get('/', function(req, res) {
 	const email = req.email;
 
-	var sql = 'select library.* from favorites left join library on favorites.id = library.id where email=?';
+	var sql = 'select library.* from favorites left join library on favorites.id = library.id where email=? order by id asc';
 	db.query(sql, [email], function(err, data, fields) {
 		if (err) throw err;
 		return res.status(200).json({

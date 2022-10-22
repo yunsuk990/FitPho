@@ -12,69 +12,97 @@ const lookUp = (startID, endID) => {
 	})
 }
 
+const bookmark = (email, startID, endID) => {
+	return new Promise((resolve, reject) => {
+		var sql = 'select group_concat(favorites.id order by id asc) as list from favorites where email=? and id between ? and ?';
+		db.query(sql, [email, startID, endID], function(err, data, fields) {
+			if (err) reject(err);
+			resolve(data[0].list);
+		})
+	})
+}
+
 // 가슴 부위 라이브러리 조회
 router.get('/chest', async function(req, res) {
-	var data = await lookUp(1, 8);
+	const email = req.email;
+	const data = await lookUp(1, 8);
+	const favorites = await bookmark(email, 1, 8);
 
 	return res.status(200).json({
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
-		data: data
+		data: data,
+		favorites: favorites.split(',').map(Number)
 	});
 })
 
 // 등 부위 라이브러리 조회
 router.get('/back', async function(req, res) {
-	var data = await lookUp(9, 19);
+	const email = req.email;
+	const data = await lookUp(9, 19);
+	const favorites = await bookmark(email, 9, 19);
 
 	return res.status(200).json({
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
-		data: data
+		data: data,
+		favorites: favorites.split(',').map(Number)
 	});
 })
 
 // 팔 부위 라이브러리 조회
 router.get('/arm', async function(req, res) {
-	var data = await lookUp(20, 21);
+	const email = req.email;
+	const data = await lookUp(20, 21);
+	const favorites = await bookmark(email, 20, 21);
 
 	return res.status(200).json({
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
-		data: data
+		data: data,
+		favorites: favorites.split(',').map(Number)
 	});
 })
 
 // 하체 부위 라이브러리 조회
 router.get('/lower', async function(req, res) {
-	var data = await lookUp(22, 30);
+	const email = req.email;
+	const data = await lookUp(22, 30);
+	const favorites = await bookmark(email, 22, 30);
 
 	return res.status(200).json({
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
-		data: data
+		data: data,
+		favorites: favorites.split(',').map(Number)
 	});
 })
 
 // 어깨 부위 라이브러리 조회
 router.get('/shoulder', async function(req, res) {
-	var data = await lookUp(31, 43);
+	const email = req.email;
+	const data = await lookUp(31, 43);
+	const favorites = await bookmark(email, 31, 43);
 
 	return res.status(200).json({
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
-		data: data
+		data: data,
+		favorites: favorites.split(',').map(Number)
 	});
 })
 
 // 기타 부위 라이브러리 조회
 router.get('/etc', async function(req, res) {
-	var data = await lookUp(44, 48);
+	const email = req.email;
+	const data = await lookUp(44, 48);
+	const favorites = await bookmark(email, 44, 48);
 
 	return res.status(200).json({
 		success: "true",
 		message: "부위별 라이브러리 조회에 성공했습니다.",
-		data: data
+		data: data,
+		favorites: favorites.split(',').map(Number)
 	});
 })
 
