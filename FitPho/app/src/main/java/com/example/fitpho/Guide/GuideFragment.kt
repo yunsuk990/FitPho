@@ -10,12 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitpho.Network.API
-import com.example.fitpho.NetworkModel.GuideDataResponse
-import com.example.fitpho.NetworkModel.data
-import com.example.fitpho.NetworkModel.getRetrofit
+import com.example.fitpho.NetworkModel.*
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentGuideBinding
+import com.example.fitpho.util.SharedPreferenceUtil
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 
@@ -23,6 +23,9 @@ class GuideFragment : Fragment() {
 
     private var _binding: FragmentGuideBinding? = null
     private val binding get() = _binding!!
+    companion object{
+        lateinit var prefs: SharedPreferenceUtil
+    }
 
 
     //GuideAdapter 생성
@@ -42,6 +45,7 @@ class GuideFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefs = SharedPreferenceUtil(requireContext())
 
         //val viewmodel = ViewModelProvider(this, ViewModel.Factory(requireActivity().application)).get(ViewModel::class.java)
 
@@ -56,8 +60,9 @@ class GuideFragment : Fragment() {
 
 
         //가이드 부위별 운동
+
         binding.bookmark.setOnFocusChangeListener { v, hasFocus ->
-            //getFavorite()
+            getFavorite()
         }
 
         binding.chest.setOnFocusChangeListener { v, hasFocus ->
@@ -81,6 +86,7 @@ class GuideFragment : Fragment() {
     }
 
 
+    // 라이브러리 조회
     private fun getGuide(part: String){
         authService().guideData(part).enqueue(object: retrofit2.Callback<GuideDataResponse>{
             override fun onResponse(
@@ -91,7 +97,7 @@ class GuideFragment : Fragment() {
                     200 -> {
                         var data: List<data> = ArrayList(response.body()?.getData())
 //                            for(a in data){
-//                                Log.d("Guide", a.getId().toString())
+//                                Log.d("Guide", a.getImg1().toString())
 //                            }
                         guideAdapter.setGuideData(data)
 
@@ -110,10 +116,28 @@ class GuideFragment : Fragment() {
 
     //즐겨찾기 운동 가져오기
     private fun getFavorite(){
-        //authService()
-        //즐겨찾기 등록되어있을 경우 하얀색 바탕 색 하얀색으로 바꾸기
+        authService().getFavorites(prefs.getToken()!!).enqueue(object: Callback<GetFavoritesResponse>{
+            override fun onResponse(
+                call: Call<GetFavoritesResponse>,
+                response: Response<GetFavoritesResponse>
+            ) {
+                when(response.code()){
+                    200 -> {
+                        var data: List<data>? = ArrayList(response.body()?.getFavorites())
+                        if(data.isNullOrEmpty()){
 
+                        }else{
+                            guideAdapter.favoriteData(data)
+                            guideAdapter.notifyDataSetChanged()
+                        }
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GetFavoritesResponse>, t: Throwable) {
+                Log.d("즐겨찾기 조회", t.message.toString())
+            }
 
+        })
     }
 
 

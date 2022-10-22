@@ -79,5 +79,25 @@ interface API {
         @Path("email") email: String
     ): Call<GetCertifyResponse>
 
+    //즐겨찾기 조회
+    @GET("/favorites")
+    fun getFavorites(
+        @Header("Authorization") token: String
+    ): Call<GetFavoritesResponse>
+
+    //즐겨찾기 추가
+    @POST("/favorites/{id}")
+    fun addFavorites(
+        @Path("id") id: Int,
+        @Header("Authorization") token: String
+    ): Call<GetAddFavoritesResponse>
+
+    //즐겨찾기 삭제
+    @DELETE("/favorites/{id}")
+    fun deleteFavorites(
+        @Path("id") id: Int,
+        @Header("Authorization") token: String
+    ): Call<GetDeleteFavoritesResponse>
+
 }
 

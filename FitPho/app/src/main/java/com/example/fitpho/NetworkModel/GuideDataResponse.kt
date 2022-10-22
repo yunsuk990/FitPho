@@ -18,22 +18,18 @@ class GuideDataResponse(
 }
 
 class data(
-    private val id: Int,
-    private val title: String,
-    private val img1: String,
-    private val img2: String
+    private val id: Int?,
+    private val title: String?,
+    private val img1: String?,
 ){
-    fun getId(): Int{
+    fun getId(): Int?{
         return id
     }
-    fun getTitle(): String{
+    fun getTitle(): String?{
         return title
     }
-    fun getImg1(): String{
+    fun getImg1(): String?{
         return img1
-    }
-    fun getImg2(): String{
-        return img2
     }
 }
 
