@@ -140,7 +140,7 @@
     </fragment>
     <fragment
         android:id="@+id/findPasswordAuthFragment"
-        android:name="com.example.fitpho.FindPasswordAuthFragment"
+        android:name="com.example.fitpho.Login.FindPasswordAuthFragment"
         android:label="fragment_find_password_auth"
         tools:layout="@layout/fragment_find_password_auth" >
         <action

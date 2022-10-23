@@ -18,10 +18,10 @@
             android:background="@color/barcolor">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:text="설정"
+                    android:text="설 정"
                     android:layout_gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="23sp"
+                    android:textSize="20sp"
                     android:layout_height="wrap_content"/>
         </androidx.appcompat.widget.Toolbar>
 

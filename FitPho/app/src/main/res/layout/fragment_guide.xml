@@ -84,8 +84,8 @@
                 android:focusableInTouchMode="true"
                 android:minWidth="0dp"
                 android:minHeight="0dp"
+                android:textColor="@color/black"
                 android:text="가슴"
-                android:textColor="@drawable/button_click_textcolor"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
