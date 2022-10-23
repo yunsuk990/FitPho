@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.fitpho.Calendar.TimeViewPagerAdapter
 import com.example.fitpho.databinding.DialogDatetimePickerBinding
 import com.example.fitpho.databinding.FragmentScheduleAddBinding
 import com.google.android.material.tabs.TabLayout
@@ -53,16 +52,6 @@ class ScheduleAdd : Fragment(), TabLayout.OnTabSelectedListener {
         dialogBuilder.setView(view.root)
         val alertDialog = dialogBuilder.create()
         alertDialog.show()
-
-        view.tabLayout.addOnTabSelectedListener(this)
-        val adapter = TimeViewPagerAdapter(activity?.supportFragmentManager!!, requireActivity().lifecycle )
-        view.frame.adapter = adapter
-        TabLayoutMediator(view.tabLayout, view.frame){tab,position->
-            when(position){
-                0->tab.text="날짜"
-                1->tab.text="시간"
-            }
-        }.attach()
     }
 
     override fun onDestroyView() {

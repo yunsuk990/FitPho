@@ -12,6 +12,7 @@ import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentCalenderBinding
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.format.DateFormatTitleFormatter
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,6 +22,7 @@ class CalenderFragment : Fragment() {
 
     private var _binding: FragmentCalenderBinding? = null
     private val binding get() = _binding!!
+    lateinit var calendar: MaterialCalendarView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +31,10 @@ class CalenderFragment : Fragment() {
         _binding = FragmentCalenderBinding.inflate(inflater, container, false)
         var mytoolbar  = binding.toolbar
         (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
+
+        calendar = binding.calendar
+        //오늘 날짜 자동 선택
+        calendar.selectedDate = CalendarDay.today()
         return binding.root
     }
 
@@ -53,9 +59,16 @@ class CalenderFragment : Fragment() {
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
 
+        var todayDecorator = TodayDecorator()
         binding.calendar.setTitleFormatter(DateFormatTitleFormatter(SimpleDateFormat("yyyy년 M월")))
         binding.calendar.setWeekDayTextAppearance(R.style.calendar_day)
         binding.calendar.setHeaderTextAppearance(R.style.calendar_title)
+        binding.calendar.addDecorators(
+            SundayDecorator(),
+            SaturdayDecorator(),
+            todayDecorator,
+            DotDecorator(Color.RED, Collections.singleton(CalendarDay.today()))
+        )
 
 
 
