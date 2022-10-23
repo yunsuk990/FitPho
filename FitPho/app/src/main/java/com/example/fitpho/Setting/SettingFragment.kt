@@ -59,6 +59,7 @@ class SettingFragment : Fragment(){
                         200 -> {
                             prefs.deleteAutoLogin()
                             prefs.deleteToken()
+                            prefs.deleteUserEmail()
                             Toast.makeText(requireContext(), "로그아웃 성공.", Toast.LENGTH_LONG).show()
                             findNavController().navigate(R.id.action_global_loginFragment)
                         }
@@ -83,6 +84,7 @@ class SettingFragment : Fragment(){
                 ) {
                     when(response.code()){
                         200 -> {
+                            prefs.deleteUserEmail()
                             prefs.deleteAutoLogin()
                             prefs.deleteToken()
                             Log.d("Withdraw", "탈퇴성공")

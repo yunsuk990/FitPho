@@ -22,6 +22,13 @@ class SharedPreferenceUtil(context: Context) {
         return (pref.getString("email", null)!!)
     }
 
+    fun deleteUserEmail(){
+        val pref = UserEmailPref
+        val edit = pref.edit()
+        edit.clear()
+        edit.apply()
+    }
+
     fun getAutoLogin():Boolean {
         val pref = AutoLogInPref
         val id = pref.getString("id", null)
