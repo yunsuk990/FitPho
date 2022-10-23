@@ -142,9 +142,4 @@ class SettingFragment : Fragment(){
     private fun authService(): API {
         return getRetrofit().create(API::class.java)
     }
-
-    //비밀번호 변경
-    private fun openDialog(){
-        CorrectionDialog().show(parentFragmentManager, "dialog")
-    }
 }
