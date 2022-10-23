@@ -1,4 +1,4 @@
-package com.example.fitpho
+package com.example.fitpho.Login
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentFindPasswordAuthBinding
 
 class FindPasswordAuthFragment : Fragment() {
@@ -35,7 +36,8 @@ class FindPasswordAuthFragment : Fragment() {
             Log.d("inputAuth", inputAuth.toString())
             if(inputAuth == authNumber.toString()){
                 Toast.makeText(requireContext(), "인증되었습니다.", Toast.LENGTH_LONG).show()
-                findNavController().navigate(R.id.action_findPasswordAuthFragment_to_newPasswordFragment,
+                findNavController().navigate(
+                    R.id.action_findPasswordAuthFragment_to_newPasswordFragment,
                     Bundle().apply{
                         putString("email", email)
                     })
