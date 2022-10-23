@@ -53,13 +53,15 @@ interface API {
     //가이드 부위 조회
     @GET("/library/{part}")
     fun guideData(
-        @Path("part") part: String
-    ): Call<GuideDataResponse>
+        @Path("part") part: String,
+        @Header("Authorization") token: String
+    ): Call<GuideDataResponse>?
 
     //각 운동 기구 별 세부 내용 조회
     @GET("/library/detail/{id}")
     fun guideDetailData(
-        @Path("id") id: Int
+        @Path("id") id: Int,
+        @Header("Authorization") token: String
     ): Call<GuideDetailResponse>
 
     //토큰 재발급
@@ -83,7 +85,7 @@ interface API {
     @GET("/favorites")
     fun getFavorites(
         @Header("Authorization") token: String
-    ): Call<GetFavoritesResponse>
+    ): Call<GetFavoritesResponse>?
 
     //즐겨찾기 추가
     @POST("/favorites/{id}")

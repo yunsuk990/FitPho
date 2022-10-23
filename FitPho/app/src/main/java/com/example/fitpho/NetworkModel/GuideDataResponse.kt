@@ -5,6 +5,7 @@ class GuideDataResponse(
     private val success: String,
     private val message: String,
     private val data: ArrayList<data>,
+    private val favorites: ArrayList<Int>?
 ) {
     public fun getSuccess(): String{
         return success
@@ -14,6 +15,9 @@ class GuideDataResponse(
     }
     public fun getData(): ArrayList<data> {
         return data
+    }
+    public fun getFavorites(): ArrayList<Int>? {
+        return favorites
     }
 }
 
@@ -65,7 +69,8 @@ class detailData(
     private val stimulate1: String,
     private val stimulate2: String,
     private val text: String,
-    private val animation: String
+    private val animation: String,
+    private val url: String
 ){
     fun getId(): Int {
         return id
@@ -84,5 +89,8 @@ class detailData(
     }
     fun getAnimation(): String {
         return animation
+    }
+    fun getUrl(): String {
+        return url
     }
 }
