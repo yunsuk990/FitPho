@@ -25,11 +25,16 @@ import retrofit2.Response
 class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdapter.ItemViewHolder>() {
 
     var prefs: SharedPreferenceUtil = SharedPreferenceUtil(context)
-    var guideList: List<data>? = ArrayList()
+    var guideList: ArrayList<data>? = ArrayList()
+    var favoriteList: ArrayList<Int>? = ArrayList()
     private var favoritesCheck: Boolean = false
 
-    fun setFavoritesCheck(type: Boolean){
-        this.favoritesCheck = type
+    interface favoritesClickListener{
+        fun onRemoveFavorites(position: Int)
+    }
+    private lateinit var mfavoritesClickListener: favoritesClickListener
+    fun favoritesClickItem(itemClickLister: favoritesClickListener){
+        mfavoritesClickListener = itemClickLister
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -39,19 +44,39 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val currentItem = guideList?.get(position)
-        var code = false
         val title = currentItem?.getTitle()
         val id = currentItem?.getId()
         val img1 = currentItem?.getImg1()
+
         holder.binding.textView.text = title
         Glide.with(context).load(currentItem?.getImg1()).placeholder(R.drawable.star).apply(RequestOptions.bitmapTransform(
             RoundedCorners(25))).into(holder.binding.imageView)
+
+        //즐겨찾기 화면일시
         if(favoritesCheck){
-            code = true
             holder.binding.imageButton.setBackgroundResource(R.drawable.bookmark_white)
+            holder.binding.imageButton.setOnClickListener{
+                mfavoritesClickListener.onRemoveFavorites(position)
+                deleteFavoriteService(id!!)
+            }
+        }else{ //부위별 조회 화면 일시
+            if (favoriteList?.contains(id!!) == true){
+                holder.binding.imageButton.setBackgroundResource(R.drawable.bookmark_white)
+            }else{
+                holder.binding.imageButton.setBackgroundResource(R.drawable.bookmark_black_small)
+            }
+            holder.binding.imageButton.setOnClickListener {
+                if (favoriteList?.contains(id!!) == true) {
+                    it.setBackgroundResource(R.drawable.bookmark_black_small)
+                    deleteFavoriteService(id!!)
+                }else{
+                    it.setBackgroundResource(R.drawable.bookmark_white)
+                    addFavoriteService(id!!)
+                }
+            }
         }
 
-        //부위 세부사항
+        //부위 세부사항으로 이동
         holder.binding.click.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
                 Navigation.findNavController(v!!).navigate(R.id.guideDetailFragment,
@@ -62,80 +87,89 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
                     })
             }
         })
-
-        //즐겨찾기 추가/삭제 기능
-        holder.binding.imageButton.setOnClickListener{
-            var token = prefs.getToken()
-            if(!code){
-                //즐겨찾기 추가
-                it.setBackgroundResource(R.drawable.bookmark_white)
-                authService().addFavorites(id!!, token!!).enqueue(object: retrofit2.Callback<GetAddFavoritesResponse>{
-                    override fun onResponse(
-                        call: Call<GetAddFavoritesResponse>,
-                        response: Response<GetAddFavoritesResponse>
-                    ) {
-                        when(response.code()){
-                            200 -> {
-                                Log.d("즐겨찾기 추가", "성공")
-                            }
-                            else -> {
-                                Log.d("즐겨찾기 추가", "실패")
-                            }
-                        }
-                    }
-                    override fun onFailure(call: Call<GetAddFavoritesResponse>, t: Throwable) {
-                        Toast.makeText(context, "즐겨찾기 추가 오류", Toast.LENGTH_SHORT).show()
-                    }
-
-                })
-                code = true
-            }else{
-                //즐겨찾기 삭제
-                it.setBackgroundResource(R.drawable.bookmark_black_small)
-                authService().deleteFavorites(id!!, token!!).enqueue(object: retrofit2.Callback<GetDeleteFavoritesResponse>{
-                    override fun onResponse(
-                        call: Call<GetDeleteFavoritesResponse>,
-                        response: Response<GetDeleteFavoritesResponse>
-                    ) {
-                        when(response.code()){
-                            200 -> {
-                                Log.d("즐겨찾기 삭제", "성공")
-                                notifyDataSetChanged()
-                            }
-                            else -> {
-                                Log.d("즐겨찾기 삭제", "실패")
-                            }
-                        }
-                    }
-                    override fun onFailure(call: Call<GetDeleteFavoritesResponse>, t: Throwable) {
-                        Toast.makeText(context, "즐겨찾기 삭제 오류", Toast.LENGTH_SHORT).show()                    }
-
-                })
-                code = false
-            }
-
-        }
     }
 
     override fun getItemCount(): Int = guideList?.size!!
 
+    inner class ItemViewHolder(val binding: ExlistItemBinding): RecyclerView.ViewHolder(binding.root) {}
+
+
     //가이드 부위별 운동 나열
-    fun setGuideData(guidedata: List<data>){
-        setFavoritesCheck(false)
+    fun setGuideData(guidedata: ArrayList<data>, favoriteData: ArrayList<Int>?){
+        guideList?.clear()
+        favoriteList?.clear()
+        favoriteList = favoriteData
         guideList = guidedata
         notifyDataSetChanged()
+        setFavoritesCheck(false)
     }
 
     //즐겨찾기 운동 나열
-    fun favoriteData(favorite: List<data>?){
-        setFavoritesCheck(true)
+    fun favoriteData(favorite: ArrayList<data>?){
+        guideList?.clear()
         guideList = favorite
+        notifyDataSetChanged()
+        setFavoritesCheck(true)
+    }
+
+    //즐겨찾기 항목 삭제
+    fun deleteFavorites(position: Int){
+        guideList?.removeAt(position)
         notifyDataSetChanged()
     }
 
-    inner class ItemViewHolder(val binding: ExlistItemBinding): RecyclerView.ViewHolder(binding.root) {}
+    //즐겨찾기 또는 부위별 조회인지 구분
+    fun setFavoritesCheck(type: Boolean){
+        favoritesCheck = type
+    }
+
+    //즐겨찾기추가 Server로 항목 보내기
+    fun addFavoriteService(id: Int){
+        authService().addFavorites(id!!, prefs.getToken()!!).enqueue(object: retrofit2.Callback<GetAddFavoritesResponse>{
+            override fun onResponse(
+                call: Call<GetAddFavoritesResponse>,
+                response: Response<GetAddFavoritesResponse>
+            ) {
+                when(response.code()){
+                    200 -> {
+                        Log.d("즐겨찾기 추가", "성공")
+                    }
+                    else -> {
+                        Log.d("즐겨찾기 추가", "실패")
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GetAddFavoritesResponse>, t: Throwable) {
+                Toast.makeText(context, "즐겨찾기 추가 오류", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    //즐겨찾기삭제 Server로 항목 보내기
+    fun deleteFavoriteService(id: Int){
+        authService().deleteFavorites(id!!, prefs.getToken()!!).enqueue(object: retrofit2.Callback<GetDeleteFavoritesResponse>{
+            override fun onResponse(
+                call: Call<GetDeleteFavoritesResponse>,
+                response: Response<GetDeleteFavoritesResponse>
+            ) {
+                when(response.code()){
+                    200 -> {
+                        Log.d("즐겨찾기 삭제", "성공")
+                    }
+                    else -> {
+                        Log.d("즐겨찾기 삭제", "실패")
+                    }
+                }
+            }
+            override fun onFailure(call: Call<GetDeleteFavoritesResponse>, t: Throwable) {
+                Toast.makeText(context, "즐겨찾기 삭제 오류", Toast.LENGTH_SHORT).show()                    }
+
+        })
+    }
 
 }
+
 
 private fun authService(): API {
     return getRetrofit().create(API::class.java)

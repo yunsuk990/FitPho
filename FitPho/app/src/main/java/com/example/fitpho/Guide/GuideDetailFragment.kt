@@ -1,6 +1,8 @@
 package com.example.fitpho.Guide
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -18,6 +20,7 @@ import com.example.fitpho.NetworkModel.GuideDetailResponse
 import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentGuideDetailBinding
+import com.example.fitpho.util.SharedPreferenceUtil
 import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Response
@@ -32,6 +35,9 @@ class GuideDetailFragment : Fragment() {
     var title: String? =""
     var img: String? = ""
     lateinit var explainlayout: LinearLayout
+    companion object{
+        lateinit var prefs: SharedPreferenceUtil
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +45,6 @@ class GuideDetailFragment : Fragment() {
     ): View? {
         _binding = FragmentGuideDetailBinding.inflate(inflater, container, false)
         explainlayout = binding.explain
-
         id = arguments?.getInt("id")
         title = arguments?.getString("title")
         img = arguments?.getString("img1")
@@ -56,10 +61,11 @@ class GuideDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefs = SharedPreferenceUtil(requireContext())
 
         //각 운동기구별 세부내용 조회
 
-        authService().guideDetailData(id!!).enqueue(object :retrofit2.Callback<GuideDetailResponse>{
+        authService().guideDetailData(id!!, prefs.getToken()!!).enqueue(object :retrofit2.Callback<GuideDetailResponse>{
             override fun onResponse(
                 call: Call<GuideDetailResponse>,
                 response: Response<GuideDetailResponse>,
@@ -72,10 +78,17 @@ class GuideDetailFragment : Fragment() {
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate1()).into(binding.stimulate1)
                         Glide.with(requireContext()).load(res.getData()!![0].getStimulate2()).into(binding.stimulate2)
                         Glide.with(requireContext()).load(res.getData()!![0].getAnimation()).into(binding.animation)
+                        binding.url.setOnClickListener(object : View.OnClickListener{
+                            override fun onClick(p0: View?) {
+                                var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(res.getData()!![0].getUrl()))
+                                startActivity(intent)
+                            }
+
+                        })
 
                         //운동설명
                         var s: String =""
-                        for(i in 0..((text?.toInt())?.minus(1)!!)){
+                        for(i in 0..((text)?.minus(1)!!)){
                             createTextView(res.getText()[i], i+1)
                             Log.d("text", res.getText()[i])
                         }
