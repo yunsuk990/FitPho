@@ -90,7 +90,7 @@ dependencies {
     //annotationProcessor 'com.github.bumptech.glide:compiler:4.14.1'
 
     //Calendar
-    implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+    implementation 'com.prolificinteractive:material-calendarview:2.0.1'
 
     //TensorflowLite
     implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
