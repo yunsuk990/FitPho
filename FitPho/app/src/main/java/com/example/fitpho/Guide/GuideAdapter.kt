@@ -170,7 +170,6 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
 
 }
 
-
 private fun authService(): API {
     return getRetrofit().create(API::class.java)
 }

@@ -36,7 +36,6 @@ class GuideFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGuideBinding.inflate(inflater, container, false)
-        binding.exList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         var mytoolbar  = binding.toolbar
         (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
         return binding.root
