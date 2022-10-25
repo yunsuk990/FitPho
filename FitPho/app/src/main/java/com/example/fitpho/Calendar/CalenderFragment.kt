@@ -79,7 +79,6 @@ class CalenderFragment : Fragment() {
         }
 
 
-
     }
 
     override fun onDestroyView() {

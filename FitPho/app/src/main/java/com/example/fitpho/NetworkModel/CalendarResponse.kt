@@ -79,8 +79,8 @@ class CalendarUpdateResponse(
 
 //캘린더 계획수정 요청
 data class ScheduleUpdate(
-    @SerializedName("Date") val Date: String,
     @SerializedName("tvTitle") val tvTitle: String,
+    @SerializedName("tvDate") val tvDate: String,
     @SerializedName("tvStart") val tvStart: String,
     @SerializedName("tvEnd") val tvEnd: String,
     @SerializedName("tvContent") val tvContent: String

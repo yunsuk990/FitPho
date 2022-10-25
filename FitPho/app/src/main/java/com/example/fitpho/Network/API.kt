@@ -136,9 +136,10 @@ interface API {
     ): Call<CalendarDeleteResponse>
 
     //캘린더 일정수정
-    @PATCH("/calendar/{scheduleid}")
+    @PATCH("/calendar/{date}/{tvStart}")
     fun ScheduleUpdate(
-        @Path("scheduleid") scheduleid: String,
+        @Path("date") date: String,
+        @Path("tvStart") tvStart: String,
         @Header("Authorization") token: String,
         @Body scheduleUpdate: ScheduleUpdate
     ): Call<CalendarUpdateResponse>

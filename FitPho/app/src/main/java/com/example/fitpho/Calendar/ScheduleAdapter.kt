@@ -46,6 +46,9 @@ class ScheduleAdapter(): RecyclerView.Adapter<ScheduleAdapter.ItemViewHolder>() 
                 })
             }
         })
+        holder.binding.btnRemove.setOnClickListener{
+
+        }
     }
 
     override fun getItemCount(): Int = scheduleList?.size!!

@@ -106,6 +106,13 @@ class SettingFragment : Fragment() {
                 startActivity(intent)
             }
         })
+
+        binding.btnSeeLicense.setOnClickListener(object: View.OnClickListener{
+            override fun onClick(p0: View?) {
+                var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://leaf-jumpsuit-ad1.notion.site/FitPho-816f04e30cbe4ce895cd9c92699006e6"))
+                startActivity(intent)
+            }
+        })
     }
 
     override fun onDestroyView() {
