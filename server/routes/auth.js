@@ -13,7 +13,6 @@ const {
 const {
 	authEmail
 } = require('../utils/mailer');
-const e = require('express');
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;

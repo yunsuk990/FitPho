@@ -1,4 +1,4 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
 require("dotenv").config();
 
@@ -15,7 +15,6 @@ const db = mysql.createPool({
     password: DB_PASSWORD,
     database: DB_DATABASE,
     port: DB_PORT,
-    dateStrings: 'date',
     multipleStatements: true
 })
 
