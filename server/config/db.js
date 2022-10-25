@@ -15,7 +15,8 @@ const db = mysql.createPool({
     password: DB_PASSWORD,
     database: DB_DATABASE,
     port: DB_PORT,
-    dateStrings: 'date'
+    dateStrings: 'date',
+    multipleStatements: true
 })
 
 db.getConnection(function(err) {

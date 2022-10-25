@@ -13,6 +13,7 @@ const {
 const {
 	authEmail
 } = require('../utils/mailer');
+const e = require('express');
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
@@ -119,22 +120,37 @@ router.get("/logout", verifyToken, function(req, res) {
 // 회원탈퇴
 router.delete('/delete', verifyToken, function(req, res) {
 	const email = req.email;
+	const password = req.body.password;
 
-	var sql = 'delete a,b from favorites as a inner join member as b on b.email = a.email where b.email=?';
-	db.query(sql, [email], function(err, data, fields) {
+	var sql = 'select * from member where email=?';
+	db.query(sql, [email], async function(err, data, fields) {
 		if (err) throw err;
-		if (data.affectedRows === 0) {
+		if (data.length === 0) {
+			return res.status(401).json({
+				success: "false",
+				message: "회원 정보가 존재하지 않습니다."
+			});
+		}
+		const hashedPassword = data[0].password;
+		var verified = await bcrypt.compare(password, hashedPassword);
+
+		if (!verified) {
 			return res.status(400).json({
 				success: "false",
-				message: "회원탈퇴에 실패했습니다."
-			})
-		} else {
-			res.clearCookie("refreshToken");
-			res.removeHeader("Authorization");
-			return res.status(200).json({
-				success: "true",
-				message: "회원탈퇴에 성공하였습니다."
+				message: "비밀번호가 일치하지 않습니다."
 			});
+		} else {
+			var sql = 'delete from favorites where email=?;' + 'delete from member where email=?;';
+			db.query(sql, [email, email], async function(err, data, fields) {
+				if (err) throw err;
+
+				res.clearCookie("refreshToken");
+				res.removeHeader("Authorization");
+				return res.status(200).json({
+					success: "true",
+					message: "회원탈퇴에 성공하였습니다."
+				});
+			})
 		}
 	})
 })
