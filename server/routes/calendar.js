@@ -6,13 +6,13 @@ const db = require('../config/db');
 router.get('/', function(req, res) {
     const email = req.email;
 
-    var sql='select tvTitle, tvDate, tvStart, tvEnd, tvContent from calendar where email=?';
+    var sql='select group_concat(distinct tvDate order by tvDate asc) as list from calendar where email=?';
     db.query(sql, [email], function (err, data, fields) {
         if(err) throw err;
         return res.status(200).json({
             success: "true",
             message: "전체 일정 조회에 성공했습니다.",
-            data: data
+            data: data[0].list.split(',')
         });
     })
 })
