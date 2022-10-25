@@ -97,16 +97,17 @@ router.patch('/:date/:tvStart', function(req, res) {
     var sql = 'update calendar set tvTitle=?, tvDate=?, tvStart=?, tvEnd=?, tvContent=? where email=? and tvDate=? and tvStart=?';
     db.query(sql, [data.tvTitle, data.tvDate, data.tvStart, data.tvEnd, data.tvContent, email, date, start], function (err, data, fields) {
         if(err) throw err;
-        // if (data.affectedRows === 0) {
-		// 	return res.status(400).json({
-		// 		success: "false",
-		// 		message: "캘린더에 등록되지 않은 일정입니다."
-		// 	});
-		// } else {
-        return res.status(200).json({
-            success: "true",
-            message: "일정 수정에 성공했습니다"
-        });
+        if (data.affectedRows === 0) {
+			return res.status(400).json({
+				success: "false",
+				message: "캘린더에 등록되지 않은 일정입니다."
+			});
+		} else {
+            return res.status(200).json({
+                success: "true",
+                message: "일정 수정에 성공했습니다"
+            });
+        }
     }) 
 })   
 
