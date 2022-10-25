@@ -2,20 +2,31 @@ package com.example.fitpho.Calendar
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.fitpho.Network.API
+import com.example.fitpho.NetworkModel.CalendarRequestResponse
+import com.example.fitpho.NetworkModel.getRetrofit
+import com.example.fitpho.NetworkModel.schedule
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentCalenderBinding
+import com.example.fitpho.util.SharedPreferenceUtil
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
+import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter
 import com.prolificinteractive.materialcalendarview.format.DateFormatTitleFormatter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -26,7 +37,13 @@ class CalenderFragment : Fragment() {
     private var _binding: FragmentCalenderBinding? = null
     private val binding get() = _binding!!
     lateinit var calendar: MaterialCalendarView
-    private val scheduleAdapter by lazy { ScheduleAdapter(requireContext()) }
+    private val scheduleAdapter by lazy { ScheduleAdapter() }
+    private var mformat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+    lateinit var clickedDay: String
+    var day = CalendarDay.today()
+    companion object{
+        lateinit var prefs: SharedPreferenceUtil
+    }
 
 
     override fun onCreateView(
@@ -38,38 +55,29 @@ class CalenderFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
 
         calendar = binding.calendar
+        calendar.selectedDate = day
         //오늘 날짜 자동 선택
-        calendar.selectedDate = CalendarDay.today()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefs = SharedPreferenceUtil(requireContext())
+        clickedDay = mformat.format(CalendarDay.today().date)
         CalendarInit()
 //        var dividerItemDecoration: DividerItemDecoration = DividerItemDecoration(view.context, 1)
 //        dividerItemDecoration.setDrawable(context?.resources!!.getDrawable(R.drawable.recyclerview_divider))
 //        binding.rcvCalendar.addItemDecoration(dividerItemDecoration)
 
-
-        binding.rcvCalendar.layoutManager = LinearLayoutManager(requireContext(), LinearLayout.VERTICAL, false)
+        binding.rcvCalendar.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcvCalendar.adapter = scheduleAdapter
 
-        var testlist = ArrayList<Item>()
-        var a = Item(1, "안녕1", 2, "하이1")
-        var a1 = Item(2, "안녕2", 3, "하이2")
-        var a2 = Item(3, "안녕3", 4, "하이3")
-        var a3 = Item(4, "안녕4", 5, "하이4")
-        testlist.add(a)
-        testlist.add(a1)
-        testlist.add(a2)
-        testlist.add(a3)
-
-        scheduleAdapter.setSceduleList(testlist)
-
-
         binding.verify.setOnClickListener{
-            findNavController().navigate(R.id.scheduleAdd)
+            findNavController().navigate(R.id.scheduleAdd, Bundle().apply {
+                putString("date", clickedDay)
+            })
         }
+
 
 
     }
@@ -86,6 +94,7 @@ class CalenderFragment : Fragment() {
             .setMinimumDate(CalendarDay.from(2022,0,1))
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
+        binding.calendar.setWeekDayFormatter(ArrayWeekDayFormatter(getResources().getTextArray(R.array.custom_month)));
 
         var todayDecorator = TodayDecorator()
         binding.calendar.setTitleFormatter(DateFormatTitleFormatter(SimpleDateFormat("yyyy년 M월")))
@@ -97,6 +106,75 @@ class CalenderFragment : Fragment() {
             todayDecorator,
             DotDecorator(Color.RED, Collections.singleton(CalendarDay.today()))
         )
+
+        //날짜 선택
+        binding.calendar.setOnDateChangedListener(object: OnDateSelectedListener{
+            override fun onDateSelected(
+                widget: MaterialCalendarView,
+                date: CalendarDay,
+                selected: Boolean
+            ) {
+                day = date
+                clickedDay = mformat.format(date.date)
+                Log.d("날짜" , clickedDay)
+
+                //일자별 일정 조회
+                authService().ScheduleAdd(clickedDay, prefs.getToken()!!).enqueue(object : Callback<CalendarRequestResponse>{
+                    override fun onResponse(
+                        call: Call<CalendarRequestResponse>,
+                        response: Response<CalendarRequestResponse>
+                    ) {
+                        when(response.code()){
+                            200 -> {
+                                Log.d("일자별 날짜 조회", "성공")
+                                var a = response.body()?.getData()
+                                var data: ArrayList<schedule>? = response.body()?.getData()
+//                                for( i in 0..a!!.size-1){
+//                                    Log.d("일자별 날짜 조회", a[i].tvStart)
+//                                    Log.d("일자별 날짜 조회", a[i].tvDate)
+//                                    Log.d("일자별 날짜 조회", a[i].tvContent)
+//                                    Log.d("일자별 날짜 조회", a[i].tvEnd)
+//                                    Log.d("일자별 날짜 조회", a[i].tvTitle)
+//                                }
+                                scheduleAdapter.setCalendarList(data)
+                            }
+                            else -> {
+                                Log.d("일자별 날짜 조회", "실패")
+                            }
+                        }
+                    }
+                    override fun onFailure(call: Call<CalendarRequestResponse>, t: Throwable) {
+                        Log.d("일자별 날짜 조회", "실패(통신오류")
+                    }
+                })
+            }
+        })
     }
+
+    //특정 날짜 해당하는 요일 구하기(input = "20221025")
+    private fun getWeekDay(inputDate: String): String {
+        var dateFormat = SimpleDateFormat("yyyyMMdd")
+        var convertDate = dateFormat.parse(inputDate)
+        var cal = Calendar.getInstance()
+        cal.time = convertDate
+        var weekday = cal.get(Calendar.DAY_OF_WEEK)
+        //Log.d("해당요일: ", cal.get(Calendar.DAY_OF_WEEK).toString())
+        when(weekday){
+            2 -> return "월"
+            3 -> return "화"
+            4 -> return "수"
+            5 -> return "목"
+            6 -> return "금"
+            7 -> return "토"
+            1 -> return "일"
+        }
+        return "실패"
+    }
+
+    //Retrofit api
+    private fun authService(): API {
+        return getRetrofit().create(API::class.java)
+    }
+
 }
 

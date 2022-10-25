@@ -1,10 +1,9 @@
 package com.example.fitpho.Network
 
-import android.os.Build.VERSION_CODES.S
-import android.provider.Contacts.SettingsColumns.KEY
 import com.example.fitpho.NetworkModel.*
 import retrofit2.Call
 import retrofit2.http.*
+import java.util.*
 
 interface API {
 
@@ -100,6 +99,49 @@ interface API {
         @Path("id") id: Int,
         @Header("Authorization") token: String
     ): Call<GetDeleteFavoritesResponse>
+
+
+
+
+
+    //캘린더 일정 추가
+    @POST("/calendar/{date}/{tvStart}")
+    fun ScheduleSave(
+        @Path("date") date: String,
+        @Path("tvStart") tvStart: String,
+        @Header("Authorization") token: String,
+        @Body calendar: CalendarSave
+    ): Call<CalendarSaveResponse>
+
+    //캘린더 일자별 일정 조회
+    @GET("/calendar/{date}")
+    fun ScheduleAdd(
+        @Path("date") date: String,
+        @Header("Authorization") token: String
+    ): Call<CalendarRequestResponse>
+
+    //캘린더 세부 일정 조회
+    @GET("/calendar/detail/{date}/{tvStart}")
+    fun DetailSchedule(
+        @Path("date") date: String,
+        @Path("tvStart") tvStart: String,
+        @Header("Authorization") token: String
+    ): Call<CalendarDetailResponse>
+
+    //캘린더 일정삭제
+    @DELETE("/calendar/{scheduleid}")
+    fun ScheduleDelete(
+        @Path("scheduleid") scheduleid: String,
+        @Header("Authorization") token: String
+    ): Call<CalendarDeleteResponse>
+
+    //캘린더 일정수정
+    @PATCH("/calendar/{scheduleid}")
+    fun ScheduleUpdate(
+        @Path("scheduleid") scheduleid: String,
+        @Header("Authorization") token: String,
+        @Body scheduleUpdate: ScheduleUpdate
+    ): Call<CalendarUpdateResponse>
 
 }
 

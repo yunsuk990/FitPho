@@ -1,15 +1,25 @@
 package com.example.fitpho.Calendar
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.example.fitpho.NetworkModel.data
+import com.example.fitpho.Network.API
+import com.example.fitpho.NetworkModel.getRetrofit
+import com.example.fitpho.NetworkModel.schedule
+import com.example.fitpho.R
 import com.example.fitpho.databinding.LayoutRecyclerScheduleBinding
 
-class ScheduleAdapter(context: Context): RecyclerView.Adapter<ScheduleAdapter.ItemViewHolder>() {
+class ScheduleAdapter(): RecyclerView.Adapter<ScheduleAdapter.ItemViewHolder>() {
 
-    var scheduleList: ArrayList<Item>? = ArrayList()
+    var scheduleList: ArrayList<schedule>? = ArrayList()
+    companion object{
+        //lateinit var prefs: SharedPreferenceUtil
+        val authService: API = getRetrofit().create(API::class.java)
+    }
 
 
     inner class ItemViewHolder(val binding: LayoutRecyclerScheduleBinding): RecyclerView.ViewHolder(binding.root) {}
@@ -21,16 +31,28 @@ class ScheduleAdapter(context: Context): RecyclerView.Adapter<ScheduleAdapter.It
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         var currentItem = scheduleList?.get(position)
-        holder.binding.scheduleDay.text = currentItem?.setScheduleDay().toString()
-        holder.binding.tvContent.text = currentItem?.setTvContent().toString()
-        holder.binding.tvTime.text = currentItem?.setTvTIme().toString()
-        holder.binding.tvTitle.text = currentItem?.setTvTitle().toString()
+        var date = currentItem?.tvDate
+        var sculp = currentItem?.tvDate.toString().split("-")[2]
+        var tvstart = currentItem?.tvStart
+        holder.binding.scheduleDay.text = sculp
+        holder.binding.tvContent.text = currentItem?.tvContent
+        holder.binding.tvTime.text = currentItem?.tvStart + "~" + currentItem?.tvEnd
+        holder.binding.tvTitle.text = currentItem?.tvTitle
+        holder.binding.btnEdit.setOnClickListener(object : View.OnClickListener{
+            override fun onClick(p0: View?) {
+                Navigation.findNavController(p0!!).navigate(R.id.scheduleUpdateFragment , Bundle().apply {
+                    putString("date", date)
+                    putString("tvStart", tvstart)
+                })
+            }
+        })
     }
 
     override fun getItemCount(): Int = scheduleList?.size!!
 
-    fun setSceduleList(scheduleData: ArrayList<Item>){
+    fun setCalendarList(scheduleData: ArrayList<schedule>?){
         scheduleList = scheduleData
+        notifyDataSetChanged()
     }
 
 

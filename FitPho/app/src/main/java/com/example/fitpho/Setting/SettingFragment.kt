@@ -2,6 +2,7 @@ package com.example.fitpho.Setting
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.video.VideoRecordEvent.Resume
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
 import com.example.fitpho.NetworkModel.*
@@ -24,7 +26,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SettingFragment : Fragment(){
+class SettingFragment : Fragment() {
 
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
@@ -77,36 +79,9 @@ class SettingFragment : Fragment(){
 
         //회원탈퇴
         binding.btnDelete.setOnClickListener{
-            authService.withdraw(prefs.getToken()!!).enqueue(object: Callback<WithdrawResponse>{
-                override fun onResponse(
-                    call: Call<WithdrawResponse>,
-                    response: Response<WithdrawResponse>,
-                ) {
-                    when(response.code()){
-                        200 -> {
-                            prefs.deleteUserEmail()
-                            prefs.deleteAutoLogin()
-                            prefs.deleteToken()
-                            Log.d("Withdraw", "탈퇴성공")
-                            Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
-                            findNavController().navigate(R.id.action_global_loginFragment)
-                        }
-                        400 -> {
-                            Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
-                            Log.d("Withdraw", "탈퇴실패1")
-                        }
-                        403 -> {
-                            //getReToken()
-                            Log.d("Withdraw", "탈퇴실패2")
-                        }
-                        else -> Log.d("Withdraw", "탈퇴실패3")
-                    }
-                }
+            val dialog = CorrectionDialog()
+            dialog.show(parentFragmentManager, "dialog")
 
-                override fun onFailure(call: Call<WithdrawResponse>, t: Throwable) {
-                    Log.d("Withdraw", "오류")
-                }
-            })
         }
 
         //비밀번호 변경
