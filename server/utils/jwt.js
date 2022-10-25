@@ -12,7 +12,7 @@ const generateAccessToken = (email, password) => {
 		email,
 		password
 	}, ACCESS_TOKEN_SECRET, {
-		expiresIn: "1h"
+		expiresIn: "1d"
 	});
 	return accessToken;
 }
@@ -23,7 +23,7 @@ const generateRefreshToken = (email, password) => {
 		email,
 		password
 	}, REFRESH_TOKEN_SECRET, {
-		expiresIn: "1d"
+		expiresIn: "15d"
 	});
 	return refreshToken;
 }
