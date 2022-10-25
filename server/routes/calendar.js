@@ -6,7 +6,7 @@ const db = require('../config/db');
 router.get('/', function(req, res) {
     const email = req.email;
 
-    var sql='select date, tvTitle, tvStart, tvEnd, tvContent from calendar where email=?';
+    var sql='select updateDate, tvTitle, tvDate, tvStart, tvEnd, tvContent from calendar where email=?';
     db.query(sql, [email], function (err, data, fields) {
         if(err) throw err;
         return res.status(200).json({
@@ -18,14 +18,12 @@ router.get('/', function(req, res) {
 })
 
 // 일자별 일정 조회
-router.get('/:day', function(req, res) {
+router.get('/:date', function(req, res) {
     const email = req.email;
-    const day = req.params.day;
-    
-    const dayItem = day + "%";
+    const date = req.params.date;
 
-    var sql='select date, tvTitle, tvStart, tvEnd, tvContent from calendar where email=? and date like ?'
-    db.query(sql, [email, dayItem], function (err, data, fields) {
+    var sql='select updateDate, tvTitle, tvDate, tvStart, tvEnd, tvContent from calendar where email=? and tvDate=?'
+    db.query(sql, [email, date], function (err, data, fields) {
         if(err) throw err;
         return res.status(200).json({
             success: "true",
@@ -36,11 +34,11 @@ router.get('/:day', function(req, res) {
 })
 
 // 세부 일정 조회
-router.get('/:date', function(req, res) {
-    const date = req.params.date;
+router.get('/detail/:updateDate', function(req, res) {
+    const updateDate = req.params.updateDate;
     
-    var sql='select date, tvTitle, tvStart, tvEnd, tvContent from calendar where date=?';
-    db.query(sql, [date], function (err, data, fields) {
+    var sql='select updateDate, tvTitle, tvDate, tvStart, tvEnd, tvContent from calendar where updateDate=?';
+    db.query(sql, [updateDate], function (err, data, fields) {
         if(err) throw err;
         if (data.length === 0) {
 			return res.status(400).json({
@@ -58,19 +56,20 @@ router.get('/:date', function(req, res) {
 })
 
 // 일정 추가
-router.post('/:date', function(req, res) {
+router.post('/:updateDate', function(req, res) {
     const email = req.email;
-    const date = req.params.date;
+    const updateDate = req.params.updateDate;
 
     var data = {
         tvTitle: req.body.tvTitle,
+        tvDate: req.body.tvDate,
         tvStart: req.body.tvStart,
         tvEnd: req.body.tvEnd,
         tvContent: req.body.tvContent
     }
 
-    var sql = 'insert into calendar values (?,?,?,?,?,?)';
-    db.query(sql, [email, date, data.tvTitle, data.tvStart, data.tvEnd, data.tvContent], function (err, data, fields) {
+    var sql = 'insert into calendar values (?,?,?,?,?,?,?)';
+    db.query(sql, [email, updateDate, data.tvTitle, data.tvDate, data.tvStart, data.tvEnd, data.tvContent], function (err, data, fields) {
         if(err) throw err;
         return res.status(200).json({
             success: "true",
@@ -80,19 +79,20 @@ router.post('/:date', function(req, res) {
 })   
 
 // 일정 수정
-router.patch('/:date', function(req, res) {
+router.patch('/:updateDate', function(req, res) {
     const email = req.email;
-    const date = req.params.date;
+    const updateDate = req.params.updateDate;
 
     var data = {
         tvTitle: req.body.tvTitle,
+        tvDate: req.body.tvDate,
         tvStart: req.body.tvStart,
         tvEnd: req.body.tvEnd,
         tvContent: req.body.tvContent
     }
 
-    var sql = 'update calendar set tvTitle=?, tvStart=?, tvEnd=?, tvContent=? where email=? and date=?';
-    db.query(sql, [data.tvTitle, data.tvStart, data.tvEnd, data.tvContent, email, date], function (err, data, fields) {
+    var sql = 'update calendar set tvTitle=?, tvDate=?, tvStart=?, tvEnd=?, tvContent=? where email=? and updateDate=?';
+    db.query(sql, [data.tvTitle, data.tvDate, data.tvStart, data.tvEnd, data.tvContent, email, updateDate], function (err, data, fields) {
         if(err) throw err;
         if (data.affectedRows === 0) {
 			return res.status(400).json({
@@ -109,12 +109,12 @@ router.patch('/:date', function(req, res) {
 })   
 
 // 일정 삭제
-router.delete('/:date', function(req, res) {
+router.delete('/:updateDate', function(req, res) {
     const email = req.email;
-    const date = req.params.date;
+    const updateDate = req.params.updateDate;
 
-    var sql='delete from calendar where email=? and date=?';
-    db.query(sql, [email, date], function (err, data, fields) {
+    var sql='delete from calendar where email=? and updateDate=?';
+    db.query(sql, [email, updateDate], function (err, data, fields) {
         if(err) throw err;
         if(data.affectedRows == 0) {
             return res.status(400).json({
