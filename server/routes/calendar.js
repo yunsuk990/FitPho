@@ -17,7 +17,25 @@ router.get('/', function(req, res) {
     })
 })
 
-// 단일 일정 조회
+// 일자별 일정 조회
+router.get('/:day', function(req, res) {
+    const email = req.email;
+    const day = req.params.day;
+    
+    const dayItem = day + "%";
+
+    var sql='select date, tvTitle, tvStart, tvEnd, tvContent from calendar where email=? and date like ?'
+    db.query(sql, [email, dayItem], function (err, data, fields) {
+        if(err) throw err;
+        return res.status(200).json({
+            success: "true",
+            message: "일자별 일정 조회에 성공했습니다.",
+            data: data
+        });
+    })
+})
+
+// 세부 일정 조회
 router.get('/:date', function(req, res) {
     const date = req.params.date;
     
@@ -32,7 +50,7 @@ router.get('/:date', function(req, res) {
 		} else {
             return res.status(200).json({
             success: "true",
-            message: "단일 일정 조회에 성공했습니다.",
+            message: "세부 일정 조회에 성공했습니다.",
             data: data
             });
         }
