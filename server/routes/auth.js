@@ -139,8 +139,8 @@ router.delete('/delete', verifyToken, function(req, res) {
 				message: "비밀번호가 일치하지 않습니다."
 			});
 		} else {
-			var sql = 'delete from favorites where email=?;' + 'delete from member where email=?;';
-			db.query(sql, [email, email], async function(err, data, fields) {
+			var sql = 'delete from favorites where email=?;' + 'delete from calendar where email=?;' + 'delete from member where email=?;';
+			db.query(sql, [email, email, email], async function(err, data, fields) {
 				if (err) throw err;
 
 				res.clearCookie("refreshToken");
