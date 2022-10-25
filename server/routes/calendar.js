@@ -19,15 +19,15 @@ router.get('/', function(req, res) {
 
 // 단일 일정 조회
 router.get('/:date', function(req, res) {
-    const scheduleID = req.params.date;
+    const date = req.params.date;
     
     var sql='select date, tvTitle, tvStart, tvEnd, tvContent from calendar where date=?';
-    db.query(sql, [scheduleID], function (err, data, fields) {
+    db.query(sql, [date], function (err, data, fields) {
         if(err) throw err;
         if (data.length === 0) {
 			return res.status(400).json({
 				success: "false",
-				message: "해당 날짜의 일정이 존재하지 않습니다."
+				message: "캘린더에 등록되지 않은 일정입니다."
 			});
 		} else {
             return res.status(200).json({
@@ -73,15 +73,13 @@ router.patch('/:date', function(req, res) {
         tvContent: req.body.tvContent
     }
 
-    console.log(date);
     var sql = 'update calendar set tvTitle=?, tvStart=?, tvEnd=?, tvContent=? where email=? and date=?';
     db.query(sql, [data.tvTitle, data.tvStart, data.tvEnd, data.tvContent, email, date], function (err, data, fields) {
         if(err) throw err;
-        console.log(data.affectedRows);
         if (data.affectedRows === 0) {
 			return res.status(400).json({
 				success: "false",
-				message: "해당 날짜의 일정이 존재하지 않습니다."
+				message: "캘린더에 등록되지 않은 일정입니다."
 			});
 		} else {
             return res.status(200).json({
