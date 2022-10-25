@@ -6,7 +6,7 @@ const db = require('../config/db');
 router.get('/', function(req, res) {
     const email = req.email;
 
-    var sql='select tvTitle, tvStart, tvEnd, tvContent from calendar where email=?';
+    var sql='select tvTitle, tvDate, tvStart, tvEnd, tvContent from calendar where email=?';
     db.query(sql, [email], function (err, data, fields) {
         if(err) throw err;
         return res.status(200).json({
@@ -22,7 +22,7 @@ router.get('/:date', function(req, res) {
     const email = req.email;
     const date = req.params.date;
 
-    var sql='select tvTitle, tvStart, tvEnd, tvContent from calendar where email=? and tvDate=?'
+    var sql='select tvTitle, tvDate, tvStart, tvEnd, tvContent from calendar where email=? and tvDate=?'
     db.query(sql, [email, date], function (err, data, fields) {
         if(err) throw err;
         return res.status(200).json({
