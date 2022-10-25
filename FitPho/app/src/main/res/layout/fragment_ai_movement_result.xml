@@ -49,7 +49,7 @@
             android:layout_width="175dp"
             android:layout_height="175dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/good"
+            android:background="@drawable/warning"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ai_movement_title" />
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="참 잘했어요!"
+            android:text="잘못된 동작입니다"
             android:textStyle="bold"
             android:textColor="@color/darklogocolor"
             android:textSize="23sp"
