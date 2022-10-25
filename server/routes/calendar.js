@@ -84,6 +84,7 @@ router.patch('/:updateDate', function(req, res) {
     const updateDate = req.params.updateDate;
 
     var data = {
+        updateDate: req.body.updateDate,
         tvTitle: req.body.tvTitle,
         tvDate: req.body.tvDate,
         tvStart: req.body.tvStart,
@@ -91,8 +92,8 @@ router.patch('/:updateDate', function(req, res) {
         tvContent: req.body.tvContent
     }
 
-    var sql = 'update calendar set tvTitle=?, tvDate=?, tvStart=?, tvEnd=?, tvContent=? where email=? and updateDate=?';
-    db.query(sql, [data.tvTitle, data.tvDate, data.tvStart, data.tvEnd, data.tvContent, email, updateDate], function (err, data, fields) {
+    var sql = 'update calendar set updateDate=?, tvTitle=?, tvDate=?, tvStart=?, tvEnd=?, tvContent=? where email=? and updateDate=?';
+    db.query(sql, [data.updateDate, data.tvTitle, data.tvDate, data.tvStart, data.tvEnd, data.tvContent, email, updateDate], function (err, data, fields) {
         if(err) throw err;
         if (data.affectedRows === 0) {
 			return res.status(400).json({
