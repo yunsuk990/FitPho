@@ -52,8 +52,10 @@ class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = SharedPreferenceUtil(requireContext())
+
         bindCheckbox()
-        clickedDate = arguments?.getString("date", null)!!
+        clickedDate = arguments?.getString("date", null)!!      // 선택한 날짜
+
         binding.todayDate.text = clickedDate
         binding.todayDate2.text = clickedDate
         for(i in 0 until checkBoxes.size){
@@ -75,17 +77,17 @@ class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
         binding.btnSave.setOnClickListener{
             var token = prefs.getToken()
             //현재 시,분,초 구하기
+
             var tv_Title: String = tvTitle.replaceFirstChar { "" }
-            Log.d("tvtitle", tv_Title)
-            var s = System.currentTimeMillis()
-            var tvDate: String = getDate(s)
-            Log.d("tvtitle", tvDate)
+            Log.d("tv_Title", tv_Title)
+            var tvDate: String = clickedDate
+            Log.d("tvDate", tvDate)
             var tvStart = startTime
-            Log.d("tvtitle", tvStart)
+            Log.d("tvStart", tvStart)
             var tvEnd = endTime
-            Log.d("tvtitle", tvEnd)
+            Log.d("tvEnd", tvEnd)
             var tvContent = binding.etMemo.text.toString()
-            Log.d("tvtitle", tvContent)
+            Log.d("tvContent", tvContent)
             var schedule = CalendarSave(tv_Title, tvDate, tvStart, tvEnd, tvContent)
             //서버 요청
             getScheduleSave(tvDate, tvStart ,token!!, schedule)
@@ -118,7 +120,6 @@ class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
                 }
             }
         }
-
     }
 
 

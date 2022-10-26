@@ -173,4 +173,9 @@
         android:name="com.example.fitpho.ScheduleUpdateFragment"
         android:label="fragment_schedule_update"
         tools:layout="@layout/fragment_schedule_update" />
+    <fragment
+        android:id="@+id/ai_ImageViewFragment"
+        android:name="com.example.fitpho.Ai_ImageViewFragment"
+        android:label="fragment_ai__image_view"
+        tools:layout="@layout/fragment_ai__image_view" />
 </navigation>

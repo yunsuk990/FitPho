@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
         <TextView
             android:layout_width="wrap_content"
-            android:text="기구 촬영"
+            android:text="기구 인식"
             android:layout_gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"

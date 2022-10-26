@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/homeFragment"
-        android:title="기구촬영"
+        android:title="기구인식"
         android:enabled="true"
         android:icon="@drawable/camera_white"
         />

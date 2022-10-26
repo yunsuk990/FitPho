@@ -104,6 +104,14 @@ interface API {
 
 
 
+
+
+    //캘린더 전체 일정 조회
+    @GET("/calendar")
+    fun ScheduleGetDot(
+        @Header("Authorization") token: String
+    ): Call<ScheduleGetDot>
+
     //캘린더 일정 추가
     @POST("/calendar/{date}/{tvStart}")
     fun ScheduleSave(
@@ -129,9 +137,10 @@ interface API {
     ): Call<CalendarDetailResponse>
 
     //캘린더 일정삭제
-    @DELETE("/calendar/{scheduleid}")
+    @DELETE("/calendar/{date}/{tvStart}")
     fun ScheduleDelete(
-        @Path("scheduleid") scheduleid: String,
+        @Path("date") date: String,
+        @Path("tvStart") tvStart: String,
         @Header("Authorization") token: String
     ): Call<CalendarDeleteResponse>
 

@@ -102,5 +102,21 @@ class CalendarDetailResponse(
     fun getData(): ArrayList<schedule>{
         return data
     }
+}
 
+//캘린더 전체 일정 조회
+class ScheduleGetDot(
+    private var success: String,
+    private var message: String,
+    private var data: ArrayList<String>
+){
+    fun getSuccess(): String{
+        return success
+    }
+    fun getMessage(): String{
+        return message
+    }
+    fun getData(): ArrayList<String>{
+        return data
+    }
 }

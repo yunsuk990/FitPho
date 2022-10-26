@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitpho.Network.API
 import com.example.fitpho.NetworkModel.CalendarRequestResponse
+import com.example.fitpho.NetworkModel.ScheduleGetDot
 import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.NetworkModel.schedule
 import com.example.fitpho.R
@@ -30,6 +31,7 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 
 class CalenderFragment : Fragment() {
@@ -37,13 +39,14 @@ class CalenderFragment : Fragment() {
     private var _binding: FragmentCalenderBinding? = null
     private val binding get() = _binding!!
     lateinit var calendar: MaterialCalendarView
-    private val scheduleAdapter by lazy { ScheduleAdapter() }
+    private val scheduleAdapter by lazy { ScheduleAdapter(requireContext()) }
     private var mformat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
     lateinit var clickedDay: String
     var day = CalendarDay.today()
     companion object{
         lateinit var prefs: SharedPreferenceUtil
     }
+    lateinit var collect: Collection<CalendarDay>
 
 
     override fun onCreateView(
@@ -55,7 +58,6 @@ class CalenderFragment : Fragment() {
         (activity as AppCompatActivity).setSupportActionBar(mytoolbar)
 
         calendar = binding.calendar
-        calendar.selectedDate = day
         //오늘 날짜 자동 선택
         return binding.root
     }
@@ -63,15 +65,22 @@ class CalenderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = SharedPreferenceUtil(requireContext())
+        collect = HashSet<CalendarDay>()
         clickedDay = mformat.format(CalendarDay.today().date)
+        getAllSchedule()
         CalendarInit()
 //        var dividerItemDecoration: DividerItemDecoration = DividerItemDecoration(view.context, 1)
 //        dividerItemDecoration.setDrawable(context?.resources!!.getDrawable(R.drawable.recyclerview_divider))
 //        binding.rcvCalendar.addItemDecoration(dividerItemDecoration)
 
+        Log.d("CalendarDay.today",CalendarDay.today().toString())
+
+
+
         binding.rcvCalendar.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcvCalendar.adapter = scheduleAdapter
 
+        // 저장 버튼 클릭 시
         binding.verify.setOnClickListener{
             findNavController().navigate(R.id.scheduleAdd, Bundle().apply {
                 putString("date", clickedDay)
@@ -94,7 +103,7 @@ class CalenderFragment : Fragment() {
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
         binding.calendar.setWeekDayFormatter(ArrayWeekDayFormatter(getResources().getTextArray(R.array.custom_month)));
-
+        calendar.selectedDate = day
         var todayDecorator = TodayDecorator()
         binding.calendar.setTitleFormatter(DateFormatTitleFormatter(SimpleDateFormat("yyyy년 M월")))
         binding.calendar.setWeekDayTextAppearance(R.style.calendar_day)
@@ -103,8 +112,9 @@ class CalenderFragment : Fragment() {
             SundayDecorator(),
             SaturdayDecorator(),
             todayDecorator,
-            DotDecorator(Color.RED, Collections.singleton(CalendarDay.today()))
+            DotDecorator(Color.RED, collect)
         )
+        getSchedule()
 
         //날짜 선택
         binding.calendar.setOnDateChangedListener(object: OnDateSelectedListener{
@@ -116,18 +126,24 @@ class CalenderFragment : Fragment() {
                 day = date
                 clickedDay = mformat.format(date.date)
                 Log.d("날짜" , clickedDay)
+                getSchedule()
+            }
+        })
+    }
 
-                //일자별 일정 조회
-                authService().ScheduleAdd(clickedDay, prefs.getToken()!!).enqueue(object : Callback<CalendarRequestResponse>{
-                    override fun onResponse(
-                        call: Call<CalendarRequestResponse>,
-                        response: Response<CalendarRequestResponse>
-                    ) {
-                        when(response.code()){
-                            200 -> {
-                                Log.d("일자별 날짜 조회", "성공")
-                                var a = response.body()?.getData()
-                                var data: ArrayList<schedule>? = response.body()?.getData()
+
+    //일자별 일정 조회
+    private fun getSchedule() {
+        authService().ScheduleAdd(clickedDay, prefs.getToken()!!).enqueue(object : Callback<CalendarRequestResponse>{
+            override fun onResponse(
+                call: Call<CalendarRequestResponse>,
+                response: Response<CalendarRequestResponse>
+            ) {
+                when(response.code()){
+                    200 -> {
+                        Log.d("일자별 날짜 조회", "성공")
+                        var a = response.body()?.getData()
+                        var data: ArrayList<schedule>? = response.body()?.getData()
 //                                for( i in 0..a!!.size-1){
 //                                    Log.d("일자별 날짜 조회", a[i].tvStart)
 //                                    Log.d("일자별 날짜 조회", a[i].tvDate)
@@ -135,17 +151,15 @@ class CalenderFragment : Fragment() {
 //                                    Log.d("일자별 날짜 조회", a[i].tvEnd)
 //                                    Log.d("일자별 날짜 조회", a[i].tvTitle)
 //                                }
-                                scheduleAdapter.setCalendarList(data)
-                            }
-                            else -> {
-                                Log.d("일자별 날짜 조회", "실패")
-                            }
-                        }
+                        scheduleAdapter.setCalendarList(data)
                     }
-                    override fun onFailure(call: Call<CalendarRequestResponse>, t: Throwable) {
-                        Log.d("일자별 날짜 조회", "실패(통신오류")
+                    else -> {
+                        Log.d("일자별 날짜 조회", "실패")
                     }
-                })
+                }
+            }
+            override fun onFailure(call: Call<CalendarRequestResponse>, t: Throwable) {
+                Log.d("일자별 날짜 조회", "실패(통신오류")
             }
         })
     }
@@ -168,6 +182,38 @@ class CalenderFragment : Fragment() {
             1 -> return "일"
         }
         return "실패"
+    }
+
+    private fun getAllSchedule(){
+        authService().ScheduleGetDot(prefs.getToken()!!).enqueue(object : Callback<ScheduleGetDot>{
+            override fun onResponse(
+                call: Call<ScheduleGetDot>,
+                response: Response<ScheduleGetDot>
+            ) {
+                when(response.code()){
+                    200 -> {
+                        Log.d("날짜 Dot", "성공")
+                        var dates = HashSet<String>()
+                        var res = response.body()
+                        var data = res?.getData()
+                        for( i in 0 until data!!.size){
+                            dates.add(data[i])
+                            Log.d("날짜 Dot 나열", data[i])
+
+                        }
+                    }
+                    else -> {
+                        Log.d("날짜 Dot", "실패")
+                    }
+
+                }
+            }
+
+            override fun onFailure(call: Call<ScheduleGetDot>, t: Throwable) {
+                Log.d("날짜 Dot", "실패(통신오류)")
+            }
+
+        })
     }
 
     //Retrofit api

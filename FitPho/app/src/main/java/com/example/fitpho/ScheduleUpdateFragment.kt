@@ -33,6 +33,8 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
     var tvTitle: String = ""
     var type: Int = 0
     var checkBoxes: ArrayList<CheckBox> = ArrayList()
+    var pastCheckbox: String = ""
+    var currentCheckbox: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,15 +49,67 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         prefs = SharedPreferenceUtil(requireContext())
         bindCheckbox()
 
-        var date = arguments?.getString("date")
-        var tvStart = arguments?.getString("tvStart")
+        //파라미터 값
+        var dateParam = arguments?.getString("date")
+        var tvStartParam = arguments?.getString("tvStart")
 
         for(i in 0 until checkBoxes.size){
             checkBoxes[i].setOnClickListener(clickListener)
         }
 
 
+        //일정 조회 시 데이터 삽입
+        scheduleVerify(dateParam!!, tvStartParam!!, prefs.getToken()!!)
 
+        // -------------------------- 일정 수정할 경우
+        // 시작시간 설정
+        binding.container1.setOnClickListener{
+            type = 0
+            dialogTime()
+        }
+
+        // 마감시간 설정
+        binding.container2.setOnClickListener{
+            type = 1
+            dialogTime()
+        }
+
+        // 취소 버튼
+        binding.btnCancel.setOnClickListener{
+            findNavController().navigate(R.id.calenderFragment)
+        }
+
+        // 저장 버튼
+        binding.btnSave.setOnClickListener{
+            var token = prefs.getToken()
+            tvTitle = pastCheckbox + currentCheckbox
+
+            var tv_Title: String = tvTitle.replaceFirstChar { "" }  //체크박스 값 가져오기
+            Log.d("tvtitle", tv_Title)
+
+            var s = System.currentTimeMillis()
+            var tvDate: String = getDate(s)     // 현재 시간
+            Log.d("tvtitle", tvDate)
+
+            var tvStart: String? = startTime             //시작 시간
+            Log.d("tvtitle", tvStart!!)
+
+            var tvEnd: String? = endTime                 //마감 시간
+            Log.d("tvtitle", tvEnd!!)
+
+            var tvContent = binding.etMemo.text.toString()      //메모
+            Log.d("tvtitle", tvContent)
+
+            var schedule = ScheduleUpdate(tv_Title, tvDate, tvStart, tvEnd, tvContent)
+
+            // 일정 수정 서버 요청
+            getScheduleUpdate(dateParam, tvStartParam ,token!!, schedule)
+        }
+
+
+    }
+
+    private fun scheduleVerify(date: String, tvStart: String, token: String) {
         authService().DetailSchedule(date!!, tvStart!!, prefs.getToken()!!).enqueue(object : Callback<CalendarDetailResponse>{
             override fun onResponse(
                 call: Call<CalendarDetailResponse>,
@@ -66,28 +120,36 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
                     200 -> {
                         var res = response.body()?.getData()
                         with(binding){
-                            etMemo.setText(res?.get(0)!!.tvContent)
-                            startTime.setText(res?.get(0)!!.tvStart)
-                            endTime.setText(res?.get(0)!!.tvEnd)
-                            todayDate.setText(res?.get(0)!!.tvDate)
-                            todayDate2.setText(res?.get(0)!!.tvDate)
+                            etMemo.setText(res?.get(0)!!.tvContent)     //메모
+                            startTime.setText(res?.get(0)!!.tvStart)    //시작시간
+                            endTime.setText(res?.get(0)!!.tvEnd)        //마감시간
+                            todayDate.setText(res?.get(0)!!.tvDate)     //등록했던 날짜
+                            todayDate2.setText(res?.get(0)!!.tvDate)    //등록했던 날짜
                         }
+
                         var title = res?.get(0)!!.tvTitle.split(",")
                         for(i in 0 until title.size) {
                             if (title[i] == binding.checkboxAbs.text) {
                                 binding.checkboxAbs.isChecked = true
+                                pastCheckbox += "," + binding.checkboxAbs.text
                             } else if (title[i] == binding.checkboxArm.text) {
                                 binding.checkboxArm.isChecked = true
+                                pastCheckbox += "," + binding.checkboxArm.text
                             } else if (title[i] == binding.checkboxBack.text) {
                                 binding.checkboxBack.isChecked = true
+                                pastCheckbox += "," + binding.checkboxBack.text
                             } else if (title[i] == binding.checkboxChest.text) {
                                 binding.checkboxChest.isChecked = true
+                                pastCheckbox += "," + binding.checkboxChest.text
                             } else if (title[i] == binding.checkboxLeg.text) {
                                 binding.checkboxLeg.isChecked = true
+                                pastCheckbox += "," + binding.checkboxLeg.text
                             } else if (title[i] == binding.checkboxOther.text) {
                                 binding.checkboxOther.isChecked = true
+                                pastCheckbox += "," + binding.checkboxOther.text
                             } else {
                                 binding.checkboxShoulder.isChecked = true
+                                pastCheckbox += "," + binding.checkboxShoulder.text
                             }
                         }
                     }
@@ -101,68 +163,32 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
                 Log.d("세부일정 수정", "실패(통신오류)")
             }
         })
-
-
-        binding.container1.setOnClickListener{
-            type = 0
-            dialogTime()
-        }
-        binding.container2.setOnClickListener{
-            type = 1
-            dialogTime()
-        }
-
-        binding.btnCancel.setOnClickListener{
-            findNavController().navigate(R.id.calenderFragment)
-        }
-
-
-        binding.btnSave.setOnClickListener{
-            var token = prefs.getToken()
-
-
-            var tv_Title: String = tvTitle.replaceFirstChar { "" }
-            Log.d("tvtitle", tv_Title)
-            var s = System.currentTimeMillis()
-            var tvDate: String = getDate(s)
-            Log.d("tvtitle", tvDate)
-            var tvstart = startTime
-            Log.d("tvtitle", tvStart)
-            var tvEnd = endTime
-            Log.d("tvtitle", tvEnd)
-            var tvContent = binding.etMemo.text.toString()
-            Log.d("tvtitle", tvContent)
-            var schedule = ScheduleUpdate(tv_Title, tvDate, tvstart, tvEnd, tvContent)
-            //서버 요청
-            getScheduleUpdate(date, tvStart ,token!!, schedule)
-        }
-
-
     }
 
+    // 체크된 값 추가하기
     private var clickListener: View.OnClickListener = object : View.OnClickListener{
         override fun onClick(p0: View?) {
             when(p0?.id){
                 R.id.checkbox_abs -> {
-                    tvTitle += ","+binding.checkboxAbs.text
+                    currentCheckbox += ","+binding.checkboxAbs.text
                 }
                 R.id.checkbox_arm -> {
-                    tvTitle += ","+binding.checkboxArm.text
+                    currentCheckbox += ","+binding.checkboxArm.text
                 }
                 R.id.checkbox_back -> {
-                    tvTitle += ","+binding.checkboxBack.text
+                    currentCheckbox += ","+binding.checkboxBack.text
                 }
                 R.id.checkbox_chest -> {
-                    tvTitle += ","+binding.checkboxChest.text
+                    currentCheckbox += ","+binding.checkboxChest.text
                 }
                 R.id.checkbox_leg -> {
-                    tvTitle += ","+binding.checkboxLeg.text
+                    currentCheckbox += ","+binding.checkboxLeg.text
                 }
                 R.id.checkbox_shoulder -> {
-                    tvTitle += ","+binding.checkboxShoulder.text
+                    currentCheckbox += ","+binding.checkboxShoulder.text
                 }
                 R.id.checkbox_other -> {
-                    tvTitle += ","+binding.checkboxOther.text
+                    currentCheckbox += ","+binding.checkboxOther.text
                 }
             }
         }
@@ -174,6 +200,7 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         _binding = null
     }
 
+    // 일정 수정 API
     private fun getScheduleUpdate(date: String, tvstart: String, token: String, schedule: ScheduleUpdate) {
         authService().ScheduleUpdate(date, tvstart, token, schedule).enqueue(object : Callback<CalendarUpdateResponse>{
             override fun onResponse(
@@ -197,7 +224,7 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         })
     }
 
-
+    //다이얼로그 창 띄우기
     private fun dialogTime() {
         var calendar = Calendar.getInstance()
         var hour = calendar.get(Calendar.HOUR_OF_DAY)
@@ -212,6 +239,7 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         return getRetrofit().create(API::class.java)
     }
 
+    // 지정 포맷 형식으로 날짜 구하기
     private fun getDate(date: Long): String {
         var date: Date = Date(date)
         var mformat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -219,6 +247,7 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         return getTime
     }
 
+    // 시작, 마감시간 가져와서 표시
     override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
         if(type == 0){
             startTime = "$p1:$p2"
@@ -229,6 +258,7 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
         }
     }
 
+    // 모든 체크박스 바인딩
     private fun bindCheckbox(){
         checkBoxes.add(binding.checkboxChest)
         checkBoxes.add(binding.checkboxAbs)
