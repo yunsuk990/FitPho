@@ -126,8 +126,8 @@ class SelectDialog: DialogFragment() {
         }
 
         //val classes: Array<Int> = arrayOf(1,2,3,4)
-        val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
-        //val classes: Array<Int> = arrayOf(1,2,3,4)
+        //val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
+        val classes: Array<Int> = arrayOf(26,43)
 
         var s: String? = ""
         Log.d("classSize", classes.size.toString())

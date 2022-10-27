@@ -153,5 +153,12 @@ interface API {
         @Body scheduleUpdate: ScheduleUpdate
     ): Call<CalendarUpdateResponse>
 
+    //Ai 동작인식 운동리스트 받아오기
+    @GET("/library/motion")
+    fun AiMoveItemList(
+        @Header("Authorization") token: String
+    ): Call<AiMoveResponse>
+
+
 }
 

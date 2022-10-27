@@ -1,4 +1,4 @@
-package com.example.fitpho
+package com.example.fitpho.Camera
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentAiImageViewBinding
 
 class Ai_ImageViewFragment : Fragment() {
@@ -36,7 +37,8 @@ class Ai_ImageViewFragment : Fragment() {
         }
 
         binding.btnGuide.setOnClickListener {
-            findNavController().navigate( R.id.detailFragment ,
+            findNavController().navigate(
+                R.id.detailFragment,
                 Bundle().apply {
                     putInt("id", id!!)
                 })

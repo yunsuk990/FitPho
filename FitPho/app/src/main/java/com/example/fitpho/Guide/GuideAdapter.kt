@@ -83,7 +83,6 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
                     Bundle().apply {
                         putString("title", title)
                         putInt("id", id!!)
-                        putString("img1", img1)
                     })
             }
         })

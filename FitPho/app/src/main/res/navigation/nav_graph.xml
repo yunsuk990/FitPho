@@ -160,22 +160,32 @@
         tools:layout="@layout/fragment_schedule_add" />
     <fragment
         android:id="@+id/aiMovementFragment"
-        android:name="com.example.fitpho.AiMovementFragment"
+        android:name="com.example.fitpho.Aimovement.AiMovementFragment"
         android:label="fragment_ai_movement"
         tools:layout="@layout/fragment_ai_movement" />
     <fragment
         android:id="@+id/ai_movement_result"
-        android:name="com.example.fitpho.Ai_movement_result"
+        android:name="com.example.fitpho.Aimovement.Ai_movement_result"
         android:label="fragment_ai_movement_result"
         tools:layout="@layout/fragment_ai_movement_result" />
     <fragment
         android:id="@+id/scheduleUpdateFragment"
-        android:name="com.example.fitpho.ScheduleUpdateFragment"
+        android:name="com.example.fitpho.Calendar.ScheduleUpdateFragment"
         android:label="fragment_schedule_update"
         tools:layout="@layout/fragment_schedule_update" />
     <fragment
         android:id="@+id/ai_ImageViewFragment"
-        android:name="com.example.fitpho.Ai_ImageViewFragment"
+        android:name="com.example.fitpho.Camera.Ai_ImageViewFragment"
         android:label="fragment_ai__image_view"
         tools:layout="@layout/fragment_ai__image_view" />
+    <fragment
+        android:id="@+id/aiMovementChoiceFragment"
+        android:name="com.example.fitpho.Aimovement.AiMovementChoiceFragment"
+        android:label="fragment_ai_movement_choice"
+        tools:layout="@layout/fragment_ai_movement_choice" />
+    <fragment
+        android:id="@+id/aiMovementCameraFragment"
+        android:name="com.example.fitpho.Aimovement.AiMovementCameraFragment"
+        android:label="fragment_ai_movement_camera"
+        tools:layout="@layout/fragment_ai_movement_camera" />
 </navigation>

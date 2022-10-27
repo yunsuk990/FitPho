@@ -9,7 +9,6 @@ class SharedPreferenceUtil(context: Context) {
     private val AutoLogInPref: SharedPreferences = context.getSharedPreferences("autoLogin", Activity.MODE_PRIVATE)
     private val UserEmailPref: SharedPreferences = context.getSharedPreferences("userEmail", Activity.MODE_PRIVATE)
 
-
     fun setUserEmail(email: String) {
         val pref = UserEmailPref
         val edit = pref.edit()

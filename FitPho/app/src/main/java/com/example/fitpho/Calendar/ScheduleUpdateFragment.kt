@@ -1,4 +1,4 @@
-package com.example.fitpho
+package com.example.fitpho.Calendar
 
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -13,6 +13,7 @@ import android.widget.TimePicker
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
 import com.example.fitpho.NetworkModel.*
+import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentScheduleUpdateBinding
 import com.example.fitpho.util.SharedPreferenceUtil
 import retrofit2.Call

@@ -62,29 +62,28 @@ class GuideFragment : Fragment() {
         })
         //가이드 부위별 운동
 
-        binding.bookmark.setOnFocusChangeListener { v, hasFocus ->
-            getFavorite()
-        }
-        binding.bookmark.setOnFocusChangeListener { v, hasFocus ->
-            getFavorite()
-        }
-        binding.chest.setOnFocusChangeListener { v, hasFocus ->
-            getGuide("chest")
-        }
-        binding.arm.setOnFocusChangeListener { v, hasFocus ->
-            getGuide("arm")
-        }
-        binding.back.setOnFocusChangeListener { v, hasFocus ->
-            getGuide("back")
-        }
-        binding.leg.setOnFocusChangeListener { v, hasFocus ->
-            getGuide("lower")
-        }
-        binding.shoulder.setOnFocusChangeListener { v, hasFocus ->
-            getGuide("shoulder")
-        }
-        binding.extra.setOnFocusChangeListener { v, hasFocus ->
-            getGuide("etc")
+        with(binding){
+            bookmark.setOnFocusChangeListener { v, hasFocus ->
+                getFavorite()
+            }
+            chest.setOnFocusChangeListener { v, hasFocus ->
+                getGuide("chest")
+            }
+            arm.setOnFocusChangeListener { v, hasFocus ->
+                getGuide("arm")
+            }
+            back.setOnFocusChangeListener { v, hasFocus ->
+                getGuide("back")
+            }
+            leg.setOnFocusChangeListener { v, hasFocus ->
+                getGuide("lower")
+            }
+            shoulder.setOnFocusChangeListener { v, hasFocus ->
+                getGuide("shoulder")
+            }
+            extra.setOnFocusChangeListener { v, hasFocus ->
+                getGuide("etc")
+            }
         }
     }
 
