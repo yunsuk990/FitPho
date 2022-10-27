@@ -27,6 +27,18 @@ const bookmark = (email, startID, endID) => {
 	})
 }
 
+// 동작인식 운동기구 목록 조회
+router.get('/motion', function(req, res) {
+	var sql = 'select id, title from library where id in (1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)'
+	db.query(sql, function(err, data, fields) {
+		return res.status(200).json({
+			success: "true",
+			message: "동작인식 운동기구 목록 조회에 성공했습니다.",
+			data: data
+		});
+	})
+})
+
 // 가슴 부위 라이브러리 조회
 router.get('/chest', async function(req, res) {
 	const email = req.email;
