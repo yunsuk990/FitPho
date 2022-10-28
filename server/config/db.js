@@ -20,7 +20,6 @@ const db = mysql.createPool({
 
 db.getConnection(function(err) {
     if (err) throw err;
-    console.log('Database is connected successfully!');
 });
 
 module.exports = db;
