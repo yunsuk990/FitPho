@@ -90,8 +90,6 @@ class CalenderFragment : Fragment() {
     }
 
     private fun CalendarInit(){
-
-
         binding.calendar.state().edit()
             .setFirstDayOfWeek(Calendar.SUNDAY)
             .setMaximumDate(CalendarDay.from(2030,11,31))

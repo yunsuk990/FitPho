@@ -61,7 +61,8 @@
         android:layout_marginHorizontal="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:padding="17dp"
+        android:paddingLeft="17dp"
+        android:paddingRight="5dp"
         app:layout_constraintWidth_percent="0.8">
 
         <TextView
@@ -74,6 +75,7 @@
             android:text="가슴, 등"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/black"
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toTopOf="@+id/tv_content"
             app:layout_constraintEnd_toStartOf="@+id/tv_time"
@@ -85,9 +87,8 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="11:00 ~ 12:00"
+            android:text="11시 00 ~ 12:00"
             android:textSize="16sp"
-            android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title"
             app:layout_constraintEnd_toStartOf="@+id/btn_edit"
             app:layout_constraintTop_toTopOf="@+id/tv_title" />
@@ -105,21 +106,23 @@
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_remove"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_schedule_remove"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-        <ImageView
+        <ImageButton
             android:id="@+id/btn_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_schedule_edit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_remove"
-            android:layout_marginEnd="5dp"/>
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

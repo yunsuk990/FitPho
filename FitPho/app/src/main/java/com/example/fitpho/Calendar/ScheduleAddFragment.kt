@@ -29,7 +29,6 @@ class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
     private var _binding: FragmentScheduleAddBinding? = null
     private val binding get() = _binding!!
     private var mformat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-    private var idformat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd:HH:mm:ss")
     var type: Int = 0
     var clickedDate: String = ""
     var startTime: String = ""
@@ -61,6 +60,7 @@ class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
         for(i in 0 until checkBoxes.size){
             checkBoxes[i].setOnClickListener(clickListener)
         }
+
 
         binding.container1.setOnClickListener{
             type = 0
@@ -132,13 +132,6 @@ class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
         timePickerDialog.show()
     }
 
-    private fun getDate(date: Long): String {
-        var date: Date = Date(date)
-        var mformat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-        var getTime = mformat.format(date)
-        return getTime
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -152,12 +145,6 @@ class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
             endTime = "$p1:$p2"
             binding.endTime.text = String.format("%d 시 %d 분", p1, p2)
         }
-    }
-
-    private fun getCurrentTime(): Date {
-        var id = Date(System.currentTimeMillis())
-        var dat: String = idformat.format(id)
-        return id
     }
 
     //private fun getTvTitle(): String {}
