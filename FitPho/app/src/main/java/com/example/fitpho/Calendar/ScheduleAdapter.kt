@@ -44,7 +44,7 @@ class ScheduleAdapter(context: Context): RecyclerView.Adapter<ScheduleAdapter.It
         var tvstart = currentItem?.tvStart //15:30 (운동시작시간)
         holder.binding.scheduleDay.text = sculp[2]
         holder.binding.tvContent.text = currentItem?.tvContent
-        holder.binding.tvTime.text = currentItem?.tvStart + "~" + currentItem?.tvEnd
+        holder.binding.tvTime.text = currentItem?.tvStart + " ~ " + currentItem?.tvEnd
         holder.binding.tvTitle.text = currentItem?.tvTitle
         holder.binding.btnEdit.setOnClickListener(object : View.OnClickListener{
             override fun onClick(p0: View?) {

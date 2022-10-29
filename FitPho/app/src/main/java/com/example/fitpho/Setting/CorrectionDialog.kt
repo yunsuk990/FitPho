@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
 import com.example.fitpho.NetworkModel.*
 import com.example.fitpho.R
-import com.example.fitpho.databinding.CorrectionDialogBinding
 import com.example.fitpho.databinding.DeleteAccountBinding
 import com.example.fitpho.util.SharedPreferenceUtil
 import retrofit2.Call

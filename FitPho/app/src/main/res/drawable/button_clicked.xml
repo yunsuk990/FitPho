@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="false">
-    <shape>
-        <solid android:color="@color/white"/>
-        <corners
-            android:radius="5sp"/>
-    </shape>
-
-    <item android:state_pressed="true" >
-        <shape xmlns:android="http://schemas.android.com/apk/res/android" >
-            <solid android:color="#999"/>
-            <corners
-                android:bottomLeftRadius="25dp"
-                android:bottomRightRadius="25dp"
-                android:topLeftRadius="25dp"
-                android:topRightRadius="25dp" />
-        </shape>
-    </item>
-</item>
+    <item android:state_pressed="true"
+        android:drawable="@color/lighwhite"/>
+    <item android:drawable="@color/darklogocolor"/>
 
 </selector>

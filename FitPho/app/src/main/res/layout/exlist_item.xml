@@ -9,7 +9,9 @@
         android:id="@+id/click"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#333333"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/button_clicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,7 +30,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:fontFamily="@font/myungbold"
             android:text="운동 이름"
             android:textColor="@color/white"
             android:textSize="18sp"
