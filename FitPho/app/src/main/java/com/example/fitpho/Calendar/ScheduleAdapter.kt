@@ -1,6 +1,7 @@
 package com.example.fitpho.Calendar
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import com.example.fitpho.NetworkModel.schedule
 import com.example.fitpho.R
 import com.example.fitpho.databinding.LayoutRecyclerScheduleBinding
 import com.example.fitpho.util.SharedPreferenceUtil
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,9 +40,9 @@ class ScheduleAdapter(context: Context): RecyclerView.Adapter<ScheduleAdapter.It
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         var currentItem = scheduleList?.get(position)
         var date = currentItem?.tvDate //2022-10-26
-        var sculp = currentItem?.tvDate.toString().split("-")[2] //26 (일수)
+        var sculp = currentItem?.tvDate.toString().split("-") //26 (일수)
         var tvstart = currentItem?.tvStart //15:30 (운동시작시간)
-        holder.binding.scheduleDay.text = sculp
+        holder.binding.scheduleDay.text = sculp[2]
         holder.binding.tvContent.text = currentItem?.tvContent
         holder.binding.tvTime.text = currentItem?.tvStart + "~" + currentItem?.tvEnd
         holder.binding.tvTitle.text = currentItem?.tvTitle

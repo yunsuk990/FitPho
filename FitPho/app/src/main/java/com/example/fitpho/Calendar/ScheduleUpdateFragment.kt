@@ -120,10 +120,14 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
                 when(response.code()){
                     200 -> {
                         var res = response.body()?.getData()
+                        var start1 = res?.get(0)!!.tvStart.split(":")
+                        var start2 = res?.get(0)!!.tvEnd.split(":")
+                        var tvStart = start1[0] + " 시 " + start1[1] + " 분"
+                        var tvEnd = start2[0] + " 시 " + start2[1] + " 분"
                         with(binding){
                             etMemo.setText(res?.get(0)!!.tvContent)     //메모
-                            startTime.setText(res?.get(0)!!.tvStart)    //시작시간
-                            endTime.setText(res?.get(0)!!.tvEnd)        //마감시간
+                            startTime.setText(tvStart)    //시작시간
+                            endTime.setText(tvEnd)        //마감시간
                             todayDate.setText(res?.get(0)!!.tvDate)     //등록했던 날짜
                             todayDate2.setText(res?.get(0)!!.tvDate)    //등록했던 날짜
                         }

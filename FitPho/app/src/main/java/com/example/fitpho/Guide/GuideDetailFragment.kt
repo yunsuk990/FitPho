@@ -74,7 +74,7 @@ class GuideDetailFragment : Fragment() {
                     200 -> {
                         var res = response.body()
                         var text = response.body()?.getText()?.size
-                        Glide.with(requireContext()).load(img).into(binding.image)
+                        Glide.with(requireContext()).load(res?.getData()!![0].getImg()).into(binding.image)
                         Glide.with(requireContext()).load(res?.getData()!![0].getStimulate1()).into(binding.stimulate1)
                         Glide.with(requireContext()).load(res.getData()!![0].getStimulate2()).into(binding.stimulate2)
                         Glide.with(requireContext()).load(res.getData()!![0].getAnimation()).into(binding.animation)

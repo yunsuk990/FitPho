@@ -13,10 +13,12 @@ import com.example.fitpho.databinding.AimoveexcerciesItemBinding
 
 class MovementAdapter(context: Context): RecyclerView.Adapter<MovementAdapter.ViewHolder>() {
 
-    var itemList: ArrayList<AiMoveData> = ArrayList()
+    var itemList: ArrayList<String> = ArrayList()
     interface AiMoveClickListener{
-        fun itemClick(id: Int)
+        fun itemClick(title: String)
     }
+
+
     private lateinit var mAimoveClickListener: AiMoveClickListener
     fun AimoveClickItem(itemClickLister: AiMoveClickListener){
         mAimoveClickListener = itemClickLister
@@ -32,15 +34,16 @@ class MovementAdapter(context: Context): RecyclerView.Adapter<MovementAdapter.Vi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var currentItem = itemList?.get(position)
-        var id = currentItem?.getId()
-        var title = currentItem?.getTitle()
-        holder.binding.itemTitle.text = currentItem?.getTitle()
-        holder.binding.itemLayout.setOnClickListener{
-            mAimoveClickListener.itemClick(id!!)
+        //var id = currentItem?.getId()
+        //var title = currentItem?.getTitle()
+        var title = currentItem.toString()
+        holder.binding.itemTitle.text = title
+        holder.binding.itemTitle.setOnClickListener{
+            mAimoveClickListener.itemClick(title)
         }
     }
 
-    fun setitemList(data: ArrayList<AiMoveData>){
+    fun setitemList(data: ArrayList<String>){
         itemList = data
         notifyDataSetChanged()
     }

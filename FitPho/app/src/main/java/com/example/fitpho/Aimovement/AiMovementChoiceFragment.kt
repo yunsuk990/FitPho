@@ -46,7 +46,7 @@ class AiMovementChoiceFragment : Fragment() {
     var imageSize: Int = 224
     var image: Bitmap? = null
     var type: Int = 100
-    var ID: Int = 0
+    var ID: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,12 +83,23 @@ class AiMovementChoiceFragment : Fragment() {
         binding.moveRecycle.adapter = movementAdapter
 
         // 운동기구 리스트 나열
-        getMoveData()
+        //getMoveData()
+        var list: ArrayList<String> = ArrayList()
+        list.add("팔굽혀펴기")
+        list.add("스쿼트")
+        list.add("런지")
+        list.add("엘보우 플랭크")
+        list.add("사이드 플랭크")
+        list.add("할로우 홀드")
+        list.add("브릿지")
+        list.add("팔 벌려 뛰기")
+
+        movementAdapter.setitemList(list)
 
         movementAdapter.AimoveClickItem(object: MovementAdapter.AiMoveClickListener{
 
-            override fun itemClick(id: Int) {
-                ID = id
+            override fun itemClick(title: String) {
+                ID = title
                 if (requireActivity().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                     var cameraIntent: Intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                     startActivityForResult(cameraIntent, 1)
@@ -140,7 +151,7 @@ class AiMovementChoiceFragment : Fragment() {
         //측정할 운동 id 나열
         //val classes: Array<Int> = arrayOf(1,2,3,4)
         //val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
-        val classes: Array<Int> = arrayOf(4, 10 ,26)
+        val classes: Array<String> = arrayOf("arm1", "arm2", "arm3")
 
         var s: String? = ""
         Log.d("classSize", classes.size.toString())
@@ -154,28 +165,27 @@ class AiMovementChoiceFragment : Fragment() {
         Log.d("매칭운동", classes[maxPos].toString())
         Log.d("ㅇㅇㅇㅇㅇㅇㅇ", act.toString())
 
-        if(ID == classes[maxPos]){
-            // 예측률 이상일 경우에만
-            if( act > 90){
-                type = 0
-            }else if(act>80){
-                type = 1
-            }else if(act>60){
-                type = 2
-            }else{
-                type = 3
-            }
-            findNavController().navigate(R.id.ai_movement_result, Bundle().apply {
-                putString("type", type.toString())
-                type = 100
-            })
-        }else{
-            Toast.makeText(requireContext(), "인식할 수 없습니다", Toast.LENGTH_LONG).show()
-            findNavController().navigate(R.id.aiMovementChoiceFragment)
-        }
+
+//        if(act>80){
+//            if(classes[maxPos] == "arm1"){
+//                type = 0
+//            }else if(classes[maxPos] == "arm2"){
+//                type = 1
+//            }else if(classes[maxPos] == "arm3"){
+//                type = 2
+//            }
+//        }else{
+//            Toast.makeText(requireContext(), "인식할 수 없습니다, 다시 촬영해주세요.", Toast.LENGTH_LONG).show()
+//        }
+
 
 // Releases model resources if no longer used.
         model.close()
+
+        findNavController().navigate(R.id.ai_movement_result, Bundle().apply {
+            putString("type", "2")
+            type = 100
+        })
     }
 
     override fun onDestroyView() {
@@ -183,29 +193,29 @@ class AiMovementChoiceFragment : Fragment() {
         _binding = null
     }
 
-    // 운동기구 리스트 나열
-    private fun getMoveData(){
-        authService().AiMoveItemList(prefs.getToken()!!).enqueue(object : Callback<AiMoveResponse> {
-            override fun onResponse(
-                call: Call<AiMoveResponse>,
-                response: Response<AiMoveResponse>
-            ) {
-                when(response.code()){
-                    200 -> {
-                        var res = response.body()
-                        movementAdapter.setitemList(res?.getData()!!)
-                        Log.d("동작인식 운동리스트 가져오기", "성공")
-                    }
-                    else -> {
-                        Log.d("동작인식 운동리스트 가져오기", "실패")
-                    }
-                }
-            }
-            override fun onFailure(call: Call<AiMoveResponse>, t: Throwable) {
-                Log.d("동작인식 운동리스트 가져오기", "실패(통신오류)")
-            }
-        })
-    }
+//    // 운동기구 리스트 나열
+//    private fun getMoveData(){
+//        authService().AiMoveItemList(prefs.getToken()!!).enqueue(object : Callback<AiMoveResponse> {
+//            override fun onResponse(
+//                call: Call<AiMoveResponse>,
+//                response: Response<AiMoveResponse>
+//            ) {
+//                when(response.code()){
+//                    200 -> {
+//                        var res = response.body()
+//                        movementAdapter.setitemList(res?.getData()!!)
+//                        Log.d("동작인식 운동리스트 가져오기", "성공")
+//                    }
+//                    else -> {
+//                        Log.d("동작인식 운동리스트 가져오기", "실패")
+//                    }
+//                }
+//            }
+//            override fun onFailure(call: Call<AiMoveResponse>, t: Throwable) {
+//                Log.d("동작인식 운동리스트 가져오기", "실패(통신오류)")
+//            }
+//        })
+//    }
 
     private fun authService(): API {
         return getRetrofit().create(API::class.java)

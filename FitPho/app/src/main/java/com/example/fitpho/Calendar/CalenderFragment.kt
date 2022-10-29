@@ -8,9 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.fitpho.Network.API
 import com.example.fitpho.NetworkModel.CalendarRequestResponse
 import com.example.fitpho.NetworkModel.ScheduleGetDot
@@ -25,6 +25,10 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter
 import com.prolificinteractive.materialcalendarview.format.DateFormatTitleFormatter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,16 +42,15 @@ class CalenderFragment : Fragment() {
 
     private var _binding: FragmentCalenderBinding? = null
     private val binding get() = _binding!!
-    lateinit var calendar: MaterialCalendarView
     private val scheduleAdapter by lazy { ScheduleAdapter(requireContext()) }
     private var mformat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
     lateinit var clickedDay: String
+    lateinit var calendar: MaterialCalendarView
     var day = CalendarDay.today()
     companion object{
         lateinit var prefs: SharedPreferenceUtil
     }
-    lateinit var collect: Collection<CalendarDay>
-
+    var collect: ArrayList<CalendarDay> =  ArrayList<CalendarDay>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,29 +68,20 @@ class CalenderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = SharedPreferenceUtil(requireContext())
-        collect = HashSet<CalendarDay>()
         clickedDay = mformat.format(CalendarDay.today().date)
         getAllSchedule()
         CalendarInit()
-//        var dividerItemDecoration: DividerItemDecoration = DividerItemDecoration(view.context, 1)
-//        dividerItemDecoration.setDrawable(context?.resources!!.getDrawable(R.drawable.recyclerview_divider))
-//        binding.rcvCalendar.addItemDecoration(dividerItemDecoration)
 
         Log.d("CalendarDay.today",CalendarDay.today().toString())
-
-
-
         binding.rcvCalendar.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rcvCalendar.adapter = scheduleAdapter
 
         // 저장 버튼 클릭 시
-        binding.verify.setOnClickListener{
+        binding.verify.setOnClickListener {
             findNavController().navigate(R.id.scheduleAdd, Bundle().apply {
                 putString("date", clickedDay)
             })
         }
-
-
     }
 
     override fun onDestroyView() {
@@ -96,13 +90,15 @@ class CalenderFragment : Fragment() {
     }
 
     private fun CalendarInit(){
+
+
         binding.calendar.state().edit()
             .setFirstDayOfWeek(Calendar.SUNDAY)
             .setMaximumDate(CalendarDay.from(2030,11,31))
             .setMinimumDate(CalendarDay.from(2022,0,1))
             .setCalendarDisplayMode(CalendarMode.MONTHS)
             .commit()
-        binding.calendar.setWeekDayFormatter(ArrayWeekDayFormatter(getResources().getTextArray(R.array.custom_month)));
+        binding.calendar.setWeekDayFormatter(ArrayWeekDayFormatter(resources.getTextArray(R.array.custom_month)))
         calendar.selectedDate = day
         var todayDecorator = TodayDecorator()
         binding.calendar.setTitleFormatter(DateFormatTitleFormatter(SimpleDateFormat("yyyy년 M월")))
@@ -112,7 +108,7 @@ class CalenderFragment : Fragment() {
             SundayDecorator(),
             SaturdayDecorator(),
             todayDecorator,
-            DotDecorator(Color.RED, collect)
+            DotDecorator(Color.RED, arrayListOf(CalendarDay.today()))
         )
         getSchedule()
 
@@ -184,7 +180,8 @@ class CalenderFragment : Fragment() {
         return "실패"
     }
 
-    private fun getAllSchedule(){
+    private fun getAllSchedule() {
+
         authService().ScheduleGetDot(prefs.getToken()!!).enqueue(object : Callback<ScheduleGetDot>{
             override fun onResponse(
                 call: Call<ScheduleGetDot>,
@@ -193,19 +190,22 @@ class CalenderFragment : Fragment() {
                 when(response.code()){
                     200 -> {
                         Log.d("날짜 Dot", "성공")
-                        var dates = HashSet<String>()
+                        var dates = ArrayList<CalendarDay>()
                         var res = response.body()
                         var data = res?.getData()
                         for( i in 0 until data!!.size){
-                            dates.add(data[i])
-                            Log.d("날짜 Dot 나열", data[i])
-
+                            var cal = data[i].split("-")
+                            dates.add(CalendarDay.from(cal[0].toInt(), cal[1].toInt(), cal[2].toInt()))
+                            Log.d("날짜 Dot 나열", CalendarDay.from(cal[0].toInt(), cal[1].toInt(), cal[2].toInt()).toString())
                         }
+                        collect = dates
+
+                        Log.d("날짜 Dot 나열", collect.toString())
+
                     }
                     else -> {
                         Log.d("날짜 Dot", "실패")
                     }
-
                 }
             }
 
