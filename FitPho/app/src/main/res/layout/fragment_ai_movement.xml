@@ -32,7 +32,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/menu_nav"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:layout_editor_absoluteX="16dp">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="-16dp">
 
 
         <ImageView
@@ -49,9 +50,9 @@
         <ImageView
             android:id="@+id/imageView7"
             android:layout_width="100dp"
-            android:src="@drawable/bad_exercise2"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
+            android:src="@drawable/bad_exercise2"
             app:layout_constraintEnd_toStartOf="@+id/imageView6"
             app:layout_constraintStart_toEndOf="@+id/imageView5"
             app:layout_constraintTop_toBottomOf="@id/textView4" />
@@ -61,8 +62,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/exercise_ex6"
             android:layout_marginEnd="30dp"
+            android:src="@drawable/exercise_ex6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -70,9 +71,9 @@
             android:id="@+id/galleryResult"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/exercise_ex1"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:src="@drawable/exercise_ex1"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -108,10 +109,10 @@
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="100dp"
-            android:src="@drawable/bad_exercise1"
             android:layout_height="100dp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
+            android:src="@drawable/bad_exercise1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textView4" />
 
@@ -133,10 +134,9 @@
             android:text="■ 주의사항"
             android:textColor="@color/white"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
 
             app:layout_constraintHorizontal_bias="0.122"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
         <TextView
@@ -144,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="1. 운동동작이 정확히 나오도록 촬영"
+            android:text="1. 운동 동작이 정확히 나오도록 촬영"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="@+id/warning"
@@ -166,7 +166,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="3. 운동동작을 유지 후 촬영"
+            android:text="3. 운동 동작을 유지 후 촬영"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="@+id/warning"
