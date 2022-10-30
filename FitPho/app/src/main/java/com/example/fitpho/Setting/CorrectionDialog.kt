@@ -1,6 +1,7 @@
 package com.example.fitpho.Setting
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,20 +18,21 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CorrectionDialog: DialogFragment() {
+class CorrectionDialog(context: Context?) : DialogFragment() {
 
     private lateinit var binding: DeleteAccountBinding
-    companion object{
-        lateinit var prefs: SharedPreferenceUtil
-    }
+    private lateinit var prefs: SharedPreferenceUtil
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DeleteAccountBinding.inflate(LayoutInflater.from(context))
         binding.cancel.setOnClickListener{
             dismiss()
         }
+        prefs = SharedPreferenceUtil(requireContext())
         binding.verify.setOnClickListener {
             val old_password = binding.oldPassword.text.toString()
+            Log.d("비번", old_password.toString())
             verifyPassword(old_password)
         }
         val builder = AlertDialog.Builder(requireActivity())
@@ -44,7 +46,7 @@ class CorrectionDialog: DialogFragment() {
         when{
             old_password.isEmpty() -> Toast.makeText(requireContext(), " 기존 비밀번호를 입력하세요.", Toast.LENGTH_LONG).show()
             else -> {
-                authService().withdraw(prefs.getToken()!!).enqueue(object: Callback<WithdrawResponse>{
+                authService().withdraw(prefs.getToken()!!, Passwd(old_password)).enqueue(object: Callback<WithdrawResponse>{
                     override fun onResponse(
                         call: Call<WithdrawResponse>,
                         response: Response<WithdrawResponse>,

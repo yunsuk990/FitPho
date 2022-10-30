@@ -1,7 +1,9 @@
 package com.example.fitpho.Register
 
 import android.app.ProgressDialog.show
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -65,6 +67,16 @@ class RegisterFragment : Fragment(){
 
         //체크박스 동의 확인
         checkCheckBox()
+
+        binding.admit.setOnClickListener {
+            var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://leaf-jumpsuit-ad1.notion.site/FitPho-924abc7e50e144789728dfcfc79c5aae"))
+            startActivity(intent)
+        }
+
+        binding.service.setOnClickListener {
+            var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://leaf-jumpsuit-ad1.notion.site/FitPho-82d1dfcca73748c781af62d5c2f592a0"))
+            startActivity(intent)
+        }
 
         //이메일 유효성 검사
         binding.registerUserid.addTextChangedListener(object: TextWatcher {
@@ -130,6 +142,7 @@ class RegisterFragment : Fragment(){
                                         200 -> {
                                             binding.progressBar2.visibility = View.GONE
                                             Log.d("REGISTERIN/SUCCESS", "회원가입 성공.")
+                                            Toast.makeText(requireContext(), "회원가입되었습니다.", Toast.LENGTH_LONG).show()
                                             hideKeyboard()
                                             findNavController().navigate(R.id.loginFragment)
 

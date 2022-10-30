@@ -40,8 +40,8 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = SharedPreferenceUtil(requireContext())
-        prefs.deleteToken()
-        prefs.deleteAutoLogin()
+//        prefs.deleteToken()
+//        prefs.deleteAutoLogin()
 
 
         binding.emailBtn.setOnClickListener{
@@ -62,8 +62,6 @@ class WelcomeFragment : Fragment() {
             getReToken()
             Log.d("토큰: ", prefs.getToken().toString())
             findNavController().navigate(R.id.homeFragment)
-        }else{
-            findNavController().navigate(R.id.loginFragment)
         }
     }
 

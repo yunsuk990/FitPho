@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="105dp"
         android:text="로그인"
-
+        android:background="@drawable/button_clicked"
         android:textColor="@color/red"
         xmln:layout_constraintBottom_toBottomOf="@+id/textView7"
         xmln:layout_constraintEnd_toEndOf="parent"

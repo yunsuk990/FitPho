@@ -1,8 +1,5 @@
 package com.example.fitpho.Setting
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -13,9 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.video.VideoRecordEvent.Resume
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
 import com.example.fitpho.NetworkModel.*
@@ -79,7 +73,7 @@ class SettingFragment : Fragment() {
 
         //회원탈퇴
         binding.btnDelete.setOnClickListener{
-            val dialog = CorrectionDialog()
+            val dialog = CorrectionDialog(context)
             dialog.show(parentFragmentManager, "dialog")
 
         }

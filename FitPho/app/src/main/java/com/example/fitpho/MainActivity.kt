@@ -12,9 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    //Database 가져오기
-    //val Database by lazy { AppDatabase.getDatabase(this).guideDao() }
-
     //NavController
     private lateinit var navController: NavController
 

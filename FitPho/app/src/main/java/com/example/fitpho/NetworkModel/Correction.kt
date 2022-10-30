@@ -23,5 +23,10 @@ class CorrectionResponse(
     public fun getMessage(): String {
         return message
     }
-
 }
+
+data class Passwd(
+    @SerializedName(value = "old_password") var old_password: String
+)
+
+

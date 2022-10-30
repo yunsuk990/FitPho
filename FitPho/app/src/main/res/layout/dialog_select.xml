@@ -22,6 +22,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
+                    android:background="@drawable/button_clicked"
                     android:layout_weight="1"
                     android:src="@drawable/camera" />
                 <TextView
@@ -45,6 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
                     android:padding="15dp"
+                    android:background="@drawable/button_clicked"
                     android:src="@drawable/gallery" />
                 <TextView
                     android:layout_width="match_parent"

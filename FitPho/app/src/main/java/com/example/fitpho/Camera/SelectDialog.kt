@@ -20,7 +20,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.R
 import com.example.fitpho.databinding.DialogSelectBinding
-import com.example.fitpho.ml.Model
+import com.example.fitpho.ml.Model1
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.IOException
@@ -89,9 +89,8 @@ class SelectDialog: DialogFragment() {
 
     private fun classifyImage(image: Bitmap?) {
 
-        val model = Model.newInstance(requireActivity().applicationContext)
-// Creates inputs for reference.
-
+        val model = Model1.newInstance(requireActivity().applicationContext)
+        // 모델 input
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
         var byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(4*imageSize*imageSize*3)
         byteBuffer.order(ByteOrder.nativeOrder())
@@ -109,25 +108,20 @@ class SelectDialog: DialogFragment() {
         }
         inputFeature0.loadBuffer(byteBuffer)
 
-// Runs model inference and gets result.
+        // 모델 예측, 결과값 (output)
         val outputs = model.process(inputFeature0)
         val outputFeature0 = outputs.outputFeature0AsTensorBuffer
-
         val confidences = outputFeature0.floatArray
-
         var maxconfidences = 0.0F
         var maxPos = 0
-
         for(i in 0 until confidences?.size!!){
             if(confidences[i] > maxconfidences){
                 maxconfidences = confidences[i]
                 maxPos = i
             }
         }
-
-        //val classes: Array<Int> = arrayOf(1,2,3,4)
-        //val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
-        val classes: Array<Int> = arrayOf(26,43)
+        //매칭될 id
+        val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
 
         var s: String? = ""
         Log.d("classSize", classes.size.toString())
@@ -136,17 +130,13 @@ class SelectDialog: DialogFragment() {
         for(i in 0 until classes.size){
             s+= String.format("%s: %.3f%%\n", classes[i], confidences[i]*100)
         }
-        var act = confidences[maxPos]*100
+        var act = confidences[maxPos]*100 //가장 높은 예측치
         Log.d("Result", s!!) // 결과값 출력
-        Log.d("매칭운동", classes[maxPos].toString())
-        Log.d("ㅇㅇㅇㅇㅇㅇㅇ", act.toString())
-
-
 
         //매칭된 운동 아이디
         var id: Int? = classes[maxPos]
 
-        // 예측률 이상일 경우에만
+        // 예측률 80프로 이상일 경우에만
         if( act > 80){
             //Test
             findNavController().navigate( R.id.ai_ImageViewFragment ,
@@ -158,8 +148,7 @@ class SelectDialog: DialogFragment() {
             Toast.makeText(requireContext(), "인식하지를 못하였습니다.", Toast.LENGTH_LONG)
             findNavController().navigate(R.id.homeFragment)
         }
-
-// Releases model resources if no longer used.
+        //모델 종료
         model.close()
     }
 

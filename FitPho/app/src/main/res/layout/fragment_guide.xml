@@ -29,19 +29,6 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/button_white_round"
-        app:iconifiedByDefault="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-        app:queryHint="찾으시는 운동을 검색해보세요."
-        tools:layout_editor_absoluteY="0dp" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -51,7 +38,7 @@
         android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_view">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
             android:id="@+id/linear"

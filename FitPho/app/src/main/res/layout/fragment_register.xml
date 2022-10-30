@@ -70,11 +70,13 @@
         android:textColor="@color/white" />
 
     <TextView
+        android:id="@+id/service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/checkbox2"
         android:layout_alignEnd="@+id/linear"
         android:layout_marginStart="8dp"
+        android:background="@drawable/button_clicked"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="15dp"
         android:text="보기"
@@ -93,6 +95,8 @@
         android:textColor="@color/white" />
 
     <TextView
+        android:id="@+id/admit"
+        android:background="@drawable/button_clicked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/checkbox2"

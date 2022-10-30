@@ -35,7 +35,6 @@ import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
 
 class CalenderFragment : Fragment() {
@@ -70,7 +69,14 @@ class CalenderFragment : Fragment() {
         prefs = SharedPreferenceUtil(requireContext())
         clickedDay = mformat.format(CalendarDay.today().date)
         getAllSchedule()
+//        lifecycleScope.launch(Dispatchers.IO){
+//            delay(200)
+//            withContext(Dispatchers.Main){
+//
+//            }
+//        }
         CalendarInit()
+
 
         Log.d("CalendarDay.today",CalendarDay.today().toString())
         binding.rcvCalendar.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -191,15 +197,19 @@ class CalenderFragment : Fragment() {
                         var dates = ArrayList<CalendarDay>()
                         var res = response.body()
                         var data = res?.getData()
+                        var ca = Calendar.getInstance()
+                        var calendar: CalendarDay = CalendarDay.from(ca)
+
                         for( i in 0 until data!!.size){
                             var cal = data[i].split("-")
-                            dates.add(CalendarDay.from(cal[0].toInt(), cal[1].toInt(), cal[2].toInt()))
-                            Log.d("날짜 Dot 나열", CalendarDay.from(cal[0].toInt(), cal[1].toInt(), cal[2].toInt()).toString())
+                            var year: Int = Integer.parseInt(cal[0])
+                            var month: Int = Integer.parseInt(cal[1])
+                            var dayy: Int = Integer.parseInt(cal[2])
+                            dates.add(calendar)
+                            ca.set(year,month,dayy)
                         }
                         collect = dates
-
                         Log.d("날짜 Dot 나열", collect.toString())
-
                     }
                     else -> {
                         Log.d("날짜 Dot", "실패")

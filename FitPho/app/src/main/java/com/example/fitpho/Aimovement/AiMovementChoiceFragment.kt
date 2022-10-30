@@ -69,8 +69,6 @@ class AiMovementChoiceFragment : Fragment() {
         }
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = SharedPreferenceUtil(requireContext())
@@ -114,7 +112,6 @@ class AiMovementChoiceFragment : Fragment() {
 
         val model = Model.newInstance(requireActivity().applicationContext)
 // Creates inputs for reference.
-
         val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
         var byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(4*imageSize*imageSize*3)
         byteBuffer.order(ByteOrder.nativeOrder())
@@ -151,7 +148,8 @@ class AiMovementChoiceFragment : Fragment() {
         //측정할 운동 id 나열
         //val classes: Array<Int> = arrayOf(1,2,3,4)
         //val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
-        val classes: Array<String> = arrayOf("arm1", "arm2", "arm3")
+        val classes: Array<String> = arrayOf("런지 자세", "브릿지 자세", "사이드 플랭크 자세", "스쿼트 자세", "엘보우 플랭크 자세", "팔 벌려 뛰기 자세", "팔굽혀펴기 자세",
+            "할로우 홀드 동작")
 
         var s: String? = ""
         Log.d("classSize", classes.size.toString())
@@ -163,62 +161,30 @@ class AiMovementChoiceFragment : Fragment() {
         var act = confidences[maxPos]*100
         Log.d("Result", s!!) // 결과값 출력
         Log.d("매칭운동", classes[maxPos].toString())
-        Log.d("ㅇㅇㅇㅇㅇㅇㅇ", act.toString())
 
 
-//        if(act>80){
-//            if(classes[maxPos] == "arm1"){
-//                type = 0
-//            }else if(classes[maxPos] == "arm2"){
-//                type = 1
-//            }else if(classes[maxPos] == "arm3"){
-//                type = 2
-//            }
-//        }else{
-//            Toast.makeText(requireContext(), "인식할 수 없습니다, 다시 촬영해주세요.", Toast.LENGTH_LONG).show()
-//        }
-
+        if(act>80){
+           type = 0
+        }else if(act>50){
+            type = 1
+        }
+        else if(act>20){
+            type = 1
+        }else{
+            Toast.makeText(requireContext(), "인식할 수 없습니다, 다시 촬영해주세요.", Toast.LENGTH_LONG).show()
+        }
 
 // Releases model resources if no longer used.
         model.close()
 
         findNavController().navigate(R.id.ai_movement_result, Bundle().apply {
-            putString("type", "2")
-            type = 100
+            putString("type", type.toString())
         })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-//    // 운동기구 리스트 나열
-//    private fun getMoveData(){
-//        authService().AiMoveItemList(prefs.getToken()!!).enqueue(object : Callback<AiMoveResponse> {
-//            override fun onResponse(
-//                call: Call<AiMoveResponse>,
-//                response: Response<AiMoveResponse>
-//            ) {
-//                when(response.code()){
-//                    200 -> {
-//                        var res = response.body()
-//                        movementAdapter.setitemList(res?.getData()!!)
-//                        Log.d("동작인식 운동리스트 가져오기", "성공")
-//                    }
-//                    else -> {
-//                        Log.d("동작인식 운동리스트 가져오기", "실패")
-//                    }
-//                }
-//            }
-//            override fun onFailure(call: Call<AiMoveResponse>, t: Throwable) {
-//                Log.d("동작인식 운동리스트 가져오기", "실패(통신오류)")
-//            }
-//        })
-//    }
-
-    private fun authService(): API {
-        return getRetrofit().create(API::class.java)
     }
 }
 

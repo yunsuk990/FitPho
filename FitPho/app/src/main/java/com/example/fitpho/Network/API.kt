@@ -35,7 +35,8 @@ interface API {
     //회원탈퇴
     @DELETE("/auth/delete")
     fun withdraw(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Body passwd: Passwd
     ): Call<WithdrawResponse>
 
     //비밀번호 변경

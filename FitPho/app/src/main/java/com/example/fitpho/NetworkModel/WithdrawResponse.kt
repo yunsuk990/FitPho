@@ -5,7 +5,7 @@ class WithdrawResponse(
     private val success: String,
     private val message: String
 ){
-    public fun getSuccess():String {
+     fun getSuccess():String {
         return success
     }
 
