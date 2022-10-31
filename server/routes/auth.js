@@ -63,7 +63,7 @@ router.post('/register', async function(req, res) {
 })
 
 // 회원탈퇴
-router.delete('/delete', verifyToken, function(req, res) {
+router.post('/delete', verifyToken, function(req, res) {
 	const email = req.email;
 	const password = req.body.password;
 
