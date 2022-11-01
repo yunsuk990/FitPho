@@ -62,6 +62,44 @@ router.post('/register', async function(req, res) {
 	})
 })
 
+// 회원탈퇴
+router.post('/delete', verifyToken, function(req, res) {
+	const email = req.email;
+	const password = req.body.password;
+
+	var sql = 'select * from member where email=?';
+	db.query(sql, [email], async function(err, data, fields) {
+		if (err) throw err;
+		if (data.length === 0) {
+			return res.status(401).json({
+				success: "false",
+				message: "회원 정보가 존재하지 않습니다."
+			});
+		}
+		const hashedPassword = data[0].password;
+		var verified = await bcrypt.compare(password, hashedPassword);
+
+		if (!verified) {
+			return res.status(400).json({
+				success: "false",
+				message: "비밀번호가 일치하지 않습니다."
+			});
+		} else {
+			var sql = 'delete from favorites where email=?;' + 'delete from calendar where email=?;' + 'delete from member where email=?;';
+			db.query(sql, [email, email, email], async function(err, data, fields) {
+				if (err) throw err;
+
+				res.clearCookie("refreshToken");
+				res.removeHeader("Authorization");
+				return res.status(200).json({
+					success: "true",
+					message: "회원탈퇴에 성공하였습니다."
+				});
+			})
+		}
+	})
+})
+
 // 로그인
 router.post('/login', function(req, res) {
 	const email = req.body.email;
@@ -114,29 +152,6 @@ router.get("/logout", verifyToken, function(req, res) {
 		success: "true",
 		message: "로그아웃에 성공했습니다."
 	});
-})
-
-// 회원탈퇴
-router.delete('/delete', verifyToken, function(req, res) {
-	const email = req.email;
-
-	var sql = 'delete a,b from favorites as a inner join member as b on b.email = a.email where b.email=?';
-	db.query(sql, [email], function(err, data, fields) {
-		if (err) throw err;
-		if (data.affectedRows === 0) {
-			return res.status(400).json({
-				success: "false",
-				message: "회원탈퇴에 실패했습니다."
-			})
-		} else {
-			res.clearCookie("refreshToken");
-			res.removeHeader("Authorization");
-			return res.status(200).json({
-				success: "true",
-				message: "회원탈퇴에 성공하였습니다."
-			});
-		}
-	})
 })
 
 // 회원정보 수정 (비밀번호 변경) 
@@ -222,6 +237,7 @@ router.patch('/resetPW', async (req, res) => {
 // Refresh Token을 이용한 Access Token 재발급
 router.post('/token', (req, res) => {
 	const refreshToken = req.cookies.refreshToken;
+	
 	if (!refreshToken) {
 		return res.status(401).json({
 			success: "false",
