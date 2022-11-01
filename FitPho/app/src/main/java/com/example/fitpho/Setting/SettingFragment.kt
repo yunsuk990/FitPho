@@ -46,10 +46,10 @@ class SettingFragment : Fragment() {
 
         //로그아웃
         binding.btnLogout.setOnClickListener{
-            authService.logOut(prefs.getToken()!!).enqueue(object: Callback<LogOutResponse>{
+            authService.logOut(prefs.getToken()!!).enqueue(object: Callback<LogOutService>{
                 override fun onResponse(
-                    call: Call<LogOutResponse>,
-                    response: Response<LogOutResponse>,
+                    call: Call<LogOutService>,
+                    response: Response<LogOutService>,
                 ) {
                     when(response.code()){
                         200 -> {
@@ -64,8 +64,7 @@ class SettingFragment : Fragment() {
                         }
                     }
                 }
-
-                override fun onFailure(call: Call<LogOutResponse>, t: Throwable, ) {
+                override fun onFailure(call: Call<LogOutService>, t: Throwable, ) {
                     Log.d("LogOutFail", "LogOutFail")
                 }
             })
@@ -75,7 +74,6 @@ class SettingFragment : Fragment() {
         binding.btnDelete.setOnClickListener{
             val dialog = CorrectionDialog(context)
             dialog.show(parentFragmentManager, "dialog")
-
         }
 
         //비밀번호 변경
@@ -101,6 +99,7 @@ class SettingFragment : Fragment() {
             }
         })
 
+        //오픈라이선스
         binding.btnSeeLicense.setOnClickListener(object: View.OnClickListener{
             override fun onClick(p0: View?) {
                 var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://leaf-jumpsuit-ad1.notion.site/FitPho-816f04e30cbe4ce895cd9c92699006e6"))

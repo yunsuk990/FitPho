@@ -34,8 +34,6 @@ class MovementAdapter(context: Context): RecyclerView.Adapter<MovementAdapter.Vi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var currentItem = itemList?.get(position)
-        //var id = currentItem?.getId()
-        //var title = currentItem?.getTitle()
         var title = currentItem.toString()
         holder.binding.itemTitle.text = title
         holder.binding.itemTitle.setOnClickListener{

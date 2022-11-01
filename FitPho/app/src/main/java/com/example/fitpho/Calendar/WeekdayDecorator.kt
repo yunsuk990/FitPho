@@ -12,6 +12,7 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import java.util.*
 
+//토요일 날짜 색
 class SaturdayDecorator: DayViewDecorator {
     private final var calendar: Calendar = Calendar.getInstance()
 
@@ -26,6 +27,7 @@ class SaturdayDecorator: DayViewDecorator {
     }
 }
 
+//일요일 날짜 색
 class SundayDecorator: DayViewDecorator {
     private final var calendar: Calendar = Calendar.getInstance()
 
@@ -40,6 +42,7 @@ class SundayDecorator: DayViewDecorator {
     }
 }
 
+//오늘 날짜 디자인
 class TodayDecorator(): DayViewDecorator {
     private var date: CalendarDay
     init {
@@ -54,9 +57,5 @@ class TodayDecorator(): DayViewDecorator {
         view?.addSpan(StyleSpan(Typeface.BOLD))
         view?.addSpan(RelativeSizeSpan(1.4f))
         view?.addSpan(ForegroundColorSpan(Color.WHITE))
-    }
-
-    fun setDate(date: Date){
-        this.date = CalendarDay.from(date)
     }
 }

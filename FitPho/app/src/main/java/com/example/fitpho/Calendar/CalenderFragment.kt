@@ -69,12 +69,6 @@ class CalenderFragment : Fragment() {
         prefs = SharedPreferenceUtil(requireContext())
         clickedDay = mformat.format(CalendarDay.today().date)
         getAllSchedule()
-//        lifecycleScope.launch(Dispatchers.IO){
-//            delay(200)
-//            withContext(Dispatchers.Main){
-//
-//            }
-//        }
         CalendarInit()
 
 

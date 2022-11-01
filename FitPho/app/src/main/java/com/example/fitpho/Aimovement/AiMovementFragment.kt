@@ -48,7 +48,4 @@ class AiMovementFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
-
 }

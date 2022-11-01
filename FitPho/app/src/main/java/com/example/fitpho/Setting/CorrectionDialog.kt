@@ -23,7 +23,6 @@ class CorrectionDialog(context: Context?) : DialogFragment() {
     private lateinit var binding: DeleteAccountBinding
     private lateinit var prefs: SharedPreferenceUtil
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DeleteAccountBinding.inflate(LayoutInflater.from(context))
         binding.cancel.setOnClickListener{
@@ -39,8 +38,6 @@ class CorrectionDialog(context: Context?) : DialogFragment() {
         builder.setView(binding.root)
         return builder.create()
     }
-
-
 
     fun verifyPassword(old_password: String) {
         when{
@@ -58,6 +55,7 @@ class CorrectionDialog(context: Context?) : DialogFragment() {
                                 prefs.deleteToken()
                                 Log.d("Withdraw", "탈퇴성공")
                                 Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG).show()
+                                dismiss()
                                 findNavController().navigate(R.id.action_global_loginFragment)
                             }
                             400 -> {
@@ -71,7 +69,6 @@ class CorrectionDialog(context: Context?) : DialogFragment() {
                             else -> Log.d("Withdraw", "탈퇴실패3")
                         }
                     }
-
                     override fun onFailure(call: Call<WithdrawResponse>, t: Throwable) {
                         Log.d("Withdraw", "오류")
                     }
@@ -83,5 +80,4 @@ class CorrectionDialog(context: Context?) : DialogFragment() {
     private fun authService(): API {
         return getRetrofit().create(API::class.java)
     }
-
 }

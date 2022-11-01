@@ -5,46 +5,38 @@ import retrofit2.Call
 import retrofit2.http.*
 import java.util.*
 
+//API
 interface API {
-
     //로그인
     @POST("/auth/login")
     fun signIn(@Body login:Login): Call<LoginResponse>
-    //AuthResponse -> Body로 들어오는 데이터
 
     //회원가입
     @POST("/auth/register")
     fun registerIn(@Body register: Register): Call<RegisterResponse>
 
     //Email 중복 확인
-    @GET("/auth/email/{email}") //Body가 아닌 Query로 줘야함
+    @GET("/auth/email/{email}")
     fun emailConfirm(
         @Path("email") email: String
-    ): Call<EmailResponse>
+    ): Call<EmailService>
 
-    //로그아웃 - 구현해야됨
+    //로그아웃
     @GET("/auth/logout")
     fun logOut(
        @Header("Authorization") token: String
-    ): Call<LogOutResponse>
+    ): Call<LogOutService>
 
     //Token 가져오기
     @POST("/auth/token")
-    fun getToken(): Call<GetTokenResponse>
+    fun getToken(): Call<GetTokenService>
 
     //회원탈퇴
-    @DELETE("/auth/delete")
+    @POST("/auth/delete")
     fun withdraw(
         @Header("Authorization") token: String,
         @Body passwd: Passwd
     ): Call<WithdrawResponse>
-
-    //비밀번호 변경
-    @PATCH("/auth/edit")
-    fun correction(
-        @Body correction: Correction,
-        @Header("Authorization") token: String
-    ): Call<CorrectionResponse>
 
     //가이드 전체 조회
     @GET("/auth/library")
@@ -66,7 +58,7 @@ interface API {
 
     //토큰 재발급
     @POST("/auth/token")
-    fun getReToken(): Call<GetTokenResponse>
+    fun getReToken(): Call<GetTokenService>
 
 
     //비밀번호 재설정
@@ -79,7 +71,7 @@ interface API {
     @GET("/auth/certify/{email}")
     fun certifyPasswd(
         @Path("email") email: String
-    ): Call<GetCertifyResponse>
+    ): Call<GetCertifyService>
 
     //즐겨찾기 조회
     @GET("/favorites")
@@ -100,12 +92,6 @@ interface API {
         @Path("id") id: Int,
         @Header("Authorization") token: String
     ): Call<GetDeleteFavoritesResponse>
-
-
-
-
-
-
 
     //캘린더 전체 일정 조회
     @GET("/calendar")
@@ -159,7 +145,5 @@ interface API {
     fun AiMoveItemList(
         @Header("Authorization") token: String
     ): Call<AiMoveResponse>
-
-
 }
 

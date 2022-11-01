@@ -69,10 +69,8 @@ class ScheduleAdapter(context: Context): RecyclerView.Adapter<ScheduleAdapter.It
         notifyDataSetChanged()
     }
 
-
     //일정 삭제
     fun deleteSchedule(date: String, tvStart: String, token: String) {
-
         authService.ScheduleDelete(date,tvStart, token).enqueue(object : Callback<CalendarDeleteResponse> {
             override fun onResponse(
                 call: Call<CalendarDeleteResponse>,
@@ -87,7 +85,6 @@ class ScheduleAdapter(context: Context): RecyclerView.Adapter<ScheduleAdapter.It
                     }
                 }
             }
-
             override fun onFailure(call: Call<CalendarDeleteResponse>, t: Throwable) {
                 Log.d("일정 삭제", "실패(통신오류)")
             }

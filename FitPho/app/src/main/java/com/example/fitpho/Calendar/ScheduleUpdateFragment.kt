@@ -58,7 +58,6 @@ class ScheduleUpdateFragment : Fragment(), TimePickerDialog.OnTimeSetListener {
             checkBoxes[i].setOnClickListener(clickListener)
         }
 
-
         //일정 조회 시 데이터 삽입
         scheduleVerify(dateParam!!, tvStartParam!!, prefs.getToken()!!)
 

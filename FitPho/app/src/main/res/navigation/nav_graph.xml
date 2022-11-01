@@ -183,9 +183,4 @@
         android:name="com.example.fitpho.Aimovement.AiMovementChoiceFragment"
         android:label="fragment_ai_movement_choice"
         tools:layout="@layout/fragment_ai_movement_choice" />
-    <fragment
-        android:id="@+id/aiMovementCameraFragment"
-        android:name="com.example.fitpho.Aimovement.AiMovementCameraFragment"
-        android:label="fragment_ai_movement_camera"
-        tools:layout="@layout/fragment_ai_movement_camera" />
 </navigation>

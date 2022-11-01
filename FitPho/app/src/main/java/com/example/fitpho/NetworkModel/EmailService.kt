@@ -1,7 +1,7 @@
 package com.example.fitpho.NetworkModel
 
 //이메일 중복 확인 (응답)
-class EmailResponse (
+class EmailService (
     private val success: String,
     private val message: String,
     private val authNumber: String

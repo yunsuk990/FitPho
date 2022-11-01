@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 
+//SharedPreferences 관리 객체
 class SharedPreferenceUtil(context: Context) {
     private val TokenPref: SharedPreferences = context.getSharedPreferences("token", Activity.MODE_PRIVATE)
     private val AutoLogInPref: SharedPreferences = context.getSharedPreferences("autoLogin", Activity.MODE_PRIVATE)

@@ -1,7 +1,6 @@
 package com.example.fitpho.NetworkModel
 
 import com.google.gson.annotations.SerializedName
-import java.util.Date
 
 //캘린더 저장요청 응답
 class CalendarSaveResponse(

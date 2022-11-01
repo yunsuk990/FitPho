@@ -49,7 +49,7 @@ class GuideAdapter(private val context: Context): RecyclerView.Adapter<GuideAdap
         val img1 = currentItem?.getImg1()
 
         holder.binding.textView.text = title
-        Glide.with(context).load(currentItem?.getImg1()).placeholder(R.drawable.star).apply(RequestOptions.bitmapTransform(
+        Glide.with(context).load(currentItem?.getImg1()).apply(RequestOptions.bitmapTransform(
             RoundedCorners(25))).into(holder.binding.imageView)
 
         //즐겨찾기 화면일시

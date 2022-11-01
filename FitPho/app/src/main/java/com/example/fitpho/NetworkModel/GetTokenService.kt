@@ -1,7 +1,7 @@
 package com.example.fitpho.NetworkModel
 
 //토큰 재발급
-data class GetTokenResponse(
+data class GetTokenService(
     private val success: String,
     private val message: String,
     private val token: String

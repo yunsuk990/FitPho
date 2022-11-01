@@ -147,8 +147,6 @@ class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
         }
     }
 
-    //private fun getTvTitle(): String {}
-
     private fun bindCheckbox(){
         checkBoxes.add(binding.checkboxChest)
         checkBoxes.add(binding.checkboxAbs)

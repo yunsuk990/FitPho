@@ -105,7 +105,6 @@ class DetailFragment : Fragment() {
         return getRetrofit().create(API::class.java)
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

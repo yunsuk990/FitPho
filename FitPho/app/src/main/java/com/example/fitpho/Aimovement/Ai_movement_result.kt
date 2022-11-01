@@ -24,17 +24,13 @@ class Ai_movement_result : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         type = arguments?.getString("type").toString()
-
         binding.btnCancel.setOnClickListener {
             findNavController().navigate(R.id.aiMovementChoiceFragment)
         }
-
 
         if(type.toInt() == 0){
             binding.resultImage.setImageResource(R.drawable.good)

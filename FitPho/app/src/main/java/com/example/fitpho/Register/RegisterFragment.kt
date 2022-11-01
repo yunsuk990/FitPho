@@ -1,6 +1,5 @@
 package com.example.fitpho.Register
 
-import android.app.ProgressDialog.show
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -11,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -21,8 +19,6 @@ import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentRegisterBinding
 import com.example.fitpho.util.hideKeyboard
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -220,12 +216,12 @@ class RegisterFragment : Fragment(){
         if (useremail.isEmpty()) {
             textLayout1.error = "이메일 입력해주세요"
         } else {
-            authService().emailConfirm(useremail).enqueue(object : Callback<EmailResponse> {
+            authService().emailConfirm(useremail).enqueue(object : Callback<EmailService> {
                 override fun onResponse(
-                    call: Call<EmailResponse>,
-                    response: Response<EmailResponse>
+                    call: Call<EmailService>,
+                    response: Response<EmailService>
                 ) {
-                    var post: EmailResponse? = response.body()
+                    var post: EmailService? = response.body()
                     authNumber = post?.printAuthNumber()
                     when (response.code()) {
                         in 200..299 -> {
@@ -249,7 +245,7 @@ class RegisterFragment : Fragment(){
                 }
 
                 //통신 실패 시
-                override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
+                override fun onFailure(call: Call<EmailService>, t: Throwable) {
                     Log.d("Comfirm", "FAILURE")
                     textLayout1.error = "통신 오류입니다."
                     code = false

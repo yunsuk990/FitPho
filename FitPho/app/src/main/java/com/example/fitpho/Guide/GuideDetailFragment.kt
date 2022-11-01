@@ -83,16 +83,13 @@ class GuideDetailFragment : Fragment() {
                                 var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse(res.getData()!![0].getUrl()))
                                 startActivity(intent)
                             }
-
                         })
-
                         //운동설명
                         var s: String =""
                         for(i in 0..((text)?.minus(1)!!)){
                             createTextView(res.getText()[i], i+1)
                             Log.d("text", res.getText()[i])
                         }
-
                     }
                     else -> {
                         Log.d("GuideDetail", "FAIL1")

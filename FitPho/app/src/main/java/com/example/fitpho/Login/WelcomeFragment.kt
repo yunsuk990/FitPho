@@ -1,7 +1,5 @@
 package com.example.fitpho.Login
 
-import android.app.Activity
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
-import com.example.fitpho.NetworkModel.GetTokenResponse
+import com.example.fitpho.NetworkModel.GetTokenService
 import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentWelcomeBinding
@@ -40,9 +38,10 @@ class WelcomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prefs = SharedPreferenceUtil(requireContext())
-//        prefs.deleteToken()
-//        prefs.deleteAutoLogin()
 
+        //Test
+//      prefs.deleteToken()
+//      prefs.deleteAutoLogin()
 
         binding.emailBtn.setOnClickListener{
             findNavController().navigate(R.id.action_welcomeFragment_to_registerFragment)
@@ -53,13 +52,11 @@ class WelcomeFragment : Fragment() {
         }
     }
 
-
     override fun onResume() {
         super.onResume()
 
         //자동 로그인 검사
         if(prefs.getAutoLogin()){
-            getReToken()
             Log.d("토큰: ", prefs.getToken().toString())
             findNavController().navigate(R.id.homeFragment)
         }
@@ -77,10 +74,10 @@ class WelcomeFragment : Fragment() {
 
     //토큰 재발급
     private fun getReToken(){
-        authService().getReToken().enqueue(object: Callback<GetTokenResponse> {
+        authService().getReToken().enqueue(object: Callback<GetTokenService> {
             override fun onResponse(
-                call: Call<GetTokenResponse>,
-                response: Response<GetTokenResponse>,
+                call: Call<GetTokenService>,
+                response: Response<GetTokenService>,
             ) {
                 when(response.code()){
                     200 -> {
@@ -91,7 +88,6 @@ class WelcomeFragment : Fragment() {
                             prefs.deleteToken()
                             prefs.setToken(token)
                         }
-
                     }
                     401 -> {
                         Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_LONG)
@@ -104,7 +100,7 @@ class WelcomeFragment : Fragment() {
                     }
                 }
             }
-            override fun onFailure(call: Call<GetTokenResponse>, t: Throwable) {
+            override fun onFailure(call: Call<GetTokenService>, t: Throwable) {
                 Log.d("getReToken", "getReToken failure")
             }
         })

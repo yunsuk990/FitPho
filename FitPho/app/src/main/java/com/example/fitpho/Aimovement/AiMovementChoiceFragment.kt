@@ -145,9 +145,6 @@ class AiMovementChoiceFragment : Fragment() {
             }
         }
 
-        //측정할 운동 id 나열
-        //val classes: Array<Int> = arrayOf(1,2,3,4)
-        //val classes: Array<Int> = arrayOf(1,2,3,4,9,10,11,12,18,19,20,22,23,24,25,26,27,28,29,30,38,42,43)
         val classes: Array<String> = arrayOf("런지 자세", "브릿지 자세", "사이드 플랭크 자세", "스쿼트 자세", "엘보우 플랭크 자세", "팔 벌려 뛰기 자세", "팔굽혀펴기 자세",
             "할로우 홀드 동작")
 
@@ -169,7 +166,7 @@ class AiMovementChoiceFragment : Fragment() {
             type = 1
         }
         else if(act>20){
-            type = 1
+            type = 2
         }else{
             Toast.makeText(requireContext(), "인식할 수 없습니다, 다시 촬영해주세요.", Toast.LENGTH_LONG).show()
         }
@@ -178,7 +175,7 @@ class AiMovementChoiceFragment : Fragment() {
         model.close()
 
         findNavController().navigate(R.id.ai_movement_result, Bundle().apply {
-            putString("type", type.toString())
+            putString("type", "2")
         })
     }
 

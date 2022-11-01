@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
     //NavController
     private lateinit var navController: NavController
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,8 +40,6 @@ class MainActivity : AppCompatActivity() {
                 menu_nav.visibility = View.GONE
             }
         }
-
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

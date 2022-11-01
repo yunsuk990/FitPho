@@ -43,8 +43,8 @@ class EmailAuthorization : DialogFragment() {
         binding.authorizeBtn.setOnClickListener{
             binding.progressbar.visibility = View.VISIBLE
             var inputAuth = ((""+binding.edit4.text) + binding.edit3.text + binding.edit2.text + binding.edit1.text)
-            Log.d("inputauth", inputAuth)
-            Log.d("authnumber", authNumber.toString())
+//            Log.d("inputauth", inputAuth)
+//            Log.d("authnumber", authNumber.toString())
             if(inputAuth == authNumber.toString()){
                 success = true
                 Log.d("inputauth", "성공")
