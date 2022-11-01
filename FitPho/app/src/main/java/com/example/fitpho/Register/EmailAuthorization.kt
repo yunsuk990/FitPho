@@ -43,19 +43,18 @@ class EmailAuthorization : DialogFragment() {
         binding.authorizeBtn.setOnClickListener{
             binding.progressbar.visibility = View.VISIBLE
             var inputAuth = ((""+binding.edit4.text) + binding.edit3.text + binding.edit2.text + binding.edit1.text)
-            Log.d("inputauth", inputAuth)
-            Log.d("authnumber", authNumber.toString())
-            if(inputAuth.toString() == authNumber.toString()){
+//            Log.d("inputauth", inputAuth)
+//            Log.d("authnumber", authNumber.toString())
+            if(inputAuth == authNumber.toString()){
                 success = true
                 Log.d("inputauth", "성공")
                 binding.progressbar.visibility = View.INVISIBLE
                 Toast.makeText(requireContext(), "인증되었습니다.", Toast.LENGTH_SHORT).show()
-                dismiss()
-
-//                findNavController().navigate(R.id.action_emailAuthorization_to_registerFragment,
-//                    Bundle().apply {
-//                    putBoolean("authSuccess", success)
-//                })
+                dismiss().apply {
+                    Bundle().apply {
+                        putBoolean("authSuccess", success)
+                    }
+                }
             }else{
                 binding.progressbar.visibility = View.INVISIBLE
                 success = false

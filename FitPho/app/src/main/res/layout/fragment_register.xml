@@ -70,11 +70,13 @@
         android:textColor="@color/white" />
 
     <TextView
+        android:id="@+id/service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/checkbox2"
         android:layout_alignEnd="@+id/linear"
         android:layout_marginStart="8dp"
+        android:background="@drawable/button_clicked"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="15dp"
         android:text="보기"
@@ -93,6 +95,8 @@
         android:textColor="@color/white" />
 
     <TextView
+        android:id="@+id/admit"
+        android:background="@drawable/button_clicked"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/checkbox2"
@@ -151,6 +155,8 @@
         app:boxBackgroundColor="@color/white"
         app:boxStrokeWidth="0dp"
         app:boxStrokeErrorColor="@color/darklogocolor"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/error"
         app:boxStrokeColor="@color/darklogocolor"
         app:boxCornerRadiusBottomEnd="25dp"
         app:boxCornerRadiusBottomStart="25dp"
@@ -182,6 +188,8 @@
         app:boxStrokeErrorColor="@color/darklogocolor"
         app:counterTextColor="@color/white"
         app:counterMaxLength="14"
+        app:errorEnabled="true"
+        app:errorIconDrawable="@drawable/error"
         app:passwordToggleEnabled="true"
         app:boxStrokeColor="@color/darklogocolor"
         app:boxBackgroundColor="@color/white"
@@ -218,11 +226,11 @@
         android:id="@+id/auth_btn"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
-        android:textStyle="bold"
         android:layout_alignTop="@id/textInputLayout1"
         android:layout_alignEnd="@+id/textInputLayout2"
         android:layout_centerInParent="true"
         android:background="@drawable/button_round"
-        android:text="중복확인" />
+        android:text="인증하기"
+        android:textStyle="bold" />
 
 </RelativeLayout>

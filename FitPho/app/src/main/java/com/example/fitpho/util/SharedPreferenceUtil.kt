@@ -4,9 +4,30 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 
+//SharedPreferences 관리 객체
 class SharedPreferenceUtil(context: Context) {
     private val TokenPref: SharedPreferences = context.getSharedPreferences("token", Activity.MODE_PRIVATE)
     private val AutoLogInPref: SharedPreferences = context.getSharedPreferences("autoLogin", Activity.MODE_PRIVATE)
+    private val UserEmailPref: SharedPreferences = context.getSharedPreferences("userEmail", Activity.MODE_PRIVATE)
+
+    fun setUserEmail(email: String) {
+        val pref = UserEmailPref
+        val edit = pref.edit()
+        edit.putString("email", email)
+        edit.apply()
+    }
+
+    fun getUserEmail():String{
+        val pref = UserEmailPref
+        return (pref.getString("email", null)!!)
+    }
+
+    fun deleteUserEmail(){
+        val pref = UserEmailPref
+        val edit = pref.edit()
+        edit.clear()
+        edit.apply()
+    }
 
     fun getAutoLogin():Boolean {
         val pref = AutoLogInPref

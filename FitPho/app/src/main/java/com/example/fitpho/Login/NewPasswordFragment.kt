@@ -53,7 +53,7 @@ class NewPasswordFragment : Fragment() {
                        when(response.code()){
                            200 -> {
                                Log.d("NewPassword", "SUCCESS")
-                               Toast.makeText(requireContext(), "비밀번호가 변경되었습니다.", Toast.LENGTH_LONG)
+                               Toast.makeText(requireContext(), "비밀번호가 변경되었습니다.", Toast.LENGTH_SHORT).show()
                                findNavController().navigate(R.id.loginFragment)
                            }
                            else -> {

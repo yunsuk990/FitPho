@@ -105,7 +105,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/button_round"
         android:backgroundTint="@color/lightlogocolor"
         android:text="인증번호 확인"

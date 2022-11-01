@@ -1,31 +1,43 @@
 package com.example.fitpho
 
-import android.app.AlertDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.TimePicker
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.example.fitpho.Calendar.TimeViewPagerAdapter
-import com.example.fitpho.databinding.DialogDatetimePickerBinding
+import com.example.fitpho.Network.API
+import com.example.fitpho.NetworkModel.CalendarSave
+import com.example.fitpho.NetworkModel.CalendarSaveResponse
+import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.databinding.FragmentScheduleAddBinding
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.fitpho.util.SharedPreferenceUtil
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class ScheduleAdd : Fragment(), TabLayout.OnTabSelectedListener {
+class ScheduleAdd : Fragment(), TimePickerDialog.OnTimeSetListener {
 
     private var _binding: FragmentScheduleAddBinding? = null
     private val binding get() = _binding!!
-    private lateinit var view: DialogDatetimePickerBinding
-
-
-    private var mFormatter: SimpleDateFormat = SimpleDateFormat("MMMM dd yyyy hh:mm aa");
-    //private var listener = SlideDateTimeListener()
-
-
-
+    private var mformat: SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+    var type: Int = 0
+    var clickedDate: String = ""
+    var startTime: String = ""
+    var endTime: String = ""
+    companion object{
+        lateinit var prefs: SharedPreferenceUtil
+    }
+    var checkBoxes: ArrayList<CheckBox> = ArrayList()
+    var tvTitle: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,31 +50,86 @@ class ScheduleAdd : Fragment(), TabLayout.OnTabSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        prefs = SharedPreferenceUtil(requireContext())
 
-        binding.textView3.setOnClickListener{
-            dialogTime(0)
+        bindCheckbox()
+        clickedDate = arguments?.getString("date", null)!!      // 선택한 날짜
+
+        binding.todayDate.text = clickedDate
+        binding.todayDate2.text = clickedDate
+        for(i in 0 until checkBoxes.size){
+            checkBoxes[i].setOnClickListener(clickListener)
+        }
+
+
+        binding.container1.setOnClickListener{
+            type = 0
+            dialogTime()
+        }
+        binding.container2.setOnClickListener{
+            type = 1
+            dialogTime()
         }
         binding.btnCancel.setOnClickListener{
             findNavController().navigate(R.id.calenderFragment)
         }
+
+        binding.btnSave.setOnClickListener{
+            var token = prefs.getToken()
+            //현재 시,분,초 구하기
+
+            var tv_Title: String = tvTitle.replaceFirstChar { "" }
+            Log.d("tv_Title", tv_Title)
+            var tvDate: String = clickedDate
+            Log.d("tvDate", tvDate)
+            var tvStart = startTime
+            Log.d("tvStart", tvStart)
+            var tvEnd = endTime
+            Log.d("tvEnd", tvEnd)
+            var tvContent = binding.etMemo.text.toString()
+            Log.d("tvContent", tvContent)
+            var schedule = CalendarSave(tv_Title, tvDate, tvStart, tvEnd, tvContent)
+            //서버 요청
+            getScheduleSave(tvDate, tvStart ,token!!, schedule)
+        }
     }
 
-    private fun dialogTime(type: Int) {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        view = DialogDatetimePickerBinding.inflate(layoutInflater)
-        dialogBuilder.setView(view.root)
-        val alertDialog = dialogBuilder.create()
-        alertDialog.show()
-
-        view.tabLayout.addOnTabSelectedListener(this)
-        val adapter = TimeViewPagerAdapter(activity?.supportFragmentManager!!, requireActivity().lifecycle )
-        view.frame.adapter = adapter
-        TabLayoutMediator(view.tabLayout, view.frame){tab,position->
-            when(position){
-                0->tab.text="날짜"
-                1->tab.text="시간"
+    private var clickListener: View.OnClickListener = object : View.OnClickListener{
+        override fun onClick(p0: View?) {
+            when(p0?.id){
+                R.id.checkbox_abs -> {
+                    tvTitle += ","+binding.checkboxAbs.text
+                }
+                R.id.checkbox_arm -> {
+                    tvTitle += ","+binding.checkboxArm.text
+                }
+                R.id.checkbox_back -> {
+                    tvTitle += ","+binding.checkboxBack.text
+                }
+                R.id.checkbox_chest -> {
+                    tvTitle += ","+binding.checkboxChest.text
+                }
+                R.id.checkbox_leg -> {
+                    tvTitle += ","+binding.checkboxLeg.text
+                }
+                R.id.checkbox_shoulder -> {
+                    tvTitle += ","+binding.checkboxShoulder.text
+                }
+                R.id.checkbox_other -> {
+                    tvTitle += ","+binding.checkboxOther.text
+                }
             }
-        }.attach()
+        }
+    }
+
+
+    private fun dialogTime() {
+        var calendar = Calendar.getInstance()
+        var hour = calendar.get(Calendar.HOUR_OF_DAY)
+        var minute = calendar.get(Calendar.MINUTE)
+        var timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, this , hour, minute, android.text.format.DateFormat.is24HourFormat(context))
+        timePickerDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        timePickerDialog.show()
     }
 
     override fun onDestroyView() {
@@ -70,15 +137,49 @@ class ScheduleAdd : Fragment(), TabLayout.OnTabSelectedListener {
         _binding = null
     }
 
-    override fun onTabSelected(tab: TabLayout.Tab?) {
-        view.frame.currentItem = tab!!.position
+    override fun onTimeSet(p0: TimePicker?, p1: Int, p2: Int) {
+        if(type == 0){
+            startTime = "$p1:$p2"
+            binding.startTime.text = String.format("%d 시 %d 분", p1, p2)
+        }else{
+            endTime = "$p1:$p2"
+            binding.endTime.text = String.format("%d 시 %d 분", p1, p2)
+        }
     }
 
-    override fun onTabUnselected(tab: TabLayout.Tab?) {
+    private fun bindCheckbox(){
+        checkBoxes.add(binding.checkboxChest)
+        checkBoxes.add(binding.checkboxAbs)
+        checkBoxes.add(binding.checkboxArm)
+        checkBoxes.add(binding.checkboxBack)
+        checkBoxes.add(binding.checkboxLeg)
+        checkBoxes.add(binding.checkboxOther)
+        checkBoxes.add(binding.checkboxShoulder)
     }
 
-    override fun onTabReselected(tab: TabLayout.Tab?) {
+    private fun getScheduleSave(date: String, tvstart: String, token: String, schedule: CalendarSave) {
+        authService().ScheduleSave(date, tvstart, token, schedule).enqueue(object : Callback<CalendarSaveResponse>{
+            override fun onResponse(
+                call: Call<CalendarSaveResponse>,
+                response: Response<CalendarSaveResponse>
+            ) {
+                when(response.code()){
+                    200 -> {
+                        Log.d("일정 저장:", "성공" )
+                        findNavController().navigate(R.id.calenderFragment)
+                    }else -> {
+                        Log.d("일정 저장:", "실패" )
+                    }
+                }
+            }
+            override fun onFailure(call: Call<CalendarSaveResponse>, t: Throwable) {
+                Log.d("일정 저장:", "실패(통신오류)")
+            }
+        })
     }
 
-
+    //Retrofit api
+    private fun authService(): API {
+        return getRetrofit().create(API::class.java)
+    }
 }

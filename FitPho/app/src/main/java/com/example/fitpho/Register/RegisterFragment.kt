@@ -1,7 +1,8 @@
 package com.example.fitpho.Register
 
-import android.app.ProgressDialog.show
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,20 +33,26 @@ class RegisterFragment : Fragment(){
     var checkuserpasswd: String = ""
     var checkbox1: Boolean = false
     var checkbox2: Boolean = false
-    lateinit var textLayout:TextInputLayout
+    lateinit var textLayout1:TextInputLayout
+    lateinit var textLayout2:TextInputLayout
     var authNumber: String? =""
     var authSuccess: Boolean = false
     var code: Boolean = false
+    val authService = authService()
     //이메일 형식 검사 정규식
     val emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-    val authService = authService()
+    //비밀번호 형식 검사 정규식
+    val passwdValidation = "([0-9].*[!,@,#,^,&,*,(,)])|([!,@,#,^,&,*,(,)].*[0-9])"
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        textLayout =  binding.textInputLayout1
+        textLayout1 =  binding.textInputLayout1
+        textLayout2 =  binding.textInputLayout1
         return binding.root
     }
 
@@ -55,16 +61,36 @@ class RegisterFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        //체크박스 동의 확인
         checkCheckBox()
 
-        //유효성 검사
+        binding.admit.setOnClickListener {
+            var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://leaf-jumpsuit-ad1.notion.site/FitPho-924abc7e50e144789728dfcfc79c5aae"))
+            startActivity(intent)
+        }
+
+        binding.service.setOnClickListener {
+            var intent: Intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://leaf-jumpsuit-ad1.notion.site/FitPho-82d1dfcca73748c781af62d5c2f592a0"))
+            startActivity(intent)
+        }
+
+        //이메일 유효성 검사
         binding.registerUserid.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 checkEmail()
             }
             override fun afterTextChanged(s: Editable?) {}
+        })
+
+        //비밀번호 유효성 검사
+        binding.registerPassword.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                checkPasswd()
+            }
+            override fun afterTextChanged(s: Editable?) {
+            }
         })
 
         //이메일 중복 확인
@@ -112,8 +138,10 @@ class RegisterFragment : Fragment(){
                                         200 -> {
                                             binding.progressBar2.visibility = View.GONE
                                             Log.d("REGISTERIN/SUCCESS", "회원가입 성공.")
+                                            Toast.makeText(requireContext(), "회원가입되었습니다.", Toast.LENGTH_LONG).show()
                                             hideKeyboard()
-                                            findNavController().navigate(R.id.startFragment)
+                                            findNavController().navigate(R.id.loginFragment)
+
                                         }
                                         else -> {
                                             Toast.makeText(requireContext(), "회원가입 실패.", Toast.LENGTH_SHORT).show()
@@ -168,51 +196,58 @@ class RegisterFragment : Fragment(){
         }
     }
 
+    //비밀번호 개수 제한
+    private fun checkPasswd(): Boolean {
+        var layout = binding.textInputLayout2
+        var passwd = binding.registerPassword.text.toString()
+        if (passwd.length >= 8){
+            layout.error = null
+            return true
+        }else{
+            layout.error = "비밀번호 8자리 이상"
+            return false
+        }
+    }
+
 
     //중복 이메일 확인
     private fun emailConfirm():Boolean {
         var useremail = binding.registerUserid.text.toString()
         if (useremail.isEmpty()) {
-            textLayout.error = "이메일 입력해주세요"
+            textLayout1.error = "이메일 입력해주세요"
         } else {
-            authService().emailConfirm(useremail).enqueue(object : Callback<EmailResponse> {
+            authService().emailConfirm(useremail).enqueue(object : Callback<EmailService> {
                 override fun onResponse(
-                    call: Call<EmailResponse>,
-                    response: Response<EmailResponse>
+                    call: Call<EmailService>,
+                    response: Response<EmailService>
                 ) {
-                    var post: EmailResponse? = response.body()
+                    var post: EmailService? = response.body()
                     authNumber = post?.printAuthNumber()
                     when (response.code()) {
                         in 200..299 -> {
                             Log.d("EmailConfirm", "EmailConfirm/SUCCESS")
                             Log.d("auth", authNumber.toString())
-                            //데이터 전달
-                            var bundle: Bundle = Bundle()
-                            bundle.putString("authNumber", authNumber)
-                            var emailauth: EmailAuthorization = EmailAuthorization()
-                            emailauth.arguments = bundle
-                            emailauth.show(parentFragmentManager, "dialog")
-                            code = true
-                            Log.d("code1", code.toString())
-
+                            //다이얼로그창
+                            EmailAuthdialog()
+                            code=true
                         }
                         400 -> {
                             code = false
-                            textLayout.error = "이미 가입된 이메일입니다."
+                            textLayout1.error = "이미 가입된 이메일입니다."
                             Log.d("EmailConfirm", "EmailConfirm/FAIL1")
                         }
                         else -> {
                             code = false
                             Log.d("EmailConfirm", "EmailConfirm/FAIL2")
-                            textLayout.error = "통신 오류입니다."
+                            textLayout1.error = "통신 오류입니다."
                         }
                     }
                 }
 
                 //통신 실패 시
-                override fun onFailure(call: Call<EmailResponse>, t: Throwable) {
+                override fun onFailure(call: Call<EmailService>, t: Throwable) {
                     Log.d("Comfirm", "FAILURE")
-                    textLayout.error = "통신 오류입니다."
+                    textLayout1.error = "통신 오류입니다."
                     code = false
                 }
             })
@@ -221,6 +256,19 @@ class RegisterFragment : Fragment(){
         return code
     }
 
+
+    private fun EmailAuthdialog() {
+                var bundle: Bundle = Bundle()
+                bundle.putString("authNumber", authNumber)
+                var emailauth: EmailAuthorization = EmailAuthorization()
+                emailauth.arguments = bundle
+                emailauth.show(parentFragmentManager, "dialog").apply {
+                    var success = arguments?.getBoolean("authSuccess")
+                    Log.d("successBundle", success.toString())
+                }
+                code = true
+                Log.d("code1", code.toString())
+    }
 
 
     //체크박스 전체확인

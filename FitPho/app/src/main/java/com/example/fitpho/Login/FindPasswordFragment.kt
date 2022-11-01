@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.fitpho.Network.API
-import com.example.fitpho.NetworkModel.GetCertifyResponse
+import com.example.fitpho.NetworkModel.GetCertifyService
 import com.example.fitpho.NetworkModel.getRetrofit
 import com.example.fitpho.R
 import com.example.fitpho.databinding.FragmentFindPasswordBinding
@@ -63,10 +63,10 @@ class FindPasswordFragment : Fragment() {
 
         binding.findPasswd.setOnClickListener {
             var useremail = binding.userId.text.toString().trim()
-            authService().certifyPasswd(useremail).enqueue(object: Callback<GetCertifyResponse>{
+            authService().certifyPasswd(useremail).enqueue(object: Callback<GetCertifyService>{
                 override fun onResponse(
-                    call: Call<GetCertifyResponse>,
-                    response: Response<GetCertifyResponse>,
+                    call: Call<GetCertifyService>,
+                    response: Response<GetCertifyService>,
                 ) {
                     when(response.code()){
                         200 -> {
@@ -78,15 +78,14 @@ class FindPasswordFragment : Fragment() {
                                     putString("authNumber", authNumber)
                                     putString("email", useremail)
                                 })
-
                         }
                         400 -> {
+                            textLayout.error = "가입되어 있지 않은 이메일입니다."
                             Log.d("CertifyEmail", "FAIL1")
-                            Toast.makeText(requireContext(), response.body()?.getMessage(), Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
-                override fun onFailure(call: Call<GetCertifyResponse>, t: Throwable) {
+                override fun onFailure(call: Call<GetCertifyService>, t: Throwable) {
                     Log.d("CertifyEmail", "FAILURE")
                 }
             })

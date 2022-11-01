@@ -85,6 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/autoLogin"
         android:layout_alignEnd="@+id/btnLogin"
+        android:background="@drawable/button_clicked"
         android:text="비밀번호 찾기"
         android:textColor="@color/white" />
 
@@ -132,6 +133,7 @@
         android:layout_alignTop="@+id/textview1"
         android:layout_alignBottom="@+id/textview1"
         android:layout_marginLeft="12dp"
+        android:background="@drawable/button_clicked"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
         android:layout_toEndOf="@+id/textview1"

@@ -2,50 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/button_white_round"
     android:orientation="vertical">
 
     <TextView
-        android:text="비밀번호 재설정"
+        android:text="계정 탈퇴"
         android:padding="5dp"
         android:textSize="30dp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/darklogocolor" />
+        android:layout_height="64dp" />
+    <View
+        android:id="@+id/line1"
+        android:background="#EEEEEE"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"/>
+
     <EditText
         android:id="@+id/old_password"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="기존 비밀번호" />
-    <EditText
-        android:id="@+id/password"
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="sans-serif"
-        android:hint="새 비밀번호"/>
+        android:hint="비밀번호" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/verify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/darklogocolor"
+            android:backgroundTint="#F62525"
             android:textColor="@color/white"
             android:layout_weight="1"
             android:text="확인" />
