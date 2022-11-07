@@ -22,6 +22,8 @@
 <p align="center">
     <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200335578-9c661429-2904-40a1-944a-b23989eaed59.png">
      <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200337074-5e2f96f5-6120-48b2-9553-abc7737560ae.png">
+</p>
+<p align="center">
      <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200338992-b811b9b2-cd03-4138-b6ae-e71a654300cf.png">
      <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200338691-870ede1f-6f65-44f1-9e08-020fd9be2f00.png">
 </p>
@@ -37,6 +39,8 @@
 <p align="center">
   <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200343108-eaba427f-5fbc-4692-b37a-b5859d709f14.png">
   <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200344785-b785b89d-630f-430c-8a60-30d975bd4ddd.png">
+</p>
+<p align="center">
   <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200344941-e19423a8-f873-48e1-bf8d-491101e7ab76.png">
   <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200345062-ea3b0aa8-54bb-45ba-911d-ed78f863565f.png">
 </p>
@@ -102,6 +106,8 @@
 <p align="center">
   <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200357379-6a4e641b-3d63-499a-bab0-25cf36c157be.png">
   <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200357466-f52b1813-c7af-4be2-9902-7689568151a3.png">
+</p>
+<p align="center">
    <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200355269-a7c6d45a-0694-4fbb-b781-f04ae2c02781.png">
     <img width="230" alt="스크린샷 2022-11-05 오후 4 38 17" src="https://user-images.githubusercontent.com/45827567/200355295-a8af62c8-9169-4444-8540-763ae5eca9ce.png">
 </p>
