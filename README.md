@@ -115,9 +115,13 @@
 
 ### 🔨 사용 라이브러리
 
-#### CameraX
-#### Retrofit
-#### 
+#### 1. CameraX
+#### 2. <a href="https://square.github.io/retrofit/">Retrofit</a>
+#### 3. <a href="https://square.github.io/retrofit/](https://teachablemachine.withgoogle.com/">Teachable-Machine</a>
+#### 4. TensorflowLite
+#### 5. Coroutine
+#### 6. <a href="https://github.com/prolificinteractive/material-calendarview">prolificinteractive/material-calendarview</a>
+#### 7. <a href="https://github.com/bumptech/glide">Glide</a>
 
 
 
